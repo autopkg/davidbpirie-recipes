@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+        <key>Description</key>
+        <string>Downloads the latest version of Rectangle</string>
+        <key>Identifier</key>
+        <string>com.github.davidbpirie.download.Rectangle</string>
+        <key>Input</key>
+        <dict>
+            <key>NAME</key>
+            <string>Rectangle</string>
+        </dict>
+        <key>MinimumVersion</key>
+        <string>1.4</string>
+        <key>Process</key>
+        <array>
+            <dict>
+                <key>Processor</key>
+                <string>GitHubReleasesInfoProvider</string>
+                <key>Arguments</key>
+                <dict>
+                    <key>github_repo</key>
+                    <string>rxhanson/Rectangle</string>
+                </dict>
+            </dict>
+            <dict>
+                <key>Processor</key>
+                <string>URLDownloader</string>
+                <key>Arguments</key>
+                <dict>
+                    <key>url</key>
+                    <string>%url%</string>
+                    <key>filename</key>
+                    <string>Rectangle-%version%.dmg</string>
+                </dict>
+            </dict>
+            <dict>
+                <key>Processor</key>
+                <string>EndOfCheckPhase</string>
+            </dict>
+            <dict>
+                <key>Processor</key>
+                <string>CodeSignatureVerifier</string>
+                <key>Arguments</key>
+                <dict>
+                    <key>input_path</key>
+                    <string>%pathname%/Rectangle.app</string>
+                    <key>requirement</key>
+                    <string>anchor apple generic and identifier "com.knollsoft.Rectangle" and (certificate leaf[field.1.2.840.113635.100.6.1.9] /* exists */ or certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XSYZ3E4B7D)</string>
+                    <key>strict_verification</key>
+                    <true/>
+                </dict>
+            </dict>
+        </array>
+    </dict>
+</plist>
