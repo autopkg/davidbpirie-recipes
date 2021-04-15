@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+        <key>Description</key>
+        <string>Downloads the latest AirPort Utility installer from Apple Support and imports to munki.</string>
+        <key>Identifier</key>
+        <string>com.github.davidbpirie.munki.AirPortUtility</string>
+        <key>Input</key>
+        <dict>
+            <key>NAME</key>
+            <string>AirPortUtility</string>
+            <key>MUNKI_NAME</key>
+            <string>AirPortUtility</string>
+            <key>MUNKI_DISPLAYNAME</key>
+            <string>AirPort Utility</string>
+            <key>MUNKI_DESCRIPTION</key>
+            <string>Use AirPort Utility to set up and manage your 802.11n and 802.11ac AirPort base stations, including AirPort Express, AirPort Extreme, and AirPort Time Capsule.</string>
+            <key>MUNKI_CATEGORY</key>
+            <string>Utilities</string>
+            <key>MUNKI_DEVELOPER</key>
+            <string>Apple</string>
+            <key>MUNKI_MINIMUM_OS_VERSION</key>
+            <string>10.7.5</string>
+            <key>MUNKI_REPO_SUBDIR</key>
+            <string>Utilities/Apple/AirPortUtility</string>
+            <key>pkginfo</key>
+            <dict>
+                <key>catalogs</key>
+                <array>
+                    <string>testing</string>
+                </array>
+                <key>blocking_applications</key>
+                <array>
+                    <string>AirPort Utility</string>
+                </array>
+                <key>unattended_install</key>
+                <true/>
+                <key>unattended_uninstall</key>
+                <true/>
+            </dict>
+        </dict>
+        <key>MinimumVersion</key>
+        <string>1.4</string>
+        <key>ParentRecipe</key>
+        <string>com.github.davidbpirie.download.AirPortUtility</string>
+        <key>Process</key>
+        <array>
+            <dict>
+                <key>Processor</key>
+                <string>MunkiPkginfoMerger</string>
+                <key>Arguments</key>
+                <dict>
+                    <key>additional_pkginfo</key>
+                    <dict>
+                        <key>name</key>
+                        <string>%MUNKI_NAME%</string>
+                        <key>display_name</key>
+                        <string>%MUNKI_DISPLAYNAME%</string>
+                        <key>description</key>
+                        <string>%MUNKI_DESCRIPTION%</string>
+                        <key>category</key>
+                        <string>%MUNKI_CATEGORY%</string>
+                        <key>developer</key>
+                        <string>%MUNKI_DEVELOPER%</string>
+                        <key>minimum_os_version</key>
+                        <string>%MUNKI_MINIMUM_OS_VERSION%</string>
+                    </dict>
+                </dict>
+            </dict>
+            <dict>
+                <key>Processor</key>
+                <string>MunkiImporter</string>
+                <key>Arguments</key>
+                <dict>
+                    <key>pkg_path</key>
+                    <string>%pathname%</string>
+                    <key>repo_subdirectory</key>
+                    <string>%MUNKI_REPO_SUBDIR%</string>
+                </dict>
+            </dict>
+        </array>
+    </dict>
+</plist>
