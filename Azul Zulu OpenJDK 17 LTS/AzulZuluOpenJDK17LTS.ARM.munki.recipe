@@ -26,7 +26,7 @@
             <key>MUNKI_MINIMUM_OS_VERSION</key>
             <string>11.0.0</string>
             <key>MUNKI_REPO_SUBDIR</key>
-            <string>Developer Tools/Azul Systems/AzulZuluOpenJDK17LTS/ARM</string>
+            <string>Developer_Tools/Azul_Systems/AzulZuluOpenJDK17LTS/ARM</string>
             <key>pkginfo</key>
             <dict>
                 <key>catalogs</key>
