@@ -15,7 +15,7 @@
             <string>aarch</string>
             <key>MUNKI_NAME</key>
             <string>AzulZuluOpenJDK17LTS</string>
-            <key>MUNKI_DISPLAY_NAME</key>
+            <key>MUNKI_DISPLAYNAME</key>
             <string>Azul Zulu Open JDK 17 LTS (ARM)</string>
             <key>MUNKI_DESCRIPTION</key>
             <string>Azul Zulu builds of OpenJDK are open source, TCK-tested and certified builds of OpenJDK. Azul Zulu is available for a wide range of hardware platforms and operating systems.</string>
