@@ -3,17 +3,20 @@
 <plist version="1.0">
     <dict>
         <key>Description</key>
-        <string>Downloads the current release version of Azul Zulu OpenJDK 17 LTS, builds a package and imports it to Munki. Based on Azul Zulu OpenJDK 11 LTS recipes by dataJAR.</string>
+        <string>Downloads the current release Intel version of Azul Zulu OpenJDK 17 LTS, extracts the package, and imports it to munki.
+            Based on Azul Zulu OpenJDK 11 LTS recipes by dataJAR.</string>
         <key>Identifier</key>
         <string>com.github.davidbpirie.munki.x64.AzulZuluOpenJDK17LTS</string>
         <key>Input</key>
         <dict>
             <key>NAME</key>
-            <string>AzulZuluOpenJDK17LTSx64</string>
+            <string>AzulZuluOpenJDK17LTS</string>
+            <key>ARCHITECTURE</key>
+            <string>x</string>
             <key>MUNKI_NAME</key>
             <string>AzulZuluOpenJDK17LTS</string>
             <key>MUNKI_DISPLAY_NAME</key>
-            <string>Azul Zulu Open JDK 17 LTS</string>
+            <string>Azul Zulu Open JDK 17 LTS (x86)</string>
             <key>MUNKI_DESCRIPTION</key>
             <string>Azul Zulu builds of OpenJDK are open source, TCK-tested and certified builds of OpenJDK. Azul Zulu is available for a wide range of hardware platforms and operating systems.</string>
             <key>MUNKI_CATEGORY</key>
@@ -43,7 +46,7 @@
         <key>MinimumVersion</key>
         <string>1.4</string>
         <key>ParentRecipe</key>
-        <string>com.github.davidbpirie.pkg.x64.AzulZuluOpenJDK17LTS</string>
+        <string>com.github.davidbpirie.pkg.AzulZuluOpenJDK17LTS</string>
         <key>Process</key>
         <array>
             <dict>
