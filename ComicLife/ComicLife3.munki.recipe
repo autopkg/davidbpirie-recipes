@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+	<dict>
+		<key>Description</key>
+		<string>Downloads the latest version of Comic Life 3, builds a pkg, then imports it to Munki.</string>
+		<key>Identifier</key>
+		<string>com.github.davidbpirie.munki.comiclife3</string>
+		<key>MinimumVersion</key>
+		<string>2.0.0</string>
+		<key>ParentRecipe</key>
+		<string>com.github.davidbpirie.pkg.comiclife3</string>
+		<key>Input</key>
+		<dict>
+			<key>NAME</key>
+			<string>ComicLife3</string>
+			<key>MUNKI_DISPLAYNAME</key>
+			<string>Comic Life 3</string>
+			<key>MUNKI_DESCRIPTION</key>
+			<string>Presenting Comic Life 3, the app with everything you need to make a stunning comic from your own images. Packed with fonts, templates, panels, balloons, captions, and lettering art, Comic Life is a fun, powerful and easy-to-use app with endless possibilities.</string>
+			<key>MUNKI_CATEGORY</key>
+			<string>Productivity</string>
+			<key>MUNKI_DEVELOPER</key>
+			<string>plasq</string>
+			<key>MUNKI_MINIMUM_OS_VERSION</key>
+			<string>10.6.0</string>
+			<key>MUNKI_REPO_SUBDIR</key>
+            <string>%MUNKI_CATEGORY%/%MUNKI_DEVELOPER%/%NAME%</string>
+			<key>pkginfo</key>
+			<dict>
+				<key>name</key>
+				<string>%NAME%</string>
+				<key>category</key>
+				<string>%MUNKI_CATEGORY%</string>
+				<key>developer</key>
+				<string>%MUNKI_DEVELOPER%</string>
+				<key>blocking_applications</key>
+				<array>
+					<string>Comic Life 3.app</string>
+				</array>
+				<key>catalogs</key>
+				<array>
+					<string>dev</string>
+				</array>
+				<key>description</key>
+				<string>%MUNKI_DESCRIPTION%</string>
+				<key>display_name</key>
+				<string>%MUNKI_DISPLAYNAME%</string>
+				<key>minimum_os_version</key>
+				<string>%MUNKI_MINIMUM_OS_VERSION%</string>
+				<key>unattended_install</key>
+				<true />
+			</dict>
+		</dict>
+		<key>Process</key>
+		<array>
+			<dict>
+				<key>Processor</key>
+				<string>MunkiImporter</string>
+				<key>Arguments</key>
+				<dict>
+					<key>repo_subdirectory</key>
+					<string>%MUNKI_REPO_SUBDIR%</string>
+				</dict>
+			</dict>
+		</array>
+	</dict>
+</plist>
