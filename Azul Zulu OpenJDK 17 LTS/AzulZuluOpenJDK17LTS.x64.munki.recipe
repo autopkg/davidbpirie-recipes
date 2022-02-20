@@ -26,7 +26,7 @@
             <key>MUNKI_MINIMUM_OS_VERSION</key>
             <string>10.14.0</string>
             <key>MUNKI_REPO_SUBDIR</key>
-            <string>Developer_Tools/Azul_Systems/AzulZuluOpenJDK17LTS/x64</string>
+            <string>%MUNKI_CATEGORY%/%MUNKI_DEVELOPER%/%NAME%/%ARCHITECTURE%</string>
             <key>pkginfo</key>
             <dict>
                 <key>catalogs</key>

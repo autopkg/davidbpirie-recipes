@@ -23,7 +23,7 @@
             <key>MUNKI_MINIMUM_OS_VERSION</key>
             <string>10.6.0</string>
             <key>MUNKI_REPO_SUBDIR</key>
-            <string>Developer Tools/alice.org/Alice2</string>
+            <string>%MUNKI_CATEGORY%/%MUNKI_DEVELOPER%/%NAME%</string>
             <key>pkginfo</key>
             <dict>
                 <key>catalogs</key>
@@ -31,9 +31,9 @@
                     <string>testing</string>
                 </array>
                 <key>unattended_install</key>
-                <true/>
+                <true />
                 <key>unattended_uninstall</key>
-                <true/>
+                <true />
             </dict>
         </dict>
         <key>MinimumVersion</key>

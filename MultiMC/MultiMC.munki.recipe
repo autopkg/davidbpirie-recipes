@@ -21,7 +21,7 @@
             <key>MUNKI_DEVELOPER</key>
             <string>MultiMC</string>
             <key>MUNKI_REPO_SUBDIR</key>
-            <string>Games/MultiMC/MultiMC</string>
+            <string>%MUNKI_CATEGORY%/%MUNKI_DEVELOPER%/%NAME%</string>
             <key>pkginfo</key>
             <dict>
                 <key>catalogs</key>
@@ -33,9 +33,9 @@
                     <string>MultiMC</string>
                 </array>
                 <key>unattended_install</key>
-                <true/>
+                <true />
                 <key>unattended_uninstall</key>
-                <true/>
+                <true />
             </dict>
         </dict>
         <key>MinimumVersion</key>

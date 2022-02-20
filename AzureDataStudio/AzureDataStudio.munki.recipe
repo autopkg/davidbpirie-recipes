@@ -23,7 +23,7 @@
             <key>MUNKI_MINIMUM_OS_VERSION</key>
             <string>10.12.0</string>
             <key>MUNKI_REPO_SUBDIR</key>
-            <string>Developer Tools/Microsoft/AzureDataStudio</string>
+            <string>%MUNKI_CATEGORY%/%MUNKI_DEVELOPER%/%NAME%</string>
             <key>pkginfo</key>
             <dict>
                 <key>catalogs</key>
@@ -35,9 +35,9 @@
                     <string>Azure Data Studio</string>
                 </array>
                 <key>unattended_install</key>
-                <true/>
+                <true />
                 <key>unattended_uninstall</key>
-                <true/>
+                <true />
             </dict>
         </dict>
         <key>MinimumVersion</key>

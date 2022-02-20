@@ -3,7 +3,7 @@
 <plist version="1.0">
 	<dict>
 		<key>Description</key>
-        <string>Downloads the latest version of a Unity Support installer as specified in UNITY3D_COMPONENT_NAME, then imports it to Munki.
+		<string>Downloads the latest version of a Unity Support installer as specified in UNITY3D_COMPONENT_NAME, then imports it to Munki.
 
 			Need to supply the munki item name for Unity 3D in UNITY_MUNKI_ITEM_NAME to correctly link this support installer to it along with the correct version.
 			Use another recipe (eg com.github.joshua-d-miller.autopkg.munki.Unity3D) to import Unity itself.
@@ -30,22 +30,22 @@
 			Based on the work and methods in https://github.com/autopkg/apizz-recipes/tree/master/Unity but abstracted to a single recipe.
         </string>
 		<key>Identifier</key>
-        <string>com.github.davidbpirie.munki.unity3dcomponent</string>
+		<string>com.github.davidbpirie.munki.unity3dcomponent</string>
 		<key>MinimumVersion</key>
 		<string>2.0.0</string>
 		<key>ParentRecipe</key>
 		<string>com.github.davidbpirie.download.unity3dcomponent</string>
 		<key>Input</key>
 		<dict>
-            <key>UNITY3D_COMPONENT_NAME</key>
-            <string>Android</string>
-            <key>NAME</key>
-            <string>Unity 3D %UNITY3D_COMPONENT_NAME% Support</string>
-            <key>UNITY3D_SEARCH_URL</key>
-            <string>https://unity3d.com/unity-release/latest</string>
+			<key>UNITY3D_COMPONENT_NAME</key>
+			<string>Android</string>
+			<key>NAME</key>
+			<string>Unity 3D %UNITY3D_COMPONENT_NAME% Support</string>
+			<key>UNITY3D_SEARCH_URL</key>
+			<string>https://unity3d.com/unity-release/latest</string>
 			<key>UNITY3D_MUNKI_ITEM_NAME</key>
 			<string>Unity 3D</string>
-				<key>RECEIPT_PATH</key>
+			<key>RECEIPT_PATH</key>
 			<string>/Library/Receipts</string>
 
 			<key>MUNKI_DISPLAYNAME</key>
@@ -59,7 +59,7 @@
 			<key>MUNKI_MINIMUM_OS_VERSION</key>
 			<string>10.13.0</string>
 			<key>MUNKI_REPO_SUBDIR</key>
-			<string>Developer Tools/Unity Technologies/Unity 3D %UNITY3D_COMPONENT_NAME% Support</string>
+			<string>%MUNKI_CATEGORY%/%MUNKI_DEVELOPER%/%NAME%</string>
 			<key>pkginfo</key>
 			<dict>
 				<key>blocking_applications</key>
@@ -83,7 +83,7 @@
 				<key>name</key>
 				<string>%NAME%</string>
 				<key>unattended_install</key>
-				<true/>
+				<true />
 			</dict>
 		</dict>
 		<key>Process</key>
