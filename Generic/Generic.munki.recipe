@@ -36,7 +36,7 @@
 				</array>
 				<key>catalogs</key>
 				<array>
-					<string>dev</string>
+					<string>testing</string>
 				</array>
 				<key>category</key>
 				<string>%MUNKI_CATEGORY%</string>
