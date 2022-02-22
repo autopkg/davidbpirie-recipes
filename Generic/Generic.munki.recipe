@@ -5,8 +5,8 @@
 		<key>Description</key>
 		<string>Generic munki import recipe to be used with overrides for repeated manual import of multiple versions of the same package.
 			Intended use is to generate an override from this recipe, then give the override an unique Identifier and populate all the Input
-			variables. When using the recipe, also set the pkg_path via -k/--key parameter eg:
-			autopkg run myapp.munki -k pkg_path=myapp.dmg
+			variables. When using the recipe, also set the PKG via -k/--key parameter eg:
+			autopkg run myapp.munki -k PKG=myapp.dmg
 		</string>
 		<key>Identifier</key>
 		<string>com.github.davidbpirie.munki.generic</string>
@@ -58,9 +58,15 @@
 		<array>
 			<dict>
 				<key>Processor</key>
+				<string>PackageRequired</string>
+			</dict>
+			<dict>
+				<key>Processor</key>
 				<string>MunkiImporter</string>
 				<key>Arguments</key>
 				<dict>
+					<key>pkg_path</key>
+					<string>%PKG%</string>
 					<key>repo_subdirectory</key>
 					<string>%MUNKI_REPO_SUBDIR%</string>
 				</dict>
