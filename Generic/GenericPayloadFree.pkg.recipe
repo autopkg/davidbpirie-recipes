@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+	<dict>
+		<key>Description</key>
+		<string>Generic pkg recipe to be used with overrides for repeated manual creation of multiple versions of a script as a payload-free package.
+			Intended use is to generate an override from this recipe, then give the override an unique Identifier and populate all the Input
+			variables. When using the recipe, also provide the source via the -p parameter and version via the -k parameter eg:
+			autopkg run myscript.pkg -p myscript.sh -k VERSION=1.0
+		</string>
+		<key>Identifier</key>
+		<string>com.github.davidbpirie.pkg.genericpayloadfree</string>
+		<key>MinimumVersion</key>
+		<string>2.0.0</string>
+		<key>Input</key>
+		<dict>
+			<key>NAME</key>
+			<string>GenericPayloadFree</string>
+			<key>PKG_ID</key>
+			<string>com.github.davidbpirie.pkg.GenericPayloadFree</string>
+			<key>VERSION</key>
+			<string>0.0</string>
+		</dict>
+		<key>Process</key>
+		<array>
+			<dict>
+				<key>Processor</key>
+				<string>PackageRequired</string>
+			</dict>
+			<dict>
+				<key>Processor</key>
+				<string>PkgRootCreator</string>
+				<key>Arguments</key>
+				<dict>
+					<key>pkgroot</key>
+					<string>%RECIPE_CACHE_DIR%/%NAME%</string>
+					<key>pkgdirs</key>
+					<dict>
+						<key>payload</key>
+						<string>0775</string>
+						<key>scripts</key>
+						<string>0775</string>
+					</dict>
+				</dict>
+			</dict>
+			<dict>
+				<key>Processor</key>
+				<string>Copier</string>
+				<key>Arguments</key>
+				<dict>
+					<key>source_path</key>
+					<string>%PKG%</string>
+					<key>destination_path</key>
+					<string>%RECIPE_CACHE_DIR%/%NAME%/scripts/postinstall</string>
+					<key>overwrite</key>
+					<true />
+				</dict>
+			</dict>
+			<dict>
+				<key>Processor</key>
+				<string>PkgCreator</string>
+				<key>Arguments</key>
+				<dict>
+					<key>pkg_request</key>
+					<dict>
+						<key>pkgroot</key>
+						<string>%RECIPE_CACHE_DIR%/%NAME%/payload</string>
+						<key>scripts</key>
+						<string>%RECIPE_CACHE_DIR%/%NAME%/scripts</string>
+						<key>pkgname</key>
+						<string>%NAME%-%VERSION%</string>
+						<key>id</key>
+						<string>%PKG_ID%</string>
+						<key>version</key>
+						<string>%VERSION%</string>
+						<key>options</key>
+						<string>purge_ds_store</string>
+						<key>chown</key>
+						<array></array>
+					</dict>
+				</dict>
+			</dict>
+		</array>
+	</dict>
+</plist>
