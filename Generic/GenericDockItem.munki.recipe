@@ -14,6 +14,8 @@
 		<dict>
 			<key>NAME</key>
 			<string>GenericDockItem</string>
+			<key>PKG_ID</key>
+			<string>com.github.davidbpirie.pkg.GenericDockItem</string>
 			<key>VERSION</key>
 			<string>0.0</string>
 			<key>DOCKUTIL_ITEM</key>
