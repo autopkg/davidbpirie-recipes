@@ -26,8 +26,10 @@
 			<string></string>
 			<key>DOCKUTIL_POSITIONOPTONS</key>
 			<string>--section apps</string>
+			<key>DOCKUTIL_REPLACING</key>
+			<string>%DOCKUTIL_LABEL%</string>
 			<key>USER_TEMPLATE_PATH</key>
-			<string>/System/Library/User Template/English.lproj</string>
+			<string>/Library/User Template/Non_localized</string>
 			<key>MUNKI_DISPLAYNAME</key>
 			<string>Generic Dock Item</string>
 			<key>MUNKI_DESCRIPTION</key>
@@ -39,7 +41,7 @@
 			<key>MUNKI_UPDATE_FOR</key>
 			<string>Generic App</string>
 			<key>MUNKI_MINIMUM_OS_VERSION</key>
-			<string>10.6.0</string>
+			<string>10.15.0</string>
 			<key>MUNKI_REPO_SUBDIR</key>
 			<string>%MUNKI_CATEGORY%/%MUNKI_DEVELOPER%/%NAME%</string>
 			<key>pkginfo</key>
@@ -114,8 +116,8 @@ INSTALLATION_SYSTEM_ROOT=&quot;$4&quot;
 USERTEMPLATEDOCK=&quot;${INSTALLATION_VOLUME}%USER_TEMPLATE_PATH%/Library/Preferences/com.apple.dock.plist&quot;
 
 /usr/bin/touch &quot;${USERTEMPLATEDOCK}&quot;
-/usr/local/bin/dockutil --add &quot;%DOCKUTIL_ITEM%&quot; --label &quot;%DOCKUTIL_LABEL%&quot; %DOCKUTIL_FOLDEROPTIONS% --replacing &quot;%DOCKUTIL_LABEL%&quot; %DOCKUTIL_POSITIONOPTONS% --no-restart &quot;${USERTEMPLATEDOCK}&quot; || /usr/bin/true
-/usr/local/bin/dockutil --add &quot;%DOCKUTIL_ITEM%&quot; --label &quot;%DOCKUTIL_LABEL%&quot; %DOCKUTIL_FOLDEROPTIONS% --replacing &quot;%DOCKUTIL_LABEL%&quot; %DOCKUTIL_POSITIONOPTONS% --allhomes || /usr/bin/true
+/usr/local/bin/dockutil --add &quot;%DOCKUTIL_ITEM%&quot; --label &quot;%DOCKUTIL_LABEL%&quot; %DOCKUTIL_FOLDEROPTIONS% --replacing &quot;%DOCKUTIL_REPLACING%&quot; %DOCKUTIL_POSITIONOPTONS% --no-restart &quot;${USERTEMPLATEDOCK}&quot; || /usr/bin/true
+/usr/local/bin/dockutil --add &quot;%DOCKUTIL_ITEM%&quot; --label &quot;%DOCKUTIL_LABEL%&quot; %DOCKUTIL_FOLDEROPTIONS% --replacing &quot;%DOCKUTIL_REPLACING%&quot; %DOCKUTIL_POSITIONOPTONS% --allhomes || /usr/bin/true
 </string>
 				</dict>
 			</dict>
