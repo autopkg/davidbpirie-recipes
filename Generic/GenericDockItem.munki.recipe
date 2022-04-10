@@ -127,7 +127,7 @@ USERTEMPLATEDOCK=&quot;${INSTALLATION_VOLUME}%USER_TEMPLATE_PATH%/Library/Prefer
 				<key>Arguments</key>
 				<dict>
 					<key>file_path</key>
-					<string>%RECIPE_CACHE_DIR%/%NAME%/scripts/uninstall</string>
+					<string>%RECIPE_CACHE_DIR%/%NAME%/uninstall</string>
 					<key>file_mode</key>
 					<string>0777</string>
 					<key>file_content</key>
@@ -166,6 +166,19 @@ USERTEMPLATEDOCK=&quot;%USER_TEMPLATE_PATH%/Library/Preferences/com.apple.dock.p
 			</dict>
 			<dict>
 				<key>Processor</key>
+				<string>MunkiImporter</string>
+				<key>Arguments</key>
+				<dict>
+					<key>repo_subdirectory</key>
+					<string>%MUNKI_REPO_SUBDIR%</string>
+					<key>additional_makepkginfo_options</key>
+					<array>
+						<string>--uninstall_script=%RECIPE_CACHE_DIR%/%NAME%/uninstall</string>
+					</array>
+				</dict>
+			</dict>
+			<dict>
+				<key>Processor</key>
 				<string>PathDeleter</string>
 				<key>Arguments</key>
 				<dict>
@@ -173,15 +186,6 @@ USERTEMPLATEDOCK=&quot;%USER_TEMPLATE_PATH%/Library/Preferences/com.apple.dock.p
 					<array>
 						<string>%RECIPE_CACHE_DIR%/%NAME%</string>
 					</array>
-				</dict>
-			</dict>
-			<dict>
-				<key>Processor</key>
-				<string>MunkiImporter</string>
-				<key>Arguments</key>
-				<dict>
-					<key>repo_subdirectory</key>
-					<string>%MUNKI_REPO_SUBDIR%</string>
 				</dict>
 			</dict>
 		</array>
