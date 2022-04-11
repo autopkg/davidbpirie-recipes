@@ -137,6 +137,7 @@ USERTEMPLATEDOCK=&quot;%USER_TEMPLATE_PATH%/Library/Preferences/com.apple.dock.p
 
 /usr/local/bin/dockutil --remove &quot;%DOCKUTIL_LABEL%&quot; --no-restart &quot;${USERTEMPLATEDOCK}&quot;
 /usr/local/bin/dockutil --remove &quot;%DOCKUTIL_LABEL%&quot; --allhomes
+/usr/sbin/pkgutil --forget &quot;%PKG_ID%&quot;
 </string>
 				</dict>
 			</dict>
