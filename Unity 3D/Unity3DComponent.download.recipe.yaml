@@ -1,0 +1,44 @@
+Description: |
+  Downloads the latest version of a Unity Support installer as specified
+  in UNITY3D_COMPONENT_NAME.
+  Create separate overrides for each required component.
+  At time of writing supported UNITY3D_COMPONENT_NAME values are:
+    Android
+    AppleTV
+    iOS
+    Linux-IL2CPP
+    Linux-Mono
+    Linux-Server
+    Mac-IL2CPP
+    Mac-Server
+    WebGL
+    Windows-Mono
+    Windows-Server
+Identifier: com.github.davidbpirie.download.unity3dcomponent
+MinimumVersion: 2.3.0
+
+Input:
+  UNITY3D_COMPONENT_NAME: Android
+  NAME: Unity 3D %UNITY3D_COMPONENT_NAME% Support
+  UNITY3D_SEARCH_URL: https://unity3d.com/unity-release/latest
+
+Process:
+- Processor: URLTextSearcher
+  Arguments:
+    re_pattern: (?P<url>https:\/\/[a-z0-9]+\.unity3d\.com\/.*\/UnitySetup-%UNITY3D_COMPONENT_NAME%-Support-for-Editor-(?P<version>[\d.f]+)\.pkg)
+    url: '%UNITY3D_SEARCH_URL%'
+
+- Processor: URLDownloader
+  Arguments:
+    filename: '%NAME%.pkg'
+    url: '%url%'
+
+- Processor: EndOfCheckPhase
+
+- Processor: CodeSignatureVerifier
+  Arguments:
+    expected_authority_names:
+    - 'Developer ID Installer: Unity Technologies ApS (BVPN9UFA9B)'
+    - Developer ID Certification Authority
+    - Apple Root CA
+    input_path: '%pathname%'

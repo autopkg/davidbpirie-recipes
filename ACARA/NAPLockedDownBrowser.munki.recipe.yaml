@@ -1,0 +1,31 @@
+Description: Downloads the latest version of NAP Locked Down Browser as a DMG, then imports it to Munki.
+Identifier: com.github.davidbpirie.munki.naplockeddownbrowser
+ParentRecipe: com.github.davidbpirie.download.naplockeddownbrowser
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: NAPLockedDownBrowser
+  MUNKI_DISPLAYNAME: NAP Locked Down Browser
+  MUNKI_DESCRIPTION: Students will be required to use the NAPLAN test player locked down browser or App to perform the test.
+  MUNKI_CATEGORY: Business
+  MUNKI_DEVELOPER: ACARA
+  MUNKI_MINIMUM_OS_VERSION: 10.15.4
+  MUNKI_REPO_SUBDIR: '%MUNKI_CATEGORY%/%MUNKI_DEVELOPER%/%NAME%'
+  pkginfo:
+    blocking_applications:
+    - NAP Locked down browser.app
+    catalogs:
+    - testing
+    category: '%MUNKI_CATEGORY%'
+    description: '%MUNKI_DESCRIPTION%'
+    developer: '%MUNKI_DEVELOPER%'
+    display_name: '%MUNKI_DISPLAYNAME%'
+    minimum_os_version: '%MUNKI_MINIMUM_OS_VERSION%'
+    name: '%NAME%'
+    unattended_install: true
+
+Process:
+- Processor: MunkiImporter
+  Arguments:
+    pkg_path: '%pathname%'
+    repo_subdirectory: '%MUNKI_REPO_SUBDIR%'

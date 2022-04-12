@@ -1,0 +1,38 @@
+Description: |
+  Generic munki import recipe to be used with overrides for repeated manual
+  import of multiple versions of the same package.
+  Intended use is to generate an override from this recipe, then give the
+  override an unique Identifier and populate all the Input variables.
+  When using the recipe, also provide the sourve via the -p parameter eg:
+  autopkg run myapp.munki -p myapp.dmg
+Identifier: com.github.davidbpirie.munki.generic
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: Generic
+  MUNKI_DISPLAYNAME: Generic
+  MUNKI_DESCRIPTION: Generic
+  MUNKI_CATEGORY: Business
+  MUNKI_DEVELOPER: Generic
+  MUNKI_MINIMUM_OS_VERSION: 10.6.0
+  MUNKI_REPO_SUBDIR: '%MUNKI_CATEGORY%/%MUNKI_DEVELOPER%/%NAME%'
+  pkginfo:
+    blocking_applications:
+    - Generic.app
+    catalogs:
+    - testing
+    category: '%MUNKI_CATEGORY%'
+    description: '%MUNKI_DESCRIPTION%'
+    developer: '%MUNKI_DEVELOPER%'
+    display_name: '%MUNKI_DISPLAYNAME%'
+    minimum_os_version: '%MUNKI_MINIMUM_OS_VERSION%'
+    name: '%NAME%'
+    unattended_install: true
+
+Process:
+- Processor: PackageRequired
+
+- Processor: MunkiImporter
+  Arguments:
+    pkg_path: '%PKG%'
+    repo_subdirectory: '%MUNKI_REPO_SUBDIR%'

@@ -1,0 +1,35 @@
+Description: Download recipe for Microsoft Azure Data Studio.
+Identifier: com.github.davidbpirie.download.AzureDataStudio
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: AzureDataStudio
+  BASE_URL: https://docs.microsoft.com/en-gb/sql/azure-data-studio/download-azure-data-studio
+
+Process:
+- Processor: URLTextSearcher
+  Arguments:
+    re_pattern: Download\s*<a href=\"([^\"]*)\".*>\s*?Azure Data Studio for macOS<
+    result_output_var_name: url
+    url: '%BASE_URL%'
+
+- Processor: URLDownloader
+  Arguments:
+    curl_opts:
+    - --no-alpn
+    filename: azuredatastudio-macos.zip
+    url: '%url%'
+
+- Processor: EndOfCheckPhase
+
+- Processor: Unarchiver
+  Arguments:
+    archive_path: '%pathname%'
+    destination_path: '%RECIPE_CACHE_DIR%/%NAME%'
+    purge_destination: true
+
+- Processor: CodeSignatureVerifier
+  Arguments:
+    input_path: '%RECIPE_CACHE_DIR%/%NAME%/Azure Data Studio.app'
+    requirement: identifier "com.azuredatastudio.oss" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = UBF8T346G9
+    strict_verification: true

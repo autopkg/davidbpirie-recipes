@@ -1,0 +1,32 @@
+Description: Downloads the latest version of Alice 2, then imports to munki.
+Identifier: com.github.davidbpirie.munki.Alice2
+ParentRecipe: com.github.davidbpirie.download.Alice2
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: Alice2
+  MUNKI_DISPLAYNAME: Alice 2
+  MUNKI_DESCRIPTION: Alice is an innovative block-based programming environment that makes it easy to create animations, build interactive narratives, or program simple games in 3D.
+  MUNKI_CATEGORY: Developer Tools
+  MUNKI_DEVELOPER: alice.org
+  MUNKI_MINIMUM_OS_VERSION: 10.6.0
+  MUNKI_REPO_SUBDIR: '%MUNKI_CATEGORY%/%MUNKI_DEVELOPER%/%NAME%'
+  pkginfo:
+    blocking_applications:
+    - Alice 2.5.app
+    catalogs:
+    - testing
+    category: '%MUNKI_CATEGORY%'
+    description: '%MUNKI_DESCRIPTION%'
+    developer: '%MUNKI_DEVELOPER%'
+    display_name: '%MUNKI_DISPLAYNAME%'
+    minimum_os_version: '%MUNKI_MINIMUM_OS_VERSION%'
+    name: '%NAME%'
+    unattended_install: true
+    unattended_uninstall: true
+
+Process:
+- Processor: MunkiImporter
+  Arguments:
+    pkg_path: '%pathname%'
+    repo_subdirectory: '%MUNKI_REPO_SUBDIR%'

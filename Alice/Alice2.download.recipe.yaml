@@ -1,0 +1,18 @@
+Description: Download recipe for Alice 2 from alice.org. Obtains the English Complete installer.
+Identifier: com.github.davidbpirie.download.Alice2
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: Alice2
+  BASE_URL: http://www.alice.org/get-alice/alice-2/
+
+Process:
+- Processor: URLTextSearcher
+  Arguments:
+    re_pattern: <a href="([^"]*e\.dmg)"
+    result_output_var_name: url
+    url: '%BASE_URL%'
+
+- Processor: URLDownloader
+
+- Processor: EndOfCheckPhase

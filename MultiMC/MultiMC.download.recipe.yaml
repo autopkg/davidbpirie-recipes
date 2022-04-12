@@ -1,0 +1,20 @@
+Description: Download recipe for MultiMC, an alternative launcher for Minecraft.
+Identifier: com.github.davidbpirie.download.MultiMC
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: MultiMC
+  SOURCE_URL: https://files.multimc.org/downloads/mmc-stable-osx64.tar.gz
+
+Process:
+- Processor: URLDownloader
+  Arguments:
+    url: '%SOURCE_URL%'
+
+- Processor: EndOfCheckPhase
+
+- Processor: Unarchiver
+  Arguments:
+    archive_path: '%pathname%'
+    destination_path: '%RECIPE_CACHE_DIR%/%NAME%'
+    purge_destination: true

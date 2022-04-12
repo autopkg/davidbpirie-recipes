@@ -1,0 +1,26 @@
+Description: Downloads the latest AirPort Utility installer from Apple Support.
+Identifier: com.github.davidbpirie.download.AirPortUtility
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: AirPortUtility
+  LOCALE: en_AU
+
+Process:
+- Processor: com.github.n8felton.shared/AppleSupportDownloadInfoProvider
+  Arguments:
+    ARTICLE_NUMBER: '1664'
+
+- Processor: URLDownloader
+  Arguments:
+    url: '%url%'
+
+- Processor: EndOfCheckPhase
+
+- Processor: CodeSignatureVerifier
+  Arguments:
+    expected_authority_names:
+    - Software Update
+    - Apple Software Update Certification Authority
+    - Apple Root CA
+    input_path: '%pathname%/AirPortUtility.pkg'

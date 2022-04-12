@@ -1,0 +1,23 @@
+Description: |
+  Downloads the current release version of Azul Zulu OpenJDK 17 LTS and extracts the package.
+  Set the ARCHITECTURE key to "x" to download the Intel version or "aarch" for Apple Silicon version.
+  Based on Azul Zulu OpenJDK 11 LTS recipes by dataJAR.
+Identifier: com.github.davidbpirie.pkg.AzulZuluOpenJDK17LTS
+ParentRecipe: com.github.davidbpirie.download.AzulZuluOpenJDK17LTS
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: AzulZuluOpenJDK17LTS
+  ARCHITECTURE: x
+
+Process:
+- Processor: com.github.homebysix.VersionSplitter/VersionSplitter
+  Arguments:
+    index: 0
+    split_on: .dmg
+    version: '%match%'
+
+- Processor: PkgCopier
+  Arguments:
+    pkg_path: '%RECIPE_CACHE_DIR%/%version%.pkg'
+    source_pkg: '%pathname%/Double-Click to Install Azul Zulu JDK 17.pkg'

@@ -1,0 +1,35 @@
+Description: Downloads the latest version of MultiMC, creates a dmg, then imports it to munki.
+Identifier: com.github.davidbpirie.munki.MultiMC
+ParentRecipe: com.github.davidbpirie.download.MultiMC
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: MultiMC
+  MUNKI_DISPLAYNAME: MultiMC
+  MUNKI_DESCRIPTION: MultiMC is an alternative launcher for Minecraft. It allows you to have multiple, cleanly separated instances of Minecraft (each with their own mods, resource packs, saves, etc) and helps you manage them and their associated options with a simple and powerful interface.
+  MUNKI_CATEGORY: Games
+  MUNKI_DEVELOPER: MultiMC
+  MUNKI_REPO_SUBDIR: '%MUNKI_CATEGORY%/%MUNKI_DEVELOPER%/%NAME%'
+  pkginfo:
+    blocking_applications:
+    - MultiMC
+    catalogs:
+    - testing
+    category: '%MUNKI_CATEGORY%'
+    description: '%MUNKI_DESCRIPTION%'
+    developer: '%MUNKI_DEVELOPER%'
+    display_name: '%MUNKI_DISPLAYNAME%'
+    name: '%NAME%'
+    unattended_install: true
+    unattended_uninstall: true
+
+Process:
+- Processor: DmgCreator
+  Arguments:
+    dmg_path: '%RECIPE_CACHE_DIR%/%NAME%.dmg'
+    dmg_root: '%RECIPE_CACHE_DIR%/%NAME%'
+
+- Processor: MunkiImporter
+  Arguments:
+    pkg_path: '%dmg_path%'
+    repo_subdirectory: '%MUNKI_REPO_SUBDIR%'

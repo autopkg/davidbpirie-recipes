@@ -1,0 +1,102 @@
+Description: |
+  Generic munki import recipe to be used with overrides for manual import of a
+  payload-free package that adds a specific item to the Dock.
+  Intended use is to generate an override from this recipe, then give the
+  override an unique Identifier and populate all the Input variables.
+Identifier: com.github.davidbpirie.munki.genericdockitem
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: GenericDockItem
+  PKG_ID: com.github.davidbpirie.pkg.GenericDockItem
+  VERSION: '0.0'
+  DOCKUTIL_ITEM: /Applications/Generic App.app
+  DOCKUTIL_LABEL: Generic App
+  DOCKUTIL_FOLDEROPTIONS: ''
+  DOCKUTIL_POSITIONOPTONS: --section apps
+  DOCKUTIL_REPLACING: '%DOCKUTIL_LABEL%'
+  USER_TEMPLATE_PATH: /Library/User Template/Non_localized
+  MUNKI_DISPLAYNAME: Generic Dock Item
+  MUNKI_DESCRIPTION: Generic Dock Item
+  MUNKI_CATEGORY: Utilities
+  MUNKI_DEVELOPER: Generic
+  MUNKI_UPDATE_FOR: Generic App
+  MUNKI_MINIMUM_OS_VERSION: 10.15.0
+  MUNKI_REPO_SUBDIR: '%MUNKI_CATEGORY%/%MUNKI_DEVELOPER%/%NAME%'
+  pkginfo:
+    RestartAction: RequireLogout
+    autoremove: true
+    catalogs:
+    - testing
+    category: '%MUNKI_CATEGORY%'
+    description: '%MUNKI_DESCRIPTION%'
+    developer: '%MUNKI_DEVELOPER%'
+    display_name: '%MUNKI_DISPLAYNAME%'
+    minimum_os_version: '%MUNKI_MINIMUM_OS_VERSION%'
+    name: '%NAME%'
+    requires:
+    - dockutil
+    unattended_install: false
+    update_for:
+    - '%MUNKI_UPDATE_FOR%'
+
+Process:
+- Processor: PkgRootCreator
+  Arguments:
+    pkgdirs:
+      payload: '0775'
+      scripts: '0775'
+    pkgroot: '%RECIPE_CACHE_DIR%/%NAME%'
+
+- Processor: FileCreator
+  Arguments:
+    file_content: |
+      #!/bin/sh
+          
+      INSTALLATION_PACKAGE="$1"
+      INSTALLATION_DESTINATION="$2"
+      INSTALLATION_VOLUME="$3"
+      INSTALLATION_SYSTEM_ROOT="$4"
+      
+      USERTEMPLATEDOCK="${INSTALLATION_VOLUME}%USER_TEMPLATE_PATH%/Library/Preferences/com.apple.dock.plist"
+      
+      /usr/bin/touch "${USERTEMPLATEDOCK}"
+      /usr/local/bin/dockutil --add "%DOCKUTIL_ITEM%" --label "%DOCKUTIL_LABEL%" %DOCKUTIL_FOLDEROPTIONS% --replacing "%DOCKUTIL_REPLACING%" %DOCKUTIL_POSITIONOPTONS% --no-restart "${USERTEMPLATEDOCK}" || /usr/bin/true
+      /usr/local/bin/dockutil --add "%DOCKUTIL_ITEM%" --label "%DOCKUTIL_LABEL%" %DOCKUTIL_FOLDEROPTIONS% --replacing "%DOCKUTIL_REPLACING%" %DOCKUTIL_POSITIONOPTONS% --allhomes || /usr/bin/true
+    file_mode: '0777'
+    file_path: '%RECIPE_CACHE_DIR%/%NAME%/scripts/postinstall'
+
+- Processor: FileCreator
+  Arguments:
+    file_content: |
+      #!/bin/sh
+      
+      USERTEMPLATEDOCK="%USER_TEMPLATE_PATH%/Library/Preferences/com.apple.dock.plist"
+      
+      /usr/local/bin/dockutil --remove "%DOCKUTIL_LABEL%" --no-restart "${USERTEMPLATEDOCK}"
+      /usr/local/bin/dockutil --remove "%DOCKUTIL_LABEL%" --allhomes
+      /usr/sbin/pkgutil --forget "%PKG_ID%"
+    file_mode: '0777'
+    file_path: '%RECIPE_CACHE_DIR%/%NAME%/uninstall'
+
+- Processor: PkgCreator
+  Arguments:
+    pkg_request:
+      chown: []
+      id: '%PKG_ID%'
+      options: purge_ds_store
+      pkgname: '%NAME%-%VERSION%'
+      pkgroot: '%RECIPE_CACHE_DIR%/%NAME%/payload'
+      scripts: '%RECIPE_CACHE_DIR%/%NAME%/scripts'
+      version: '%VERSION%'
+
+- Processor: MunkiImporter
+  Arguments:
+    additional_makepkginfo_options:
+    - --uninstall_script=%RECIPE_CACHE_DIR%/%NAME%/uninstall
+    repo_subdirectory: '%MUNKI_REPO_SUBDIR%'
+
+- Processor: PathDeleter
+  Arguments:
+    path_list:
+    - '%RECIPE_CACHE_DIR%/%NAME%'

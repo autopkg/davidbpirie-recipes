@@ -1,0 +1,10 @@
+Description: Downloads the latest version of Alice 2, then builds a package.
+Identifier: com.github.davidbpirie.pkg.Alice2
+ParentRecipe: com.github.davidbpirie.download.Alice2
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: Alice2
+
+Process:
+- Processor: AppPkgCreator

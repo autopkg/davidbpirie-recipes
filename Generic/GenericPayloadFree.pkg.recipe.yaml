@@ -1,0 +1,52 @@
+Description: |
+  Generic pkg recipe to be used with overrides for repeated manual creation
+  of multiple versions of a script as a payload-free package.
+  Uses ModeChanger processor from com.github.jessepeterson.munki.UniversalTypeClient5.
+  Intended use is to generate an override from this recipe, then give the
+  override an unique Identifier and populate all the Input variables.
+  When using the recipe, also provide the source via the -p parameter and version via the -k parameter eg:
+  autopkg run myscript.pkg -p myscript.sh -k VERSION=1.0
+Identifier: com.github.davidbpirie.pkg.genericpayloadfree
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: GenericPayloadFree
+  PKG_ID: com.github.davidbpirie.pkg.GenericPayloadFree
+  VERSION: '0.0'
+
+Process:
+- Processor: PackageRequired
+
+- Processor: PkgRootCreator
+  Arguments:
+    pkgdirs:
+      payload: '0775'
+      scripts: '0775'
+    pkgroot: '%RECIPE_CACHE_DIR%/%NAME%'
+
+- Processor: Copier
+  Arguments:
+    destination_path: '%RECIPE_CACHE_DIR%/%NAME%/scripts/postinstall'
+    overwrite: true
+    source_path: '%PKG%'
+
+- Processor: com.github.jessepeterson.munki.UniversalTypeClient5/ModeChanger
+  Arguments:
+    filename: '%RECIPE_CACHE_DIR%/%NAME%/scripts/postinstall'
+    mode: a+x
+
+- Processor: PkgCreator
+  Arguments:
+    pkg_request:
+      chown: []
+      id: '%PKG_ID%'
+      options: purge_ds_store
+      pkgname: '%NAME%-%VERSION%'
+      pkgroot: '%RECIPE_CACHE_DIR%/%NAME%/payload'
+      scripts: '%RECIPE_CACHE_DIR%/%NAME%/scripts'
+      version: '%VERSION%'
+
+- Processor: PathDeleter
+  Arguments:
+    path_list:
+    - '%RECIPE_CACHE_DIR%/%NAME%'

@@ -1,0 +1,30 @@
+Description: Downloads the latest version of Comic Life 3, builds a pkg, then imports it to Munki.
+Identifier: com.github.davidbpirie.munki.comiclife3
+ParentRecipe: com.github.davidbpirie.pkg.comiclife3
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: ComicLife3
+  MUNKI_DISPLAYNAME: Comic Life 3
+  MUNKI_DESCRIPTION: Presenting Comic Life 3, the app with everything you need to make a stunning comic from your own images. Packed with fonts, templates, panels, balloons, captions, and lettering art, Comic Life is a fun, powerful and easy-to-use app with endless possibilities.
+  MUNKI_CATEGORY: Productivity
+  MUNKI_DEVELOPER: plasq
+  MUNKI_MINIMUM_OS_VERSION: 10.6.0
+  MUNKI_REPO_SUBDIR: '%MUNKI_CATEGORY%/%MUNKI_DEVELOPER%/%NAME%'
+  pkginfo:
+    blocking_applications:
+    - Comic Life 3.app
+    catalogs:
+    - testing
+    category: '%MUNKI_CATEGORY%'
+    description: '%MUNKI_DESCRIPTION%'
+    developer: '%MUNKI_DEVELOPER%'
+    display_name: '%MUNKI_DISPLAYNAME%'
+    minimum_os_version: '%MUNKI_MINIMUM_OS_VERSION%'
+    name: '%NAME%'
+    unattended_install: true
+
+Process:
+- Processor: MunkiImporter
+  Arguments:
+    repo_subdirectory: '%MUNKI_REPO_SUBDIR%'

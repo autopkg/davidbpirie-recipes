@@ -1,0 +1,25 @@
+Description: |
+  Downloads the latest version of SketchUp for a given release year as a DMG.
+  Create separate overrides for each required release year, giving each a unique Identifier.
+Identifier: com.github.davidbpirie.download.sketchuppro
+MinimumVersion: 2.3.0
+
+Input:
+  RELEASE_YEAR: '2022'
+  NAME: SketchUpPro%RELEASE_YEAR%
+  SUP_FOLDER: SketchUp %RELEASE_YEAR%
+  DOWNLOAD_URL: https://www.sketchup.com/sketchup/%RELEASE_YEAR%/SketchUpPro-dmg
+
+Process:
+- Processor: URLDownloader
+  Arguments:
+    filename: '%NAME%.dmg'
+    url: '%DOWNLOAD_URL%'
+
+- Processor: EndOfCheckPhase
+
+- Processor: CodeSignatureVerifier
+  Arguments:
+    input_path: '%pathname%/%SUP_FOLDER%/SketchUp.app'
+    requirement: identifier "com.sketchup.SketchUp.%RELEASE_YEAR%" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = J8PVMCY7KL
+    strict_verification: true

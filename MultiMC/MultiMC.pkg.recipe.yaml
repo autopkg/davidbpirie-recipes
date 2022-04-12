@@ -1,0 +1,41 @@
+Description: Download recipe for MultiMC, then builds a package.
+Identifier: com.github.davidbpirie.pkg.MultiMC
+ParentRecipe: com.github.davidbpirie.download.MultiMC
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: MultiMC
+
+Process:
+- Processor: PkgRootCreator
+  Arguments:
+    pkgdirs:
+      Applications: '0775'
+    pkgroot: '%RECIPE_CACHE_DIR%/payload'
+
+- Processor: Copier
+  Arguments:
+    destination_path: '%pkgroot%/Applications/MultiMC.app'
+    source_path: '%RECIPE_CACHE_DIR%/%NAME%/MultiMC.app'
+
+- Processor: Versioner
+  Arguments:
+    input_plist_path: '%pkgroot%/Applications/MultiMC.app/Contents/Info.plist'
+
+- Processor: PlistReader
+  Arguments:
+    info_path: '%pkgroot%/Applications/MultiMC.app/Contents/Info.plist'
+    plist_keys:
+      CFBundleIdentifier: id
+
+- Processor: PkgCreator
+  Arguments:
+    pkg_request:
+      chown:
+      - group: admin
+        path: Applications
+        user: root
+      id: '%id%'
+      options: purge_ds_store
+      pkgname: '%NAME%-%version%'
+      version: '%version%'

@@ -1,0 +1,32 @@
+Description: Downloads the latest AirPort Utility installer from Apple Support and imports to munki.
+Identifier: com.github.davidbpirie.munki.AirPortUtility
+ParentRecipe: com.github.davidbpirie.download.AirPortUtility
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: AirPortUtility
+  MUNKI_DISPLAYNAME: AirPort Utility
+  MUNKI_DESCRIPTION: Use AirPort Utility to set up and manage your 802.11n and 802.11ac AirPort base stations, including AirPort Express, AirPort Extreme, and AirPort Time Capsule.
+  MUNKI_CATEGORY: Utilities
+  MUNKI_DEVELOPER: Apple
+  MUNKI_MINIMUM_OS_VERSION: 10.7.5
+  MUNKI_REPO_SUBDIR: '%MUNKI_CATEGORY%/%MUNKI_DEVELOPER%/%NAME%'
+  pkginfo:
+    blocking_applications:
+    - AirPort Utility
+    catalogs:
+    - testing
+    category: '%MUNKI_CATEGORY%'
+    description: '%MUNKI_DESCRIPTION%'
+    developer: '%MUNKI_DEVELOPER%'
+    display_name: '%MUNKI_DISPLAYNAME%'
+    minimum_os_version: '%MUNKI_MINIMUM_OS_VERSION%'
+    name: '%NAME%'
+    unattended_install: true
+    unattended_uninstall: true
+
+Process:
+- Processor: MunkiImporter
+  Arguments:
+    pkg_path: '%pathname%'
+    repo_subdirectory: '%MUNKI_REPO_SUBDIR%'

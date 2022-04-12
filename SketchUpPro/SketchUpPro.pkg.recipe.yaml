@@ -1,0 +1,47 @@
+Description: |
+  Downloads the latest version of SketchUp for a given release year as a dmg, then builds a pkg.
+  Create separate overrides for each required release year, giving each a unique Identifier.
+Identifier: com.github.davidbpirie.pkg.sketchuppro
+ParentRecipe: com.github.davidbpirie.download.sketchuppro
+MinimumVersion: 2.3.0
+
+Input:
+  RELEASE_YEAR: '2022'
+  NAME: SketchUpPro%RELEASE_YEAR%
+  SUP_FOLDER: SketchUp %RELEASE_YEAR%
+
+Process:
+- Processor: PlistReader
+  Arguments:
+    info_path: '%pathname%/%SUP_FOLDER%/SketchUp.app/Contents/Info.plist'
+    plist_keys:
+      CFBundleIdentifier: bundleid
+      CFBundleVersion: version
+
+- Processor: PkgRootCreator
+  Arguments:
+    pkgdirs:
+      Applications: '0775'
+    pkgroot: '%RECIPE_CACHE_DIR%/%NAME%'
+
+- Processor: Copier
+  Arguments:
+    destination_path: '%pkgroot%/Applications/%SUP_FOLDER%'
+    source_path: '%pathname%/%SUP_FOLDER%'
+
+- Processor: PkgCreator
+  Arguments:
+    pkg_request:
+      chown:
+      - group: admin
+        mode: '0755'
+        path: Applications
+        user: root
+      - group: admin
+        mode: '0755'
+        path: Applications/%SUP_FOLDER%
+        user: root
+      id: '%bundleid%.pkg'
+      options: purge_ds_store
+      pkgname: '%NAME%-%version%'
+      version: '%version%'

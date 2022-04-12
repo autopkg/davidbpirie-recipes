@@ -1,0 +1,30 @@
+Description: Munki import recipe for Minecraft.
+Identifier: com.github.davidbpirie.munki.Minecraft
+ParentRecipe: com.github.ahousseini-recipes.download.Minecraft
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: Minecraft
+  MUNKI_DISPLAYNAME: Minecraft
+  MUNKI_DESCRIPTION: The world is yours for the making. Prepare for an adventure of limitless possibilities as you build, mine, battle mobs, and explore the ever-changing Minecraft landscape.
+  MUNKI_CATEGORY: Games
+  MUNKI_DEVELOPER: Microsoft
+  MUNKI_MINIMUM_OS_VERSION: '10.9'
+  MUNKI_REPO_SUBDIR: '%MUNKI_CATEGORY%/%MUNKI_DEVELOPER%/%NAME%'
+  pkginfo:
+    catalogs:
+    - testing
+    category: '%MUNKI_CATEGORY%'
+    description: '%MUNKI_DESCRIPTION%'
+    developer: '%MUNKI_DEVELOPER%'
+    display_name: '%MUNKI_DISPLAYNAME%'
+    minimum_os_version: '%MUNKI_MINIMUM_OS_VERSION%'
+    name: '%NAME%'
+    unattended_install: true
+    unattended_uninstall: true
+
+Process:
+- Processor: MunkiImporter
+  Arguments:
+    pkg_path: '%pathname%'
+    repo_subdirectory: '%MUNKI_REPO_SUBDIR%'

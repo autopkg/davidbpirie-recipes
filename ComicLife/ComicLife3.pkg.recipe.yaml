@@ -1,0 +1,39 @@
+Description: Downloads the latest version of Comic Life 3 as a zip and extracts it, then builds a package.
+Identifier: com.github.davidbpirie.pkg.comiclife3
+ParentRecipe: com.github.davidbpirie.download.comiclife3
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: ComicLife3
+
+Process:
+- Processor: PlistReader
+  Arguments:
+    info_path: '%RECIPE_CACHE_DIR%/%NAME%_Source/Comic Life 3.app/Contents/Info.plist'
+    plist_keys:
+      CFBundleIdentifier: bundleid
+      CFBundleShortVersionString: version
+
+- Processor: PkgRootCreator
+  Arguments:
+    pkgdirs:
+      Applications: '0775'
+    pkgroot: '%RECIPE_CACHE_DIR%/%NAME%'
+
+- Processor: Copier
+  Arguments:
+    destination_path: '%pkgroot%/Applications/Comic Life 3.app'
+    source_path: '%RECIPE_CACHE_DIR%/%NAME%_Source/Comic Life 3.app'
+
+- Processor: PkgCreator
+  Arguments:
+    pkg_request:
+      chown:
+      - group: admin
+        mode: '0755'
+        path: Applications
+        user: root
+      id: '%bundleid%.pkg'
+      options: purge_ds_store
+      pkgname: '%NAME%-%version%'
+      version: '%version%'
