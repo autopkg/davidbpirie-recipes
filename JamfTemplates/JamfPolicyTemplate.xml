@@ -13,7 +13,7 @@
         <all_computers>false</all_computers>
         <computer_groups>
             <computer_group>
-                <name>%JAMF_GROUP_NAME%</name>
+                <name>%JAMF_GROUP_NAME%-%version%</name>
             </computer_group>
         </computer_groups>
         <exclusions/>
