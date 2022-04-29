@@ -27,7 +27,7 @@ Input:
   JAMF_APPLICATION_NAME: "Google Chrome"
   JAMF_SELF_SERVICE_DESCRIPTION: "Chrome is a fast, simple, and secure web browser, built for the modern web."
   JAMF_UPDATE_PREDICATE: "pkg_uploaded == False"
-  JAMF_GROUP_NAME: "%NAME%-update-smart"
+  JAMF_GROUP_NAME: "%NAME%-%version%-update-smart"
   JAMF_GROUP_TEMPLATE: "%RECIPE_DIR%/../JamfTemplates/JamfSmartGroupTemplate.xml"
   JAMF_REPLACE_GROUP: "False"
   JAMF_POLICY_NAME: "Install Latest %JAMF_APPLICATION_NAME%"
