@@ -24,13 +24,13 @@ ParentRecipe: com.github.davidbpirie.jamf-upload.GoogleChrome
 
 Input:
   NAME: GoogleChrome
-  JAMF_APPLICATION_TITLE: "Google Chrome.app"
+  JAMF_APPLICATION_NAME: "Google Chrome"
   JAMF_SELF_SERVICE_DESCRIPTION: "Chrome is a fast, simple, and secure web browser, built for the modern web."
   JAMF_UPDATE_PREDICATE: "pkg_uploaded == False"
   JAMF_GROUP_NAME: "%NAME%-update-smart"
   JAMF_GROUP_TEMPLATE: "%RECIPE_DIR%/../JamfTemplates/JamfSmartGroupTemplate.xml"
   JAMF_REPLACE_GROUP: "False"
-  JAMF_POLICY_NAME: "Install Latest %NAME%"
+  JAMF_POLICY_NAME: "Install Latest %JAMF_APPLICATION_NAME%"
   JAMF_POLICY_ICON: "%NAME%.png"
   JAMF_POLICY_TEMPLATE: "%RECIPE_DIR%/../JamfTemplates/JamfPolicyTemplate.xml"
   JAMF_REPLACE_POLICY: "False"
@@ -49,7 +49,7 @@ Process:
 
   - Processor: com.github.grahampugh.jamf-upload.processors/JamfPolicyUploader
     Arguments:
-      policy_name: "%JAMF_POLICY_NAME%"
+      policy_name: "%JAMF_POLICY_NAME%-%version%"
       icon: "%JAMF_POLICY_ICON%"
       policy_template: "%JAMF_POLICY_TEMPLATE%"
       replace_policy: "%JAMF_REPLACE_POLICY%"

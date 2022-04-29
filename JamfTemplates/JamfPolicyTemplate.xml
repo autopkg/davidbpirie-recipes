@@ -1,11 +1,11 @@
 <policy>
     <!-- General - Name, Enabled/Disabled, Triggers, Frequency, Categories -->
     <general>
-        <name>%JAMF_POLICY_NAME%</name>
+        <name>%JAMF_POLICY_NAME%-%version%</name>
         <enabled>true</enabled>
         <frequency>Ongoing</frequency>
         <category>
-            <name>%JAMF_POLICY_TEMPLATE%</name>
+            <name>%JAMF_CATEGORY%</name>
         </category>
     </general>
     <!-- Scope -->
