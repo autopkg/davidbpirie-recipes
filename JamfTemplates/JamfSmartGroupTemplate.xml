@@ -1,5 +1,5 @@
 <computer_group>
-    <name>%JAMF_GROUP_NAME%-%version%-update-smart</name>
+    <name>%JAMF_GROUP_NAME%-%version%</name>
     <is_smart>true</is_smart>
     <criteria>
         <criterion>
