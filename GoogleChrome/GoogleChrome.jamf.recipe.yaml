@@ -39,11 +39,11 @@ Input:
   JAMF_REPLACE_PKG_METADATA: "False"
   JAMF_UPDATE_PREDICATE: "pkg_uploaded == False"
   JAMF_GROUP_NAME: "%NAME%-update-smart"
-  JAMF_GROUP_TEMPLATE: JamfSmartGroupTemplate.xml
+  JAMF_GROUP_TEMPLATE: "%RECIPE_DIR%/../JamfTemplates/JamfSmartGroupTemplate.xml"
   JAMF_REPLACE_GROUP: "False"
   JAMF_POLICY_NAME: "Install Latest %NAME%"
   JAMF_POLICY_ICON: "%NAME%.png"
-  JAMF_POLICY_TEMPLATE: JamfPolicyTemplate.xml
+  JAMF_POLICY_TEMPLATE: "%RECIPE_DIR%/../JamfTemplates/JamfPolicyTemplate.xml"
   JAMF_REPLACE_POLICY: "False"
   JAMF_REPLACE_ICON: "False"
 
