@@ -24,6 +24,8 @@ ParentRecipe: com.github.davidbpirie.jamf-upload.GoogleChrome
 
 Input:
   NAME: GoogleChrome
+  JAMF_APPLICATION_TITLE: "Google Chrome.app"
+  JAMF_SELF_SERVICE_DESCRIPTION: "Chrome is a fast, simple, and secure web browser, built for the modern web."
   JAMF_UPDATE_PREDICATE: "pkg_uploaded == False"
   JAMF_GROUP_NAME: "%NAME%-update-smart"
   JAMF_GROUP_TEMPLATE: "%RECIPE_DIR%/../JamfTemplates/JamfSmartGroupTemplate.xml"
