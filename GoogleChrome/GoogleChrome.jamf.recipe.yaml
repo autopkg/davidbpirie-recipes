@@ -5,7 +5,7 @@ Description: |
 
   JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
   SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
-  in your AutoPkg preferences, ovferride Input variables, or by
+  in your AutoPkg preferences, override Input variables, or by
   command-line keys.
 
   Template files for JAMF_GROUP_TEMPLATE and JAMF_POLICY_TEMPLATE need
@@ -17,7 +17,8 @@ Description: |
   can be shared across multiple recipe overrides.
 
   JAMF_POLICY_ICON must also either be in your recipe search path or
-  provide a full path.
+  provide a full path. It is recommended to store it in your
+  RecipeOverrides directory.
 Identifier: com.github.davidbpirie.jamf.GoogleChrome
 MinimumVersion: "2.3"
 ParentRecipe: com.github.davidbpirie.jamf-upload.GoogleChrome
