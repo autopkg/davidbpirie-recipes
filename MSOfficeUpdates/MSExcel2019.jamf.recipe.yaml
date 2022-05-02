@@ -1,0 +1,58 @@
+Description: |
+  Downloads the latest Excel 2019 update pkg, and appends the version
+  to the end of the filename, then uploads the package to Jamf Pro,
+  creating the Category if required, and then creates a Self Service
+  Policy and Smart Group.
+
+  JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
+  SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
+  in your AutoPkg preferences, override Input variables, or by
+  command-line keys.
+
+  Template files for JAMF_GROUP_TEMPLATE and JAMF_POLICY_TEMPLATE need
+  to either be found in your recipe search path or provide a full path.
+  Examples are available from
+  https://github.com/autopkg/davidbpirie-recipes/tree/main/JamfTemplates
+  or https://github.com/autopkg/grahampugh-recipes/tree/main/Jamf_Recipes.
+  It is recommended to store them in your RecipeOverrides directory and
+  can be shared across multiple recipe overrides.
+
+  JAMF_POLICY_ICON must also either be in your recipe search path or
+  provide a full path. It is recommended to store it in your
+  RecipeOverrides directory.
+Identifier: com.github.davidbpirie.jamf.MSExcel2019
+MinimumVersion: "2.3"
+ParentRecipe: com.github.davidbpirie.jamf-upload.MSExcel2019
+
+Input:
+  NAME: MSExcel2019
+  JAMF_APPLICATION_NAME: "Microsoft Excel"
+  JAMF_SELF_SERVICE_DESCRIPTION: "Create, view, edit, and share your spreadsheets using Excel for Mac. Now it's easier than ever to work with spreadsheets across your devices and with others. Share your files and collaborate in real time within a document or edit Office docs attached to emails. Get smart assistance features as soon as they are released in Word, Excel, and PowerPoint so you're always working with the latest. Whether you're balancing a budget, tracking milestones or looking to visualise any data, Excel is your go-to app for working with spreadsheets."
+  JAMF_UPDATE_PREDICATE: "pkg_uploaded == False"
+  JAMF_GROUP_NAME: "%NAME%-update-smart"
+  JAMF_GROUP_TEMPLATE: "%RECIPE_DIR%/../JamfTemplates/JamfSmartGroupTemplate.xml"
+  JAMF_REPLACE_GROUP: "False"
+  JAMF_POLICY_NAME: "Install Latest %JAMF_APPLICATION_NAME%"
+  JAMF_POLICY_ICON: "%NAME%.png"
+  JAMF_POLICY_TEMPLATE: "%RECIPE_DIR%/../JamfTemplates/JamfPolicyTemplate.xml"
+  JAMF_REPLACE_POLICY: "False"
+  JAMF_REPLACE_ICON: "False"
+
+Process:
+  - Processor: StopProcessingIf
+    Arguments:
+      predicate: "%JAMF_UPDATE_PREDICATE%"
+
+  - Processor: com.github.grahampugh.jamf-upload.processors/JamfComputerGroupUploader
+    Arguments:
+      computergroup_name: "%JAMF_GROUP_NAME%-%version%"
+      computergroup_template: "%JAMF_GROUP_TEMPLATE%"
+      replace_group: "%JAMF_REPLACE_GROUP%"
+
+  - Processor: com.github.grahampugh.jamf-upload.processors/JamfPolicyUploader
+    Arguments:
+      policy_name: "%JAMF_POLICY_NAME%-%version%"
+      icon: "%JAMF_POLICY_ICON%"
+      policy_template: "%JAMF_POLICY_TEMPLATE%"
+      replace_policy: "%JAMF_REPLACE_POLICY%"
+      replace_icon: "%JAMF_REPLACE_ICON%"
