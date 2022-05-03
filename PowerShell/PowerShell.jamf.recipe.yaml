@@ -19,9 +19,9 @@ Description: |
   JAMF_POLICY_ICON must also either be in your recipe search path or
   provide a full path. It is recommended to store it in your
   RecipeOverrides directory.
-Identifier: com.github.davidbpirie.jamf.GoogleChrome
+Identifier: com.github.davidbpirie.jamf.PowerShell
 MinimumVersion: "2.3"
-ParentRecipe: com.github.davidbpirie.jamf-upload.GoogleChrome
+ParentRecipe: com.github.davidbpirie.jamf-upload.PowerShell
 
 Input:
   NAME: PowerShell
