@@ -13,6 +13,7 @@ ParentRecipe: com.github.rtrouton.pkg.microsoftedge
 
 Input:
   NAME: MicrosoftEdge
+  VERSIONTYPE: CFBundleVersion
   JAMF_CATEGORY: Business
   JAMF_CATEGORY_PRIORITY: "10"
   JAMF_REPLACE_CATEGORY: "False"
