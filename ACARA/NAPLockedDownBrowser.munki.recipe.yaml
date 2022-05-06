@@ -1,4 +1,4 @@
-Description: Downloads the latest version of NAP Locked Down Browser as a DMG, then imports it to Munki.
+Description: Downloads the latest version of NAP Locked Down Browser as a pkg, finds the version, then imports it to Munki.
 Identifier: com.github.davidbpirie.munki.naplockeddownbrowser
 ParentRecipe: com.github.davidbpirie.download.naplockeddownbrowser
 MinimumVersion: 2.3.0
@@ -25,7 +25,41 @@ Input:
     unattended_install: true
 
 Process:
+- Processor: FlatPkgUnpacker
+  Arguments:
+    flat_pkg_path: '%pathname%'
+    destination_path: '%RECIPE_CACHE_DIR%/unpack'
+
+- Processor: PkgPayloadUnpacker
+  Arguments:
+    pkg_payload_path: '%RECIPE_CACHE_DIR%/unpack/%NAME%.pkg/Payload'
+    destination_path: '%RECIPE_CACHE_DIR%/payload'
+    purge_destination: True
+
+- Processor: PlistReader
+  Arguments:
+    input_plist_path: '%RECIPE_CACHE_DIR%/payload/NAP Locked down browser.app'
+
+- Processor: MunkiPkginfoMerger
+  Arguments:
+    additional_pkginfo:
+      version: '%version%'
+
+- Processor: MunkiInstallsItemsCreator
+  Arguments:
+    faux_root: '%RECIPE_CACHE_DIR%/payload'
+    installs_item_paths:
+      - /Applications/NAP Locked down browser.app
+
+- Processor: MunkiPkginfoMerger
+
 - Processor: MunkiImporter
   Arguments:
     pkg_path: '%pathname%'
     repo_subdirectory: '%MUNKI_REPO_SUBDIR%'
+
+- Processor: PathDeleter
+  Arguments:
+    path_list:
+    - '%RECIPE_CACHE_DIR%/unpack'
+    - '%RECIPE_CACHE_DIR%/payload'

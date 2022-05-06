@@ -1,0 +1,35 @@
+Description: Downloads the latest version of NAP Locked Down Browser as a pkg, then finds the version.
+Identifier: com.github.davidbpirie.pkg.naplockeddownbrowser
+ParentRecipe: com.github.davidbpirie.download.naplockeddownbrowser
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: NAPLockedDownBrowser
+
+Process:
+- Processor: FlatPkgUnpacker
+  Arguments:
+    flat_pkg_path: '%pathname%'
+    destination_path: '%RECIPE_CACHE_DIR%/unpack'
+
+- Processor: PkgPayloadUnpacker
+  Arguments:
+    pkg_payload_path: '%RECIPE_CACHE_DIR%/unpack/%NAME%.pkg/Payload'
+    destination_path: '%RECIPE_CACHE_DIR%/payload'
+    purge_destination: True
+
+- Processor: PlistReader
+  Arguments:
+    input_plist_path: '%RECIPE_CACHE_DIR%/payload/NAP Locked down browser.app'
+
+- Processor: PkgCopier
+  Arguments:
+    source_pkg: '%pathname%'
+    pkg_path: '%RECIPE_CACHE_DIR%/%NAME%-%version%.pkg'
+
+- Processor: PathDeleter
+  Arguments:
+    path_list:
+    - '%RECIPE_CACHE_DIR%/unpack'
+    - '%RECIPE_CACHE_DIR%/payload'
+

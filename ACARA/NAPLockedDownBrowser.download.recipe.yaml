@@ -1,4 +1,4 @@
-Description: Downloads the latest version of NAP Locked Down Browser as a DMG.
+Description: Downloads the latest version of NAP Locked Down Browser as a pkg.
 Identifier: com.github.davidbpirie.download.naplockeddownbrowser
 MinimumVersion: 2.3.0
 
