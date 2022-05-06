@@ -19,5 +19,5 @@ Process:
     input_path: '%RECIPE_CACHE_DIR%/downloads/%NAME%.pkg'
     expected_authority_names:
       - "Developer ID Installer: Janison (KU9HRE5GET)"
-        "Developer ID Certification Authority"
-        "Apple Root CA"
+      - "Developer ID Certification Authority"
+      - "Apple Root CA"
