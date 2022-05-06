@@ -4,17 +4,20 @@ MinimumVersion: 2.3.0
 
 Input:
   NAME: NAPLockedDownBrowser
-  DOWNLOAD_URL: https://pages.assessform.edu.au/uploads/files/Release/NAP%20Locked%20down%20browser.dmg
+  DOWNLOAD_URL: https://pages.assessform.edu.au/uploads/files/Release/NAP%20Locked%20down%20browser.pkg
 
 Process:
 - Processor: URLDownloader
   Arguments:
-    filename: '%NAME%.dmg'
+    filename: '%NAME%.pkg'
     url: '%DOWNLOAD_URL%'
 
 - Processor: EndOfCheckPhase
 
 - Processor: CodeSignatureVerifier
   Arguments:
-    input_path: '%RECIPE_CACHE_DIR%/downloads/%NAME%.dmg/NAP Locked down browser.app'
-    requirement: anchor apple generic and identifier "au.com.janison.mac.naplan" and (certificate leaf[field.1.2.840.113635.100.6.1.9] /* exists */ or certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = KU9HRE5GET)
+    input_path: '%RECIPE_CACHE_DIR%/downloads/%NAME%.pkg'
+    expected_authority_names:
+      - "Developer ID Installer: Janison (KU9HRE5GET)"
+        "Developer ID Certification Authority"
+        "Apple Root CA"

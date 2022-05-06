@@ -1,6 +1,6 @@
 Description: Downloads the latest version of NAP Locked Down Browser as a DMG, then imports it to Munki.
 Identifier: com.github.davidbpirie.munki.naplockeddownbrowser
-ParentRecipe: com.github.davidbpirie.download.naplockeddownbrowser
+ParentRecipe: com.github.davidbpirie.pkg.naplockeddownbrowser
 MinimumVersion: 2.3.0
 
 Input:
