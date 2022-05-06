@@ -32,7 +32,7 @@ Process:
 
 - Processor: PkgPayloadUnpacker
   Arguments:
-    pkg_payload_path: '%RECIPE_CACHE_DIR%/unpack/%NAME%.pkg/Payload'
+    pkg_payload_path: '%RECIPE_CACHE_DIR%/unpack/NAP_Locked_down_browser.pkg/Payload'
     destination_path: '%RECIPE_CACHE_DIR%/payload'
     purge_destination: True
 
