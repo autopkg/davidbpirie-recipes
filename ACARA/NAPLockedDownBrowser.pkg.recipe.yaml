@@ -20,7 +20,7 @@ Process:
 
 - Processor: PlistReader
   Arguments:
-    input_plist_path: '%RECIPE_CACHE_DIR%/payload/NAP Locked down browser.app'
+    info_path: '%RECIPE_CACHE_DIR%/payload/NAP Locked down browser.app'
 
 - Processor: PkgCopier
   Arguments:
