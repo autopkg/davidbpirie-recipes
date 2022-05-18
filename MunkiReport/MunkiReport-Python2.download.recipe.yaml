@@ -1,0 +1,26 @@
+Description: |
+  Downloads the current release pkg of MunkiReportPython2 from Github.
+  Set PRERELEASE to a non-empty string to download prereleases, either
+  via Input in an override or via the -k option,
+  i.e.: `-k PRERELEASE=yes`
+  Optionally override GITHUB_REPO to 'munkireport/MunkiReport-Python'
+Identifier: com.github.davidbpirie.download.MunkiReportPython2
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: MunkiReportPython2
+  PRERELEASE: ''
+  GITHUB_REPO: 'MagerValp/MunkiReport-Python'
+
+Process:
+- Processor: GitHubReleasesInfoProvider
+  Arguments:
+    asset_regex: 'MunkiReportPython2-2\..*\.pkg'
+    github_repo: '%GITHUB_REPO%'
+    include_prereleases: '%PRERELEASE%'
+
+- Processor: URLDownloader
+  Arguments:
+    filename: '%NAME%-%version%.pkg'
+
+- Processor: EndOfCheckPhase
