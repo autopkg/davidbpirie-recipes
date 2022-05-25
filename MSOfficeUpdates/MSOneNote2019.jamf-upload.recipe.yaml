@@ -8,41 +8,42 @@ Description: |
   in your AutoPkg preferences, override Input variables, or by
   command-line keys.
 Identifier: com.github.davidbpirie.jamf-upload.MSOneNote2019
-MinimumVersion: "2.3"
+MinimumVersion: '2.3'
 ParentRecipe: com.github.autopkg.download.MSOneNote2019
 
 Input:
   NAME: MSOneNote2019
   JAMF_CATEGORY: Productivity
-  JAMF_CATEGORY_PRIORITY: "10"
-  JAMF_REPLACE_CATEGORY: "False"
-  JAMF_PKG_NAME: "%NAME%"
-  JAMF_PKG_INFO: "Capture your thoughts, discoveries, and ideas in your very own digital notebook using OneNote for Mac. Now it is easier than ever capture your thoughts, add pictures or files, and share notes across your devices and with others. Share your notes and collaborate in real time with colleagues or friends. Type anywhere on this free-form canvas, use a digital pen to write or draw, and add pictures and files right in your notes. Whether you're at home, in the office, or on the go, OneNote in your go-to digital notebook."
-  JAMF_PKG_NOTES: "Generated and uploaded by AutoPkg"
-  JAMF_PKG_PRIORITY: "10"
-  JAMF_REBOOT_REQUIRED: "False"
-  JAMF_OS_REQUIREMENTS: ""
-  JAMF_REQUIRED_PROCESSOR: None
-  JAMF_SEND_NOTIFICATION: "False"
-  JAMF_REPLACE_PKG: "False"
-  JAMF_REPLACE_PKG_METADATA: "False"
+  JAMF_CATEGORY_PRIORITY: '10'
+  JAMF_CATEGORY_REPLACE: 'False'
+  JAMF_PKG_NAME: '%NAME%'
+  JAMF_PKG_INFO: 'Capture your thoughts, discoveries, and ideas in your very own digital notebook using OneNote for Mac. Now it is easier than ever capture your thoughts, add pictures or files, and share notes across your devices and with others. Share your notes and collaborate in real time with colleagues or friends. Type anywhere on this free-form canvas, use a digital pen to write or draw, and add pictures and files right in your notes. Whether you're at home, in the office, or on the go, OneNote in your go-to digital notebook.'
+  JAMF_PKG_NOTES: 'Generated and uploaded by AutoPkg'
+  JAMF_PKG_PRIORITY: '10'
+  JAMF_PKG_REBOOT_REQUIRED: 'False'
+  JAMF_PKG_OS_REQUIREMENTS: ''
+  JAMF_PKG_REQUIRED_PROCESSOR: None
+  JAMF_PKG_SEND_NOTIFICATION: 'False'
+  JAMF_PKG_REPLACE: 'False'
+  JAMF_PKG_REPLACE_METADATA: 'False'
 
 Process:
   - Processor: com.github.grahampugh.jamf-upload.processors/JamfCategoryUploader
     Arguments:
-      category_name: "%JAMF_CATEGORY%"
-      category_priority: "%JAMF_CATEGORY_PRIORITY%"
-      replace_category: "%JAMF_REPLACE_CATEGORY%"
+      category_name: '%JAMF_CATEGORY%'
+      category_priority: '%JAMF_CATEGORY_PRIORITY%'
+      replace_category: '%JAMF_CATEGORY_REPLACE%'
 
   - Processor: com.github.grahampugh.jamf-upload.processors/JamfPackageUploader
     Arguments:
-      pkg_name: "%JAMF_PKG_NAME%-%version%.pkg"
-      pkg_category: "%JAMF_CATEGORY%"
-      pkg_info: "%JAMF_PKG_INFO%"
-      pkg_notes: "%JAMF_PKG_NOTES%"
-      pkg_priority: "%JAMF_PKG_PRIORITY%"
-      reboot_required: "%JAMF_REBOOT_REQUIRED%"
-      os_requirements: "%JAMF_OS_REQUIREMENTS%"
-      required_processor: "%JAMF_REQUIRED_PROCESSOR%"
-      send_notification: "%JAMF_SEND_NOTIFICATION%"
-      replace_pkg: "%JAMF_REPLACE_PKG%"
+      pkg_name: '%JAMF_PKG_NAME%-%version%.pkg'
+      pkg_category: '%JAMF_CATEGORY%'
+      pkg_info: '%JAMF_PKG_INFO%'
+      pkg_notes: '%JAMF_PKG_NOTES%'
+      pkg_priority: '%JAMF_PKG_PRIORITY%'
+      reboot_required: '%JAMF_PKG_REBOOT_REQUIRED%'
+      os_requirements: '%JAMF_PKG_OS_REQUIREMENTS%'
+      required_processor: '%JAMF_PKG_REQUIRED_PROCESSOR%'
+      send_notification: '%JAMF_PKG_SEND_NOTIFICATION%'
+      replace_pkg: '%JAMF_PKG_REPLACE%'
+      replace_pkg_metadata: '%JAMF_PKG_REPLACE_METADATA%'

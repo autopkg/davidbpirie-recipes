@@ -8,41 +8,42 @@ Description: |
   in your AutoPkg preferences, override Input variables, or by
   command-line keys.
 Identifier: com.github.davidbpirie.jamf-upload.MSPowerPoint2019
-MinimumVersion: "2.3"
+MinimumVersion: '2.3'
 ParentRecipe: com.github.autopkg.download.MSPowerPoint2019
 
 Input:
   NAME: MSPowerPoint2019
   JAMF_CATEGORY: Productivity
-  JAMF_CATEGORY_PRIORITY: "10"
-  JAMF_REPLACE_CATEGORY: "False"
-  JAMF_PKG_NAME: "%NAME%"
-  JAMF_PKG_INFO: "Create, edit, collaborate, and share presentations using PowerPoint for Mac. Now it's easier than ever to create, edit, and share presentations seamlessly across your devices and with others. Share your files and collaborate in real time within a document or edit Office docs attached to emails. Get smart assistance features as soon as they are released in Word, Excel, and PowerPoint so you're always working with the latest. Whether you need to show off your school project, business plan or family holiday photos, PowerPoint is your go-to app for presentations."
-  JAMF_PKG_NOTES: "Generated and uploaded by AutoPkg"
-  JAMF_PKG_PRIORITY: "10"
-  JAMF_REBOOT_REQUIRED: "False"
-  JAMF_OS_REQUIREMENTS: ""
-  JAMF_REQUIRED_PROCESSOR: None
-  JAMF_SEND_NOTIFICATION: "False"
-  JAMF_REPLACE_PKG: "False"
-  JAMF_REPLACE_PKG_METADATA: "False"
+  JAMF_CATEGORY_PRIORITY: '10'
+  JAMF_CATEGORY_REPLACE: 'False'
+  JAMF_PKG_NAME: '%NAME%'
+  JAMF_PKG_INFO: 'Create, edit, collaborate, and share presentations using PowerPoint for Mac. Now it's easier than ever to create, edit, and share presentations seamlessly across your devices and with others. Share your files and collaborate in real time within a document or edit Office docs attached to emails. Get smart assistance features as soon as they are released in Word, Excel, and PowerPoint so you're always working with the latest. Whether you need to show off your school project, business plan or family holiday photos, PowerPoint is your go-to app for presentations.'
+  JAMF_PKG_NOTES: 'Generated and uploaded by AutoPkg'
+  JAMF_PKG_PRIORITY: '10'
+  JAMF_PKG_REBOOT_REQUIRED: 'False'
+  JAMF_PKG_OS_REQUIREMENTS: ''
+  JAMF_PKG_REQUIRED_PROCESSOR: None
+  JAMF_PKG_SEND_NOTIFICATION: 'False'
+  JAMF_PKG_REPLACE: 'False'
+  JAMF_PKG_REPLACE_METADATA: 'False'
 
 Process:
   - Processor: com.github.grahampugh.jamf-upload.processors/JamfCategoryUploader
     Arguments:
-      category_name: "%JAMF_CATEGORY%"
-      category_priority: "%JAMF_CATEGORY_PRIORITY%"
-      replace_category: "%JAMF_REPLACE_CATEGORY%"
+      category_name: '%JAMF_CATEGORY%'
+      category_priority: '%JAMF_CATEGORY_PRIORITY%'
+      replace_category: '%JAMF_CATEGORY_REPLACE%'
 
   - Processor: com.github.grahampugh.jamf-upload.processors/JamfPackageUploader
     Arguments:
-      pkg_name: "%JAMF_PKG_NAME%-%version%.pkg"
-      pkg_category: "%JAMF_CATEGORY%"
-      pkg_info: "%JAMF_PKG_INFO%"
-      pkg_notes: "%JAMF_PKG_NOTES%"
-      pkg_priority: "%JAMF_PKG_PRIORITY%"
-      reboot_required: "%JAMF_REBOOT_REQUIRED%"
-      os_requirements: "%JAMF_OS_REQUIREMENTS%"
-      required_processor: "%JAMF_REQUIRED_PROCESSOR%"
-      send_notification: "%JAMF_SEND_NOTIFICATION%"
-      replace_pkg: "%JAMF_REPLACE_PKG%"
+      pkg_name: '%JAMF_PKG_NAME%-%version%.pkg'
+      pkg_category: '%JAMF_CATEGORY%'
+      pkg_info: '%JAMF_PKG_INFO%'
+      pkg_notes: '%JAMF_PKG_NOTES%'
+      pkg_priority: '%JAMF_PKG_PRIORITY%'
+      reboot_required: '%JAMF_PKG_REBOOT_REQUIRED%'
+      os_requirements: '%JAMF_PKG_OS_REQUIREMENTS%'
+      required_processor: '%JAMF_PKG_REQUIRED_PROCESSOR%'
+      send_notification: '%JAMF_PKG_SEND_NOTIFICATION%'
+      replace_pkg: '%JAMF_PKG_REPLACE%'
+      replace_pkg_metadata: '%JAMF_PKG_REPLACE_METADATA%'
