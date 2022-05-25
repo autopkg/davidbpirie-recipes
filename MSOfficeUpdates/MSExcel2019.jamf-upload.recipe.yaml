@@ -17,7 +17,7 @@ Input:
   JAMF_CATEGORY_PRIORITY: '10'
   JAMF_CATEGORY_REPLACE: 'False'
   JAMF_PKG_NAME: '%NAME%'
-  JAMF_PKG_INFO: 'Create, view, edit, and share your spreadsheets using Excel for Mac. Now it's easier than ever to work with spreadsheets across your devices and with others. Share your files and collaborate in real time within a document or edit Office docs attached to emails. Get smart assistance features as soon as they are released in Word, Excel, and PowerPoint so you're always working with the latest. Whether you're balancing a budget, tracking milestones or looking to visualise any data, Excel is your go-to app for working with spreadsheets.'
+  JAMF_PKG_INFO: "Create, view, edit, and share your spreadsheets using Excel for Mac. Now it's easier than ever to work with spreadsheets across your devices and with others. Share your files and collaborate in real time within a document or edit Office docs attached to emails. Get smart assistance features as soon as they are released in Word, Excel, and PowerPoint so you're always working with the latest. Whether you're balancing a budget, tracking milestones or looking to visualise any data, Excel is your go-to app for working with spreadsheets."
   JAMF_PKG_NOTES: 'Generated and uploaded by AutoPkg'
   JAMF_PKG_PRIORITY: '10'
   JAMF_PKG_REBOOT_REQUIRED: 'False'

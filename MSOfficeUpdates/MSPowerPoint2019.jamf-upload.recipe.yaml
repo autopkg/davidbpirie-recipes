@@ -17,7 +17,7 @@ Input:
   JAMF_CATEGORY_PRIORITY: '10'
   JAMF_CATEGORY_REPLACE: 'False'
   JAMF_PKG_NAME: '%NAME%'
-  JAMF_PKG_INFO: 'Create, edit, collaborate, and share presentations using PowerPoint for Mac. Now it's easier than ever to create, edit, and share presentations seamlessly across your devices and with others. Share your files and collaborate in real time within a document or edit Office docs attached to emails. Get smart assistance features as soon as they are released in Word, Excel, and PowerPoint so you're always working with the latest. Whether you need to show off your school project, business plan or family holiday photos, PowerPoint is your go-to app for presentations.'
+  JAMF_PKG_INFO: "Create, edit, collaborate, and share presentations using PowerPoint for Mac. Now it's easier than ever to create, edit, and share presentations seamlessly across your devices and with others. Share your files and collaborate in real time within a document or edit Office docs attached to emails. Get smart assistance features as soon as they are released in Word, Excel, and PowerPoint so you're always working with the latest. Whether you need to show off your school project, business plan or family holiday photos, PowerPoint is your go-to app for presentations."
   JAMF_PKG_NOTES: 'Generated and uploaded by AutoPkg'
   JAMF_PKG_PRIORITY: '10'
   JAMF_PKG_REBOOT_REQUIRED: 'False'

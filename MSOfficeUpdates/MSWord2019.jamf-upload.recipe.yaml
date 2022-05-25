@@ -17,7 +17,7 @@ Input:
   JAMF_CATEGORY_PRIORITY: '10'
   JAMF_CATEGORY_REPLACE: 'False'
   JAMF_PKG_NAME: '%NAME%'
-  JAMF_PKG_INFO: 'Create, edit, collaborate, and share documents using Word for Mac. Now it's easier than ever to write, design, and work seamlessly across your devices and with others. Share your files and collaborate in real time within a document or edit Office docs attached to emails. Get smart assistance features as soon as they are released in Word, Excel, and PowerPoint so you're always working with the latest. Whether you're a blogger, writer, journalist, columnist, student, or a project manager working on documentation, Word is your go-to app for working with documents.'
+  JAMF_PKG_INFO: "Create, edit, collaborate, and share documents using Word for Mac. Now it's easier than ever to write, design, and work seamlessly across your devices and with others. Share your files and collaborate in real time within a document or edit Office docs attached to emails. Get smart assistance features as soon as they are released in Word, Excel, and PowerPoint so you're always working with the latest. Whether you're a blogger, writer, journalist, columnist, student, or a project manager working on documentation, Word is your go-to app for working with documents."
   JAMF_PKG_NOTES: 'Generated and uploaded by AutoPkg'
   JAMF_PKG_PRIORITY: '10'
   JAMF_PKG_REBOOT_REQUIRED: 'False'

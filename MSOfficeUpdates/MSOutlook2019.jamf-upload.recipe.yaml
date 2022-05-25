@@ -17,7 +17,7 @@ Input:
   JAMF_CATEGORY_PRIORITY: '10'
   JAMF_CATEGORY_REPLACE: 'False'
   JAMF_PKG_NAME: '%NAME%'
-  JAMF_PKG_INFO: 'Outlook helps you stay connected and organised at the office and at home. It brings the best of Microsoft 365 together - with easy access to emails, files, calendar events, and contacts across all your accounts so you can quickly get things done. Plus, a personalised inbox and calendar helps you stay on top of what's important.'
+  JAMF_PKG_INFO: "Outlook helps you stay connected and organised at the office and at home. It brings the best of Microsoft 365 together - with easy access to emails, files, calendar events, and contacts across all your accounts so you can quickly get things done. Plus, a personalised inbox and calendar helps you stay on top of what's important."
   JAMF_PKG_NOTES: 'Generated and uploaded by AutoPkg'
   JAMF_PKG_PRIORITY: '10'
   JAMF_PKG_REBOOT_REQUIRED: 'False'

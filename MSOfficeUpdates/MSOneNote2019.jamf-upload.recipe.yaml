@@ -17,7 +17,7 @@ Input:
   JAMF_CATEGORY_PRIORITY: '10'
   JAMF_CATEGORY_REPLACE: 'False'
   JAMF_PKG_NAME: '%NAME%'
-  JAMF_PKG_INFO: 'Capture your thoughts, discoveries, and ideas in your very own digital notebook using OneNote for Mac. Now it is easier than ever capture your thoughts, add pictures or files, and share notes across your devices and with others. Share your notes and collaborate in real time with colleagues or friends. Type anywhere on this free-form canvas, use a digital pen to write or draw, and add pictures and files right in your notes. Whether you're at home, in the office, or on the go, OneNote in your go-to digital notebook.'
+  JAMF_PKG_INFO: "Capture your thoughts, discoveries, and ideas in your very own digital notebook using OneNote for Mac. Now it is easier than ever capture your thoughts, add pictures or files, and share notes across your devices and with others. Share your notes and collaborate in real time with colleagues or friends. Type anywhere on this free-form canvas, use a digital pen to write or draw, and add pictures and files right in your notes. Whether you're at home, in the office, or on the go, OneNote in your go-to digital notebook."
   JAMF_PKG_NOTES: 'Generated and uploaded by AutoPkg'
   JAMF_PKG_PRIORITY: '10'
   JAMF_PKG_REBOOT_REQUIRED: 'False'
