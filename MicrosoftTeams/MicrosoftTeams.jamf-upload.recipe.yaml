@@ -12,7 +12,7 @@ MinimumVersion: '2.3'
 ParentRecipe: com.github.rtrouton.pkg.microsoftteams
 
 Input:
-  NAME: MSTeams
+  NAME: MicrosoftTeams
   JAMF_CATEGORY: Business
   JAMF_CATEGORY_PRIORITY: '10'
   JAMF_CATEGORY_REPLACE: 'False'
