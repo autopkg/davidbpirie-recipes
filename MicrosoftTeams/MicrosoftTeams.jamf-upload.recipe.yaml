@@ -13,6 +13,7 @@ ParentRecipe: com.github.rtrouton.pkg.microsoftteams
 
 Input:
   NAME: MicrosoftTeams
+  VERSIONTYPE: CFBundleGetInfoString
   JAMF_CATEGORY: Business
   JAMF_CATEGORY_PRIORITY: '10'
   JAMF_CATEGORY_REPLACE: 'False'
