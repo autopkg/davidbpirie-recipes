@@ -1,0 +1,22 @@
+Description: |
+  Downloads latest Jamf Connect disk image then installs the Jamf
+  Connect Configuration app in /Applications.
+
+Identifier: com.github.davidbpirie.install.JamfConnect2Configuration
+MinimumVersion: '2.3'
+ParentRecipe: com.github.yohan460-recipes.download.JamfConnect
+
+Input:
+  NAME: JamfConnectConfiguration
+  INSTALL_DESTINATION: /Applications
+
+Process:
+  - Processor: InstallFromDMG
+    Arguments:
+      dmg_path: '%pathname%'
+      items_to_copy:
+      - source_item: Jamf Connect Configuration.app
+        destination_path: '%INSTALL_DESTINATION%'
+        user: root
+        group: wheel
+        mode: '0755'
