@@ -3,7 +3,8 @@ Description: |
   manual upload of a script, creating the Category if required.
 
   Intended use is to generate an override from this recipe, then
-  rename it and populate all the Input variables.
+  give the override an unique Identifier, rename it, and populate
+  all the Input variables.
 
   When using the recipe, also provide the source via the -p parameter eg:
   autopkg run MyScript.jamf-upload -p MyScript.sh
