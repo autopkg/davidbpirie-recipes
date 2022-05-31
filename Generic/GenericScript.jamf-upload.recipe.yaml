@@ -17,7 +17,7 @@ MinimumVersion: 2.3.0
 
 Input:
   NAME: GenericScript
-  JAMF_CATEGORY: Script
+  JAMF_CATEGORY: Scripts
   JAMF_CATEGORY_PRIORITY: '10'
   JAMF_CATEGORY_REPLACE: 'False'
   JAMF_SCRIPT_INFO: ''
