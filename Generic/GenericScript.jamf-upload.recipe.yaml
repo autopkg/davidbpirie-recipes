@@ -44,7 +44,7 @@ Process:
     category_priority: '%JAMF_CATEGORY_PRIORITY%'
     replace_category: '%JAMF_CATEGORY_REPLACE%'
 
-- Processor: JamfScriptUploader
+- Processor: com.github.grahampugh.jamf-upload.processors/JamfScriptUploader
   Arguments:
     script_path: '%PKG%'
     script_name: '%JAMF_SCRIPT_NAME%'
