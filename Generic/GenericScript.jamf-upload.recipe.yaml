@@ -62,3 +62,4 @@ Process:
     script_parameter9: '%JAMF_SCRIPT_PARAMETER_9%'
     script_parameter10: '%JAMF_SCRIPT_PARAMETER_10%'
     script_parameter11: '%JAMF_SCRIPT_PARAMETER_11%'
+    replace_script: '%JAMF_SCRIPT_REPLACE%'
