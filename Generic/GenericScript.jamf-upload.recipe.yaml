@@ -1,0 +1,63 @@
+Description: |
+  Generic jamf-upload recipe to be used with overrides for repeated
+  manual upload of a script, creating the Category if required.
+
+  Intended use is to generate an override from this recipe, then
+  rename it and populate all the Input variables.
+
+  When using the recipe, also provide the source via the -p parameter eg:
+  autopkg run MyScript.jamf-upload -p MyScript.sh
+
+  JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
+  SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
+  in your AutoPkg preferences, override Input variables, or by
+  command-line keys.
+Identifier: com.github.davidbpirie.jamf-upload.genericscript
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: GenericScript
+  JAMF_CATEGORY: Script
+  JAMF_CATEGORY_PRIORITY: '10'
+  JAMF_CATEGORY_REPLACE: 'False'
+  JAMF_SCRIPT_INFO: ''
+  JAMF_SCRIPT_NAME: '%NAME%'
+  JAMF_SCRIPT_NOTES: ''
+  JAMF_SCRIPT_OS_REQUIREMENTS: ''
+  JAMF_SCRIPT_PRIORITY: '10'
+  JAMF_SCRIPT_PARAMETER_4: ''
+  JAMF_SCRIPT_PARAMETER_5: ''
+  JAMF_SCRIPT_PARAMETER_6: ''
+  JAMF_SCRIPT_PARAMETER_7: ''
+  JAMF_SCRIPT_PARAMETER_8: ''
+  JAMF_SCRIPT_PARAMETER_9: ''
+  JAMF_SCRIPT_PARAMETER_10: ''
+  JAMF_SCRIPT_PARAMETER_11: ''
+  JAMF_SCRIPT_REPLACE: 'False'
+
+Process:
+- Processor: PackageRequired
+
+- Processor: com.github.grahampugh.jamf-upload.processors/JamfCategoryUploader
+  Arguments:
+    category_name: '%JAMF_CATEGORY%'
+    category_priority: '%JAMF_CATEGORY_PRIORITY%'
+    replace_category: '%JAMF_CATEGORY_REPLACE%'
+
+- Processor: JamfScriptUploader
+  Arguments:
+    script_path: '%PKG%'
+    script_name: '%JAMF_SCRIPT_NAME%'
+    script_category: '%JAMF_CATEGORY%'
+    script_priority: '%JAMF_SCRIPT_PRIORITY%'
+    osrequirements: '%JAMF_SCRIPT_OS_REQUIREMENTS%'
+    script_info: '%JAMF_SCRIPT_INFO%'
+    script_notes: '%JAMF_SCRIPT_NOTES%'
+    script_parameter4: '%JAMF_SCRIPT_PARAMETER_4%'
+    script_parameter5: '%JAMF_SCRIPT_PARAMETER_5%'
+    script_parameter6: '%JAMF_SCRIPT_PARAMETER_6%'
+    script_parameter7: '%JAMF_SCRIPT_PARAMETER_7%'
+    script_parameter8: '%JAMF_SCRIPT_PARAMETER_8%'
+    script_parameter9: '%JAMF_SCRIPT_PARAMETER_9%'
+    script_parameter10: '%JAMF_SCRIPT_PARAMETER_10%'
+    script_parameter11: '%JAMF_SCRIPT_PARAMETER_11%'
