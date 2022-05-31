@@ -1,0 +1,31 @@
+Description: |
+  Generic jamf-upload recipe to be used with overrides for repeated
+  manual upload of an extension attribute.
+
+  Intended use is to generate an override from this recipe, then
+  give the override an unique Identifier, rename it, and populate
+  all the Input variables.
+
+  When using the recipe, also provide the source via the -p parameter eg:
+  autopkg run MyEAScript.jamf-upload -p MyEAScript.sh
+
+  JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
+  SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
+  in your AutoPkg preferences, override Input variables, or by
+  command-line keys.
+Identifier: com.github.davidbpirie.jamf-upload.genericeascript
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: GenericEAScript
+  JAMF_EA_REPLACE: 'False'
+
+Process:
+- Processor: PackageRequired
+
+- Processor: com.github.grahampugh.jamf-upload.processors/JamfExtensionAttributeUploader
+  Arguments:
+    ea_name: '%NAME%'
+    ea_script_path: '%PKG%'
+    replace_ea: '%JAMF_EA_REPLACE%'
+
