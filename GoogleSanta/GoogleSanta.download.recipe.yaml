@@ -1,0 +1,29 @@
+Description: Downloads the latest version of Google Santa from GitHub.
+Identifier: com.github.davidbpirie.download.GoogleSanta
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: GoogleSanta
+  GITHUB_REPO: google/santa
+  GITHUB_INCLUDE_PRELEASES: ''
+
+Process:
+- Processor: GitHubReleasesInfoProvider
+  Arguments:
+    github_repo: '%GITHUB_REPO%'
+    include_prereleases: '%GITHUB_INCLUDE_PRELEASES%'
+
+- Processor: URLDownloader
+  Arguments:
+    filename: '%NAME%.dmg'
+    url: '%DOWNLOAD_URL%'
+
+- Processor: EndOfCheckPhase
+
+- Processor: CodeSignatureVerifier
+  Arguments:
+    input_path: '%pathname%/santa-*.pkg'
+    expected_authority_names:
+      - "Developer ID Installer: Google LLC (EQHXZ8M8AV)"
+      - "Developer ID Certification Authority"
+      - "Apple Root CA"
