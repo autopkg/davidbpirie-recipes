@@ -1,0 +1,35 @@
+Description: |
+  Downloads the latest version of GameMaker as a pkg, finds the version,
+  then imports to munki.
+Identifier: com.github.davidbpirie.munki.GameMaker
+ParentRecipe: com.github.davidbpirie.pkg.GameMaker
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: GameMaker
+  MUNKI_DISPLAYNAME: GameMaker
+  MUNKI_DESCRIPTION: "Built for beginners and professionals alike, GameMaker's intuitive features provide you with the tools you need to make your game, your way."
+  MUNKI_CATEGORY: Developer Tools
+  MUNKI_DEVELOPER: YoYo Games
+  MUNKI_REPO_SUBDIR: '%MUNKI_CATEGORY%/%MUNKI_DEVELOPER%/%NAME%'
+  pkginfo:
+    catalogs:
+    - testing
+    category: '%MUNKI_CATEGORY%'
+    description: '%MUNKI_DESCRIPTION%'
+    developer: '%MUNKI_DEVELOPER%'
+    display_name: '%MUNKI_DISPLAYNAME%'
+    name: '%NAME%'
+    unattended_install: true
+    unattended_uninstall: true
+
+Process:
+- Processor: MunkiPkginfoMerger
+  Arguments:
+    additional_pkginfo:
+      version: '%version%'
+
+- Processor: MunkiImporter
+  Arguments:
+    pkg_path: '%pkg_path%'
+    repo_subdirectory: '%MUNKI_REPO_SUBDIR%'
