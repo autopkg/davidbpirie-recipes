@@ -18,9 +18,9 @@ Process:
     destination_path: '%RECIPE_CACHE_DIR%/payload'
     purge_destination: True
 
-- Processor: PlistReader
+- Processor: Versioner
   Arguments:
-    info_path: '%RECIPE_CACHE_DIR%/payload/GameMaker.app'
+    input_plist_path: '%RECIPE_CACHE_DIR%/payload/GameMaker.app/Contents/Info.plist'
 
 - Processor: PkgCopier
   Arguments:
