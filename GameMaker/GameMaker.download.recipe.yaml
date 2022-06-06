@@ -1,0 +1,23 @@
+Description: Downloads the latest version of GameMaker as a pkg.
+Identifier: com.github.davidbpirie.download.GameMaker
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: GameMaker
+  DOWNLOAD_URL: https://www.yoyogames.com/download/studio2/mac
+
+Process:
+- Processor: URLDownloader
+  Arguments:
+    filename: '%NAME%.pkg'
+    url: '%DOWNLOAD_URL%'
+
+- Processor: EndOfCheckPhase
+
+- Processor: CodeSignatureVerifier
+  Arguments:
+    input_path: '%RECIPE_CACHE_DIR%/downloads/%NAME%.pkg'
+    expected_authority_names:
+      - "Developer ID Installer: YoYo Games Ltd (C9E7J7HL3D)"
+      - "Developer ID Certification Authority"
+      - "Apple Root CA"
