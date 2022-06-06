@@ -2,7 +2,7 @@ Description: |
   Downloads the latest version of GameMaker as a pkg, finds the version,
   then imports to munki.
 Identifier: com.github.davidbpirie.munki.GameMaker
-ParentRecipe: com.github.davidbpirie.pkg.GameMaker
+ParentRecipe: com.github.davidbpirie.download.GameMaker
 MinimumVersion: 2.3.0
 
 Input:
@@ -31,5 +31,5 @@ Process:
 
 - Processor: MunkiImporter
   Arguments:
-    pkg_path: '%pkg_path%'
+    pkg_path: '%pathname%'
     repo_subdirectory: '%MUNKI_REPO_SUBDIR%'
