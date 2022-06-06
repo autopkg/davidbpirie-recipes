@@ -24,11 +24,6 @@ Input:
     unattended_uninstall: true
 
 Process:
-- Processor: MunkiPkginfoMerger
-  Arguments:
-    additional_pkginfo:
-      version: '%version%'
-
 - Processor: MunkiImporter
   Arguments:
     pkg_path: '%pathname%'
