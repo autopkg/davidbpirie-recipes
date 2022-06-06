@@ -11,7 +11,7 @@ Process:
   Arguments:
     re_pattern: <a href="http[^"]*-([0-9][0-9.]*)\.pkg"
     result_output_var_name: version
-    url: '%BASE_URL%'
+    url: '%DOWNLOAD_URL%'
 
 - Processor: PkgCopier
   Arguments:
