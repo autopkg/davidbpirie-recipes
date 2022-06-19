@@ -8,7 +8,7 @@ Description: |
   SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
   in your AutoPkg preferences, override Input variables, or by
   command-line keys.
-Identifier: com.github.davidbpirie.jamf-upload.MicrosoftOneDriveUniversal
+Identifier: com.github.davidbpirie.jamf-upload.MicrosoftOneDrive
 MinimumVersion: '2.3'
 ParentRecipe: com.github.rtrouton.pkg.microsoftonedrive
 
