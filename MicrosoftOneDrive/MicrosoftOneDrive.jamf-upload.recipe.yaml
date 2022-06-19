@@ -10,7 +10,7 @@ Description: |
   command-line keys.
 Identifier: com.github.davidbpirie.jamf-upload.MicrosoftOneDriveUniversal
 MinimumVersion: '2.3'
-ParentRecipe: com.github.rtrouton.pkg.microsoftuniversalonedrive
+ParentRecipe: com.github.rtrouton.pkg.microsoftonedrive
 
 Input:
   NAME: MicrosoftOneDrive
