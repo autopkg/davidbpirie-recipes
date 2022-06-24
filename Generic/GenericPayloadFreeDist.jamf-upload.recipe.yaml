@@ -36,7 +36,7 @@ Process:
 
   - Processor: com.github.grahampugh.jamf-upload.processors/JamfPackageUploader
     Arguments:
-      pkg_name: '%JAMF_PKG_NAME%-%version%.pkg'
+      pkg_name: '%JAMF_PKG_NAME%-%VERSION%.pkg'
       pkg_category: '%JAMF_CATEGORY%'
       pkg_info: '%JAMF_PKG_INFO%'
       pkg_notes: '%JAMF_PKG_NOTES%'
