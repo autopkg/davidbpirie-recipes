@@ -39,11 +39,6 @@ Process:
       pkg_payload_path: '%RECIPE_CACHE_DIR%/unpack/%SOFTWARETITLE%.pkg/Payload'
       destination_path: '%RECIPE_CACHE_DIR%/payload'
   
-  - Processor: Versioner
-    Arguments:
-      input_plist_path: '%RECIPE_CACHE_DIR%/payload/%SOFTWARETITLE%.app/Contents/Info.plist'
-      plist_version_key: '%VERSIONTYPE%'
-  
   - Processor: PlistReader
     Arguments:
       info_path: '%RECIPE_CACHE_DIR%/payload/%SOFTWARETITLE%.app'
@@ -53,9 +48,9 @@ Process:
   
   - Processor: MicrosoftOneDriveVersioner
     Arguments:
-      bundle_short_version: '%bundle_version%'
+      bundle_short_version: '%bundle_short_version%'
       bundle_version: '%bundle_version%'
-      
+
   - Processor: PkgCopier
     Arguments:
       source_pkg: '%pathname%'
