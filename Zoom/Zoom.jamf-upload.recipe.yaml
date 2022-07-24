@@ -7,7 +7,7 @@ Description: |
   in your AutoPkg preferences, override Input variables, or by
   command-line keys.
 Identifier: com.github.davidbpirie.jamf-upload.Zoom
-MinimumVersion: '2.3'
+MinimumVersion: 2.3.0
 ParentRecipe: com.github.homebysix.pkg.Zoom
 
 Input:
@@ -27,6 +27,12 @@ Input:
   JAMF_PKG_REPLACE_METADATA: 'False'
 
 Process:
+  - Processor: PlistReader
+    Arguments:
+      info_path: '%RECIPE_CACHE_DIR%/%NAME%/Applications/zoom.us.app/Contents/Info.plist'
+      plist_keys:
+        CFBundleShortVersionString: version
+    
   - Processor: com.github.grahampugh.jamf-upload.processors/JamfCategoryUploader
     Arguments:
       category_name: '%JAMF_CATEGORY%'
