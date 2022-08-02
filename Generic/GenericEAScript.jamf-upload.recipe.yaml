@@ -19,6 +19,7 @@ MinimumVersion: 2.3.0
 Input:
   NAME: GenericEAScript
   JAMF_EA_REPLACE: 'False'
+  JAMF_EA_DATA_TYPE: 'String'
 
 Process:
 - Processor: PackageRequired
@@ -28,4 +29,4 @@ Process:
     ea_name: '%NAME%'
     ea_script_path: '%PKG%'
     replace_ea: '%JAMF_EA_REPLACE%'
-
+    ea_data_type: '%JAMF_EA_DATA_TYPE%'
