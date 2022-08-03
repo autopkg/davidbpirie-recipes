@@ -25,7 +25,7 @@ Input:
   JAMF_COMPUTERGROUP_REPLACE: 'False'
 
 Process:
-- Processor: com.github.grahampugh.jamf-upload.processors/JamfScriptUploader
+- Processor: com.github.grahampugh.jamf-upload.processors/JamfComputerGroupUploader
   Arguments:
     computergroup_name: '%JAMF_COMPUTERGROUP_NAME%'
     computergroup_template: '%JAMF_COMPUTERGROUP_TEMPLATE%'
