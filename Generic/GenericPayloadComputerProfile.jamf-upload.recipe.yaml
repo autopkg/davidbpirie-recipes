@@ -19,7 +19,7 @@ MinimumVersion: 2.3.0
 
 Input:
   NAME: GenericPayloadComputerProfile
-  JAMF_CATEGORY: Scripts
+  JAMF_CATEGORY: Configuration
   JAMF_CATEGORY_PRIORITY: '10'
   JAMF_CATEGORY_REPLACE: 'False'
   JAMF_COMPUTERPROFILE_NAME: '%NAME%'
