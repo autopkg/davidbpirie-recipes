@@ -1,0 +1,28 @@
+Description: |
+  Generic jamf-upload recipe to be used with overrides for repeated
+  manual upload of a dock item.
+
+  Intended use is to generate an override from this recipe, then
+  give the override an unique Identifier, rename it, and populate
+  all the Input variables.
+
+  JSS_URL, API_USERNAME, and API_PASSWORD are expected to be populated
+  in your AutoPkg preferences, override Input variables, or by
+  command-line keys.
+Identifier: com.github.davidbpirie.jamf-upload.genericdockitem
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: GenericDockItem
+  JAMF_DOCKITEM_NAME: '%NAME%'
+  JAMF_DOCKITEM_TYPE: 'App'
+  JAMF_DOCKITEM_PATH: 'file:///Applications/%NAME%.app/'
+  JAMF_DOCKITEM_REPLACE: 'False'
+
+Process:
+- Processor: com.github.grahampugh.jamf-upload.processors/JamfDockItemUploader
+  Arguments:
+    dock_item_name: '%JAMF_DOCKITEM_NAME%'
+    dock_item_type: '%JAMF_DOCKITEM_TYPE%'
+    dock_item_path: '%JAMF_DOCKITEM_PATH%'
+    replace_dock_item: '%JAMF_DOCKITEM_REPLACE%'
