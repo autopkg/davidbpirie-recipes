@@ -1,6 +1,7 @@
 Description: |
   Generic jamf-upload recipe to be used with overrides for repeated
-  manual upload of a Computer Profile from a Payload XML file.
+  manual upload of a Computer Profile from a Payload XML file,
+  creating the Category if required.
 
   Intended use is to generate an override from this recipe, then
   give the override an unique Identifier, rename it, and populate
