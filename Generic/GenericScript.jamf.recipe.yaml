@@ -1,0 +1,41 @@
+Description: |
+  Generic jamf recipe to be used with overrides for repeated
+  manual upload of a script, creating the Category if required,
+  and then creates a Policy from the provided template.
+
+  Intended use is to generate an override from this recipe, then
+  give the override an unique Identifier, rename it, and populate
+  all the Input variables.
+
+  When using the recipe, also provide the source via the -p parameter eg:
+  autopkg run MyScript.jamf -p MyScript.sh
+
+  JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
+  SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
+  in your AutoPkg preferences, override Input variables, or by
+  command-line keys.
+
+  Template file for JAMF_POLICY_TEMPLATE need to either be found in your
+  recipe search path or provide a full path. Examples are available from
+  https://github.com/autopkg/grahampugh-recipes/tree/main/Jamf_Recipes.
+  It is recommended to store it in your RecipeOverrides directory and
+  can be shared across multiple recipe overrides.
+
+Identifier: com.github.davidbpirie.jamf.genericscript
+ParentRecipe: com.github.davidbpirie.jamf-upload.genericscript
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: GenericScript
+  JAMF_POLICY_ICON: "%NAME%.png"
+  JAMF_POLICY_NAME: "Run %NAME%"
+  JAMF_POLICY_TEMPLATE: "JamfPolicyTemplate.xml"
+
+Process:
+- Processor: com.github.grahampugh.jamf-upload.processors/JamfPolicyUploader
+  Arguments:
+    policy_name: "%JAMF_POLICY_NAME%"
+    icon: "%JAMF_POLICY_ICON%"
+    policy_template: "%JAMF_POLICY_TEMPLATE%"
+    replace_policy: "%JAMF_REPLACE_POLICY%"
+    replace_icon: "%JAMF_REPLACE_ICON%"
