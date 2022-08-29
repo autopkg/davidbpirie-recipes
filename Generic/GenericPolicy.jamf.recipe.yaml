@@ -26,6 +26,8 @@ Input:
   JAMF_POLICY_ICON: '%NAME%.png'
   JAMF_POLICY_NAME: '%NAME%'
   JAMF_POLICY_TEMPLATE: 'Put_Policy_Template_into_AutoPkg_recipe_override'
+  JAMF_REPLACE_ICON: "False"
+  JAMF_REPLACE_POLICY: "True"
 
 Process:
   - Processor: StopProcessingIf
