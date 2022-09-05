@@ -35,6 +35,7 @@ ParentRecipe: com.github.davidbpirie.pkg.CiscoSecureClient
 
 Input:
   NAME: Cisco Secure Client
+  SRC_PKG_NAME: Cisco Secure Client.pkg
   PKG_ID: com.github.davidbpirie.CiscoSecureClient
   desired_choices:
     - choice_anyconnect_vpn
