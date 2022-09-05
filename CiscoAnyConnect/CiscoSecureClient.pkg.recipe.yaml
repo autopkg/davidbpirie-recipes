@@ -1,0 +1,111 @@
+Description: |
+  Creates a package that installs the Cisco Secure Client pkg via a
+  postinstall script, applying a custom set of choices.
+
+  Largely inspired (ie plagiarised with <3) from Graham Pugh's Cisco
+  AnyConnect recipe com.github.grahampugh.recipes.pkg.CiscoAnyConnect.
+
+  Package source must be provided either as PKG or via the -p parameter
+  eg autopkg run CiscoSecureClient.pkg -p "path/to/predeploy.dmg/Cisco Secure Client.pkg"
+
+  PKG_ID is the ID of the generated package.
+
+  desired_choices is the list of pkg components you would like installed.
+  Default is just the VPN component. To find all available choices, run:
+  installer -showChoicesXML -pkg path/to/Cisco\ Secure\ Client.pkg
+
+  PROFILES should be a path to a folder containing profile xml files for
+  the desired services. An example is included with this recipe, with a
+  single example.xml file under vpn. See the administrator guide at
+  https://www.cisco.com/c/en/us/support/security/secure-client-5/model.html
+  for more details on generating profile xml files.
+Identifier: com.github.davidbpirie.pkg.CiscoSecureClient
+MinimumVersion: "2.3"
+
+Input:
+  NAME: Cisco Secure Client
+  PKG_ID: com.github.davidbpirie.CiscoSecureClient
+  desired_choices:
+    - choice_anyconnect_vpn
+  PROFILES: "%RECIPE_DIR%/CiscoSecureClientProfiles"
+
+Process:
+  - Processor: PackageRequired
+
+  - Processor: PkgRootCreator
+    Arguments:
+      pkgdirs:
+        payload: "0775"
+        scripts: "0775"
+      pkgroot: "%RECIPE_CACHE_DIR%/%NAME%"
+
+  - Processor: Copier
+    Arguments:
+      source_path: "%PROFILES%"
+      destination_path: "%RECIPE_CACHE_DIR%/%NAME%/scripts/Profiles"
+      overwrite: True
+
+  - Processor: PkgCopier
+    Arguments:
+      source_pkg: "%PKG%"
+      pkg_path: "%RECIPE_CACHE_DIR%/%NAME%/scripts/%NAME%.pkg"
+
+  - Processor: FlatPkgUnpacker
+    Arguments:
+      flat_pkg_path: "%pkg_path%"
+      skip_payload: False
+      destination_path: "%RECIPE_CACHE_DIR%/unpack"
+      purge_destination: True
+
+  - Processor: PkgPayloadUnpacker
+    Arguments:
+      pkg_payload_path: "%RECIPE_CACHE_DIR%/unpack/vpn_module.pkg/Payload"
+      destination_path: "%RECIPE_CACHE_DIR%/unpack-payload"
+      purge_destination: True
+
+  - Processor: PlistReader
+    Arguments:
+      info_path: "%RECIPE_CACHE_DIR%/unpack-payload/Applications/Cisco/Cisco Secure Client.app"
+      plist_keys:
+        CFBundleShortVersionString: version
+
+  - Processor: com.github.grahampugh.recipes.commonprocessors/ChoicesXMLGenerator
+    Arguments:
+      choices_pkg_path: "%pkg_path%"
+      choices_xml_dest: "%RECIPE_CACHE_DIR%/%NAME%/scripts/choices.xml"
+
+  - Processor: FileCreator
+    Arguments:
+      file_content: |
+        #!/bin/zsh
+
+        ################################################################################
+        #
+        # Installs the Cisco Secure Client package, applying the choices.xml choices file
+        #
+        ################################################################################
+
+        ROOT_DIR="$( cd -- "$(/usr/bin/dirname "$0")"; pwd -P )"
+
+        /usr/sbin/installer -applyChoiceChangesXML "${ROOT_DIR}/choices.xml" -pkg "${ROOT_DIR}/%NAME%.pkg" -target /
+        exit $?
+      file_mode: "0755"
+      file_path: "%RECIPE_CACHE_DIR%/%NAME%/scripts/postinstall"
+
+  - Processor: PkgCreator
+    Arguments:
+      pkg_request:
+        chown: []
+        id: "%PKG_ID%"
+        options: purge_ds_store
+        pkgname: "%NAME%-%version%"
+        pkgroot: "%RECIPE_CACHE_DIR%/%NAME%/payload"
+        scripts: "%RECIPE_CACHE_DIR%/%NAME%/scripts"
+        version: "%version%"
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+        - "%RECIPE_CACHE_DIR%/%NAME%"
+        - "%RECIPE_CACHE_DIR%/unpack"
+        - "%RECIPE_CACHE_DIR%/unpack-payload"

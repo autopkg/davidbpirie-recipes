@@ -1,0 +1,71 @@
+Description: |
+  Creates a package that installs the Cisco Secure Client pkg via a
+  postinstall script, applying a custom set of choices, then uploads the
+  package to Jamf Pro, creating the Category if required.
+
+  Largely inspired (ie plagiarised with <3) from Graham Pugh's Cisco
+  AnyConnect recipe com.github.grahampugh.recipes.pkg.CiscoAnyConnect.
+
+  Package source must be provided either as PKG or via the -p parameter
+  eg autopkg run CiscoSecureClient.jamf-upload -p "path/to/predeploy.dmg/Cisco Secure Client.pkg"
+
+  PKG_ID is the ID of the generated package.
+
+  desired_choices is the list of pkg components you would like installed.
+  Default is just the VPN component. To find all available choices, run:
+  installer -showChoicesXML -pkg path/to/Cisco\ Secure\ Client.pkg
+
+  PROFILES should be a path to a folder containing profile xml files for
+  the desired services. An example is included with this recipe, with a
+  single example.xml file under vpn. See the administrator guide at
+  https://www.cisco.com/c/en/us/support/security/secure-client-5/model.html
+  for more details on generating profile xml files.
+
+  JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
+  SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
+  in your AutoPkg preferences, override Input variables, or by
+  command-line keys.
+Identifier: com.github.davidbpirie.jamf-upload.CiscoSecureClient
+MinimumVersion: "2.3"
+ParentRecipe: com.github.davidbpirie.pkg.CiscoSecureClient
+
+Input:
+  NAME: Cisco Secure Client
+  PKG_ID: com.github.davidbpirie.CiscoSecureClient
+  desired_choices:
+    - choice_anyconnect_vpn
+  PROFILES: "%RECIPE_DIR%/CiscoSecureClientProfiles"
+  JAMF_CATEGORY: Utilities
+  JAMF_CATEGORY_PRIORITY: "10"
+  JAMF_CATEGORY_REPLACE: "False"
+  JAMF_PKG_NAME: "%NAME%"
+  JAMF_PKG_INFO: "Secure Client harnesses the powerful industry-leading AnyConnect VPN/ZTNA and helps IT and security professionals manage dynamic and scalable endpoint security agents in a unified view."
+  JAMF_PKG_NOTES: "Generated and uploaded by AutoPkg"
+  JAMF_PKG_PRIORITY: "10"
+  JAMF_PKG_REBOOT_REQUIRED: "False"
+  JAMF_PKG_OS_REQUIREMENTS: ""
+  JAMF_PKG_REQUIRED_PROCESSOR: None
+  JAMF_PKG_SEND_NOTIFICATION: "False"
+  JAMF_PKG_REPLACE: "False"
+  JAMF_PKG_REPLACE_METADATA: "False"
+
+Process:
+  - Processor: com.github.grahampugh.jamf-upload.processors/JamfCategoryUploader
+    Arguments:
+      category_name: "%JAMF_CATEGORY%"
+      category_priority: "%JAMF_CATEGORY_PRIORITY%"
+      replace_category: "%JAMF_CATEGORY_REPLACE%"
+
+  - Processor: com.github.grahampugh.jamf-upload.processors/JamfPackageUploader
+    Arguments:
+      pkg_name: "%JAMF_PKG_NAME%-%version%.pkg"
+      pkg_category: "%JAMF_CATEGORY%"
+      pkg_info: "%JAMF_PKG_INFO%"
+      pkg_notes: "%JAMF_PKG_NOTES%"
+      pkg_priority: "%JAMF_PKG_PRIORITY%"
+      reboot_required: "%JAMF_PKG_REBOOT_REQUIRED%"
+      os_requirements: "%JAMF_PKG_OS_REQUIREMENTS%"
+      required_processor: "%JAMF_PKG_REQUIRED_PROCESSOR%"
+      send_notification: "%JAMF_PKG_SEND_NOTIFICATION%"
+      replace_pkg: "%JAMF_PKG_REPLACE%"
+      replace_pkg_metadata: "%JAMF_PKG_REPLACE_METADATA%"
