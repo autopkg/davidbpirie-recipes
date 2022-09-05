@@ -5,8 +5,12 @@ Description: |
   Largely inspired (ie plagiarised with <3) from Graham Pugh's Cisco
   AnyConnect recipe com.github.grahampugh.recipes.pkg.CiscoAnyConnect.
 
-  Package source must be provided either as PKG or via the -p parameter
-  eg autopkg run CiscoSecureClient.pkg -p "path/to/predeploy.dmg/Cisco Secure Client.pkg"
+  Package source DMG must be provided either as Input Variable PKG or
+  via the -p parameter eg:
+  autopkg run CiscoSecureClient.pkg -p "path/to/predeploy.dmg"
+
+  SRC_PKG_NAME is the name of the pkg inside the DMG, which is usually
+  the default value Cisco Secure Client.pkg
 
   PKG_ID is the ID of the generated package.
 
@@ -24,6 +28,7 @@ MinimumVersion: "2.3"
 
 Input:
   NAME: Cisco Secure Client
+  SRC_PKG_NAME: Cisco Secure Client.pkg
   PKG_ID: com.github.davidbpirie.CiscoSecureClient
   desired_choices:
     - choice_anyconnect_vpn
@@ -47,7 +52,7 @@ Process:
 
   - Processor: PkgCopier
     Arguments:
-      source_pkg: "%PKG%"
+      source_pkg: "%PKG%/%SRC_PKG_NAME%"
       pkg_path: "%RECIPE_CACHE_DIR%/%NAME%/scripts/%NAME%.pkg"
 
   - Processor: FlatPkgUnpacker
