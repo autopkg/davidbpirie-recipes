@@ -24,29 +24,29 @@ MinimumVersion: 2.3.0
 Input:
   NAME: GenericPolicy
   JAMF_CATEGORY: Policies
-  JAMF_CATEGORY_PRIORITY: '10'
-  JAMF_CATEGORY_REPLACE: 'False'
-  JAMF_POLICY_ICON: '%NAME%.png'
-  JAMF_POLICY_NAME: '%NAME%'
-  JAMF_POLICY_TEMPLATE: 'Put_Policy_Template_into_AutoPkg_recipe_override'
-  JAMF_REPLACE_ICON: 'false'
-  JAMF_REPLACE_POLICY: 'true'
+  JAMF_CATEGORY_PRIORITY: "10"
+  JAMF_CATEGORY_REPLACE: "False"
+  JAMF_POLICY_ICON: "%NAME%.png"
+  JAMF_POLICY_NAME: "%NAME%"
+  JAMF_POLICY_TEMPLATE: "Put_Policy_Template_into_AutoPkg_recipe_override"
+  JAMF_REPLACE_ICON: "false"
+  JAMF_REPLACE_POLICY: "true"
 
 Process:
-- Processor: StopProcessingIf
-  Arguments:
-    predicate: JAMF_POLICY_TEMPLATE == "Put_Policy_Template_into_AutoPkg_recipe_override"
+  - Processor: StopProcessingIf
+    Arguments:
+      predicate: JAMF_POLICY_TEMPLATE == "Put_Policy_Template_into_AutoPkg_recipe_override"
 
-- Processor: com.github.grahampugh.jamf-upload.processors/JamfCategoryUploader
-  Arguments:
-    category_name: '%JAMF_CATEGORY%'
-    category_priority: '%JAMF_CATEGORY_PRIORITY%'
-    replace_category: '%JAMF_CATEGORY_REPLACE%'
+  - Processor: com.github.grahampugh.jamf-upload.processors/JamfCategoryUploader
+    Arguments:
+      category_name: "%JAMF_CATEGORY%"
+      category_priority: "%JAMF_CATEGORY_PRIORITY%"
+      replace_category: "%JAMF_CATEGORY_REPLACE%"
 
   - Processor: com.github.grahampugh.jamf-upload.processors/JamfPolicyUploader
     Arguments:
-      policy_name: '%JAMF_POLICY_NAME%'
-      icon: '%JAMF_POLICY_ICON%'
-      policy_template: '%JAMF_POLICY_TEMPLATE%'
-      replace_policy: '%JAMF_REPLACE_POLICY%'
-      replace_icon: '%JAMF_REPLACE_ICON%'
+      policy_name: "%JAMF_POLICY_NAME%"
+      icon: "%JAMF_POLICY_ICON%"
+      policy_template: "%JAMF_POLICY_TEMPLATE%"
+      replace_policy: "%JAMF_REPLACE_POLICY%"
+      replace_icon: "%JAMF_REPLACE_ICON%"
