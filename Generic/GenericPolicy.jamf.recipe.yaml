@@ -33,9 +33,9 @@ Input:
   JAMF_REPLACE_POLICY: 'true'
 
 Process:
-  - Processor: StopProcessingIf
-    Arguments:
-      predicate: JAMF_POLICY_TEMPLATE == "Put_Policy_Template_into_AutoPkg_recipe_override"
+- Processor: StopProcessingIf
+  Arguments:
+    predicate: JAMF_POLICY_TEMPLATE == "Put_Policy_Template_into_AutoPkg_recipe_override"
 
 - Processor: com.github.grahampugh.jamf-upload.processors/JamfCategoryUploader
   Arguments:
