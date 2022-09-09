@@ -23,6 +23,9 @@ MinimumVersion: 2.3.0
 
 Input:
   NAME: GenericPolicy
+  JAMF_CATEGORY: Policies
+  JAMF_CATEGORY_PRIORITY: '10'
+  JAMF_CATEGORY_REPLACE: 'False'
   JAMF_POLICY_ICON: '%NAME%.png'
   JAMF_POLICY_NAME: '%NAME%'
   JAMF_POLICY_TEMPLATE: 'Put_Policy_Template_into_AutoPkg_recipe_override'
@@ -32,7 +35,13 @@ Input:
 Process:
   - Processor: StopProcessingIf
     Arguments:
-      predicate: JAMF_POLICY_TEMPLATE == "Put_Signing_Certificate_into_AutoPkg_recipe_override"
+      predicate: JAMF_POLICY_TEMPLATE == "Put_Policy_Template_into_AutoPkg_recipe_override"
+
+- Processor: com.github.grahampugh.jamf-upload.processors/JamfCategoryUploader
+  Arguments:
+    category_name: '%JAMF_CATEGORY%'
+    category_priority: '%JAMF_CATEGORY_PRIORITY%'
+    replace_category: '%JAMF_CATEGORY_REPLACE%'
 
   - Processor: com.github.grahampugh.jamf-upload.processors/JamfPolicyUploader
     Arguments:
