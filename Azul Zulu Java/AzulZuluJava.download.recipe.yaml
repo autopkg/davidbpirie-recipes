@@ -1,0 +1,28 @@
+Description: |
+  Downloads the latest release version of Azul Zulu Java for given
+  Java version, architecture, bundle type (JDK/JRE) and file
+  extension.
+  Architectures: x86, arm
+  Extensions: zip, tar.gz, dmg
+  Bundle Types: jre, jdk, jre_fx, jdk_fx
+Identifier: com.github.davidbpirie.download.AzulZuluJava
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: AzulZuluJava
+  JAVA_MAJOR_VERSION: 18
+  ARCHITECTURE: arm
+  DOWNLOAD_FILE_EXTENSION: dmg
+  BUNDLE_TYPE: jdk
+
+Process:
+- Processor: AzulZuluJavaInfoProvider
+  Arguments:
+    java_major_version: "%JAVA_MAJOR_VERSION%"
+    arch: "%ARCHITECTURE%"
+    extension: "%DOWNLOAD_FILE_EXTENSION%"
+    bundle_type: "%BUNDLE_TYPE%"
+
+- Processor: URLDownloaderPython
+
+- Processor: EndOfCheckPhase

@@ -1,0 +1,29 @@
+Description: |
+  Downloads the latest release dmg version of Azul Zulu Java for
+  given Java version, architecture, and bundle type (JDK/JRE),
+  and copies the package.
+  Architectures: x86, arm
+  Bundle Types: jre, jdk, jre_fx, jdk_fx
+Identifier: com.github.davidbpirie.pkg.AzulZuluJava
+ParentRecipe: com.github.davidbpirie.download.AzulZuluJava
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: AzulZuluJava
+  JAVA_MAJOR_VERSION: 18
+  ARCHITECTURE: arm
+  DOWNLOAD_FILE_EXTENSION: dmg
+  BUNDLE_TYPE: jdk
+
+Process:
+- Processor: PkgCopier
+  Arguments:
+    source_pkg: '%pathname%/*.pkg'
+
+- Processor: CodeSignatureVerifier
+  Arguments:
+    input_path: '%pkg_path%'
+    expected_authority_names:
+    - 'Developer ID Installer: Azul Systems, Inc. (TDTHCUPYFR)'
+    - Developer ID Certification Authority
+    - Apple Root CA
