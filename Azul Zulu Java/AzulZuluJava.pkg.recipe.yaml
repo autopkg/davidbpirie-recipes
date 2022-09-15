@@ -10,7 +10,7 @@ MinimumVersion: 2.3.0
 
 Input:
   NAME: AzulZuluJava
-  JAVA_MAJOR_VERSION: 18
+  JAVA_MAJOR_VERSION: "18"
   ARCHITECTURE: arm
   DOWNLOAD_FILE_EXTENSION: dmg
   BUNDLE_TYPE: jdk
