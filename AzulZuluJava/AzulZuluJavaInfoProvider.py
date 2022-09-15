@@ -104,7 +104,7 @@ class AzulZuluJavaInfoProvider(URLGetter):
         self.env["url"] = data["url"]
         self.env["version"] = ".".join([str(x) for x in data["zulu_version"]])
         self.env["java_version"] = ".".join([str(x) for x in data["java_version"]])
-        self.env["openjdk_build_number"] = data["openjdk_build_number"]
+        self.env["openjdk_build_number"] = str(data["openjdk_build_number"])
         self.env["sha256_hash"] = data["sha256_hash"]
         self.output(f"Found URL {self.env['url']} for version {self.env['version']}")
 
