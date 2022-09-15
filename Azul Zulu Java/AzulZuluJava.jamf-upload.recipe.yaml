@@ -1,0 +1,55 @@
+Description: |
+  Downloads the latest release dmg version of Azul Zulu Java for
+  given Java version, architecture, and bundle type (JDK/JRE),
+  then uploads the package to Jamf Pro, creating the Category if required.
+
+  Architectures: x86, arm
+  Bundle Types: jre, jdk, jre_fx, jdk_fx
+
+  JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
+  SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
+  in your AutoPkg preferences, override Input variables, or by
+  command-line keys.
+Identifier: com.github.davidbpirie.jamf-upload.AzulZuluJava
+MinimumVersion: 2.3.0
+ParentRecipe: com.github.davidbpirie.pkg.AzulZuluJava
+
+Input:
+  NAME: AzulZuluJava
+  JAVA_MAJOR_VERSION: "18"
+  ARCHITECTURE: arm
+  BUNDLE_TYPE: jdk
+  JAMF_CATEGORY: Developer Tools
+  JAMF_CATEGORY_PRIORITY: '10'
+  JAMF_CATEGORY_REPLACE: 'False'
+  JAMF_PKG_NAME: '%NAME%'
+  JAMF_PKG_INFO: 'Azul Zulu builds of OpenJDK are open source, TCK-tested and certified builds of OpenJDK. Azul Zulu is available for a wide range of hardware platforms and operating systems.'
+  JAMF_PKG_NOTES: 'Generated and uploaded by AutoPkg'
+  JAMF_PKG_PRIORITY: '10'
+  JAMF_PKG_REBOOT_REQUIRED: 'False'
+  JAMF_PKG_OS_REQUIREMENTS: ''
+  JAMF_PKG_REQUIRED_PROCESSOR: None
+  JAMF_PKG_SEND_NOTIFICATION: 'False'
+  JAMF_PKG_REPLACE: 'False'
+  JAMF_PKG_REPLACE_METADATA: 'False'
+
+Process:
+  - Processor: com.github.grahampugh.jamf-upload.processors/JamfCategoryUploader
+    Arguments:
+      category_name: '%JAMF_CATEGORY%'
+      category_priority: '%JAMF_CATEGORY_PRIORITY%'
+      replace_category: '%JAMF_CATEGORY_REPLACE%'
+
+  - Processor: com.github.grahampugh.jamf-upload.processors/JamfPackageUploader
+    Arguments:
+      pkg_name: '%JAMF_PKG_NAME%_%java_version%.%openjdk_build_number%__%BUNDLE_TYPE%_%ARCHITECTURE%-%version%.pkg'
+      pkg_category: '%JAMF_CATEGORY%'
+      pkg_info: '%JAMF_PKG_INFO%'
+      pkg_notes: '%JAMF_PKG_NOTES%'
+      pkg_priority: '%JAMF_PKG_PRIORITY%'
+      reboot_required: '%JAMF_PKG_REBOOT_REQUIRED%'
+      os_requirements: '%JAMF_PKG_OS_REQUIREMENTS%'
+      required_processor: '%JAMF_PKG_REQUIRED_PROCESSOR%'
+      send_notification: '%JAMF_PKG_SEND_NOTIFICATION%'
+      replace_pkg: '%JAMF_PKG_REPLACE%'
+      replace_pkg_metadata: '%JAMF_PKG_REPLACE_METADATA%'
