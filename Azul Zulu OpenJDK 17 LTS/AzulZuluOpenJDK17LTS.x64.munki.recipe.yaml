@@ -29,6 +29,12 @@ Input:
     unattended_uninstall: true
 
 Process:
+- Processor: DeprecationWarning
+  Arguments:
+    warning_message: |
+      This processor is deprecated and will be removed from this repository by 2022/10/30.
+      You may want to consider the more generic and flexible AzulZuluJava recipes I have written.
+
 - Processor: FlatPkgUnpacker
   Arguments:
     destination_path: '%RECIPE_CACHE_DIR%/unpack'

@@ -10,6 +10,12 @@ Input:
   ARCHITECTURE: x
 
 Process:
+- Processor: DeprecationWarning
+  Arguments:
+    warning_message: |
+      This processor is deprecated and will be removed from this repository by 2022/10/30.
+      You may want to consider the more generic and flexible AzulZuluJava recipes I have written.
+
 - Processor: URLTextSearcher
   Arguments:
     re_pattern: \"(zulu17.*?-ca-jdk17.*?-macosx_%ARCHITECTURE%64\.dmg)\"
