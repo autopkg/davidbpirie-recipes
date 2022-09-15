@@ -23,6 +23,6 @@ Process:
     extension: "%DOWNLOAD_FILE_EXTENSION%"
     bundle_type: "%BUNDLE_TYPE%"
 
-- Processor: URLDownloaderPython
+- Processor: URLDownloader
 
 - Processor: EndOfCheckPhase
