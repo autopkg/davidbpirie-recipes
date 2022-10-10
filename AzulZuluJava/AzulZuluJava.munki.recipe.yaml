@@ -43,6 +43,40 @@ Process:
     supported_architectures:
     - '%munki_arch%'
 
+- Processor: FlatPkgUnpacker
+  Arguments:
+    destination_path: '%RECIPE_CACHE_DIR%/unpack'
+    flat_pkg_path: '%pkg_path%'
+
+- Processor: URLTextSearcher
+  Arguments:
+    re_pattern: '.*install-location="([^"]*)"'
+    url: 'file://%RECIPE_CACHE_DIR%/unpack/zulu-%JAVA_MAJOR_VERSION%.pkg/PackageInfo'
+    result_output_var_name: install_location
+
+- Processor: PkgRootCreator
+  Arguments:
+    pkgdirs:
+      Library: '0755'
+      Library/Java: '0755'
+      Library/Java/JavaVirtualMachines: '0755'
+    pkgroot: '%RECIPE_CACHE_DIR%/%NAME%'
+
+- Processor: PkgPayloadUnpacker
+  Arguments:
+    destination_path: '%RECIPE_CACHE_DIR%/%NAME%%install_location%'
+    pkg_payload_path: '%RECIPE_CACHE_DIR%/unpack/zulu-%JAVA_MAJOR_VERSION%.pkg/Payload'
+    purge_destination: true
+
+- Processor: MunkiInstallsItemsCreator
+  Arguments:
+    faux_root: '%RECIPE_CACHE_DIR%/%NAME%/'
+    installs_item_paths:
+    - '%install_location%'
+    version_comparison_key: CFBundleVersion
+
+- Processor: MunkiPkginfoMerger
+
 - Processor: MunkiImporter
   Arguments:
     pkg_path: '%pkg_path%'
@@ -52,3 +86,5 @@ Process:
   Arguments:
     path_list:
     - '%pkg_path%'
+    - '%RECIPE_CACHE_DIR%/%NAME%/'
+    - '%RECIPE_CACHE_DIR%/unpack/'
