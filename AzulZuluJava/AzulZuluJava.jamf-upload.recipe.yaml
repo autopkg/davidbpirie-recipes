@@ -34,22 +34,27 @@ Input:
   JAMF_PKG_REPLACE_METADATA: 'False'
 
 Process:
-  - Processor: com.github.grahampugh.jamf-upload.processors/JamfCategoryUploader
-    Arguments:
-      category_name: '%JAMF_CATEGORY%'
-      category_priority: '%JAMF_CATEGORY_PRIORITY%'
-      replace_category: '%JAMF_CATEGORY_REPLACE%'
+- Processor: com.github.grahampugh.jamf-upload.processors/JamfCategoryUploader
+  Arguments:
+    category_name: '%JAMF_CATEGORY%'
+    category_priority: '%JAMF_CATEGORY_PRIORITY%'
+    replace_category: '%JAMF_CATEGORY_REPLACE%'
 
-  - Processor: com.github.grahampugh.jamf-upload.processors/JamfPackageUploader
-    Arguments:
-      pkg_name: '%JAMF_PKG_NAME%_%java_version%.%openjdk_build_number%_%BUNDLE_TYPE%_%ARCHITECTURE%-%version%.pkg'
-      pkg_category: '%JAMF_CATEGORY%'
-      pkg_info: '%JAMF_PKG_INFO%'
-      pkg_notes: '%JAMF_PKG_NOTES%'
-      pkg_priority: '%JAMF_PKG_PRIORITY%'
-      reboot_required: '%JAMF_PKG_REBOOT_REQUIRED%'
-      os_requirements: '%JAMF_PKG_OS_REQUIREMENTS%'
-      required_processor: '%JAMF_PKG_REQUIRED_PROCESSOR%'
-      send_notification: '%JAMF_PKG_SEND_NOTIFICATION%'
-      replace_pkg: '%JAMF_PKG_REPLACE%'
-      replace_pkg_metadata: '%JAMF_PKG_REPLACE_METADATA%'
+- Processor: com.github.grahampugh.jamf-upload.processors/JamfPackageUploader
+  Arguments:
+    pkg_name: '%JAMF_PKG_NAME%_%java_version%.%openjdk_build_number%_%BUNDLE_TYPE%_%ARCHITECTURE%-%version%.pkg'
+    pkg_category: '%JAMF_CATEGORY%'
+    pkg_info: '%JAMF_PKG_INFO%'
+    pkg_notes: '%JAMF_PKG_NOTES%'
+    pkg_priority: '%JAMF_PKG_PRIORITY%'
+    reboot_required: '%JAMF_PKG_REBOOT_REQUIRED%'
+    os_requirements: '%JAMF_PKG_OS_REQUIREMENTS%'
+    required_processor: '%JAMF_PKG_REQUIRED_PROCESSOR%'
+    send_notification: '%JAMF_PKG_SEND_NOTIFICATION%'
+    replace_pkg: '%JAMF_PKG_REPLACE%'
+    replace_pkg_metadata: '%JAMF_PKG_REPLACE_METADATA%'
+
+- Processor: PathDeleter
+  Arguments:
+    path_list:
+    - '%pkg_path%'

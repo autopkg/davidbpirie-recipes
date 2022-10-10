@@ -18,12 +18,13 @@ Input:
 Process:
 - Processor: PkgCopier
   Arguments:
-    source_pkg: '%pathname%/*.pkg'
+    source_pkg: "%pathname%/*.pkg"
+    pkg_path: "%RECIPE_CACHE_DIR%/%NAME%_%java_version%.%openjdk_build_number%_%BUNDLE_TYPE%_%ARCHITECTURE%-%version%.pkg"
 
 - Processor: CodeSignatureVerifier
   Arguments:
-    input_path: '%pkg_path%'
+    input_path: "%pkg_path%"
     expected_authority_names:
-    - 'Developer ID Installer: Azul Systems, Inc. (TDTHCUPYFR)'
-    - Developer ID Certification Authority
-    - Apple Root CA
+      - "Developer ID Installer: Azul Systems, Inc. (TDTHCUPYFR)"
+      - Developer ID Certification Authority
+      - Apple Root CA
