@@ -33,6 +33,11 @@ SUPPORTED_ARCHS = ["x86", "arm"]
 SUPPORTED_EXTENSIONS = ["zip", "tar.gz", "dmg"]
 SUPPORTED_BUNDLE_TYPES = ["jre", "jdk", "jre_fx", "jdk_fx"]
 
+MUNKI_ARCHS = {
+    "x86": "x86_64",
+    "arm": "arm64"
+}
+
 class AzulZuluJavaInfoProvider(URLGetter):
     """Provides URL to the latest Azul Zulu Java release."""
 
@@ -65,6 +70,7 @@ class AzulZuluJavaInfoProvider(URLGetter):
         "java_version": {"description": "Java version."},
         "openjdk_build_number": {"description": "OpenJDK build number."},
         "sha256_hash": {"description": "SHA256 hash for the download."},
+        "munki_arch": {"description": "Architecture appropriate for the munki pkginfo key supported_architectures"},
     }
 
 
@@ -106,6 +112,7 @@ class AzulZuluJavaInfoProvider(URLGetter):
         self.env["java_version"] = ".".join([str(x) for x in data["java_version"]])
         self.env["openjdk_build_number"] = str(data["openjdk_build_number"])
         self.env["sha256_hash"] = data["sha256_hash"]
+        self.env["munki_arch"] = MUNKI_ARCHS[arch]
         self.output(f"Found URL {self.env['url']} for version {self.env['version']}")
 
 

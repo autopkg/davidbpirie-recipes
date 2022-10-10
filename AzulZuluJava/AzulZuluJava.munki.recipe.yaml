@@ -1,0 +1,55 @@
+Description: |
+  Downloads the latest release dmg version of Azul Zulu Java for
+  given Java version, architecture, and bundle type (JDK/JRE),
+  then uploads the package to munki.
+
+  Architectures: x86, arm
+  Bundle Types: jre, jdk, jre_fx, jdk_fx
+  Munki Architectures: x86_64, arm64
+
+Identifier: com.github.davidbpirie.munki.AzulZuluJava
+MinimumVersion: 2.3.0
+ParentRecipe: com.github.davidbpirie.pkg.AzulZuluJava
+
+Input:
+  NAME: AzulZuluJava
+  JAVA_MAJOR_VERSION: "18"
+  ARCHITECTURE: arm
+  BUNDLE_TYPE: jdk
+  MUNKI_ARCHITECTURE: arm64
+  MUNKI_CATEGORY: Developer Tools
+  MUNKI_DESCRIPTION: Azul Zulu builds of OpenJDK are open source, TCK-tested and certified builds of OpenJDK. Azul Zulu is available for a wide range of hardware platforms and operating systems.
+  MUNKI_DEVELOPER: Azul Systems
+  MUNKI_DISPLAYNAME: 'Azul Zulu Java %JAVA_MAJOR_VERSION% %BUNDLE_TYPE% %ARCHITECTURE%'
+  MUNKI_MINIMUM_OS_VERSION: 10.14.0
+  MUNKI_REPO_SUBDIR: '%MUNKI_CATEGORY%/%MUNKI_DEVELOPER%/%NAME%/%ARCHITECTURE%'
+  pkginfo:
+    catalogs:
+    - testing
+    category: '%MUNKI_CATEGORY%'
+    description: '%MUNKI_DESCRIPTION%'
+    developer: '%MUNKI_DEVELOPER%'
+    display_name: '%MUNKI_DISPLAYNAME%'
+    minimum_os_version: '%MUNKI_MINIMUM_OS_VERSION%'
+    name: '%NAME%'
+    unattended_install: true
+    unattended_uninstall: true
+
+Process:
+- Processor: MunkiPkginfoMerger
+  Arguments:
+    additional_pkginfo:
+      version: '%version%'
+    supported_architectures:
+    - '%munki_arch%'
+
+- Processor: MunkiImporter
+  Arguments:
+    pkg_path: '%pkg_path%'
+    repo_subdirectory: '%MUNKI_REPO_SUBDIR%'
+
+- Processor: PathDeleter
+  Arguments:
+    path_list:
+    - '%RECIPE_CACHE_DIR%/%NAME%/'
+    - '%RECIPE_CACHE_DIR%/unpack/'
