@@ -85,6 +85,5 @@ Process:
 - Processor: PathDeleter
   Arguments:
     path_list:
-    - '%pkg_path%'
     - '%RECIPE_CACHE_DIR%/%NAME%/'
     - '%RECIPE_CACHE_DIR%/unpack/'
