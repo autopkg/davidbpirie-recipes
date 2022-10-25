@@ -1,7 +1,7 @@
 Description: |
-  Generic jamf-upload recipe to be used with overrides for repeated
-  manual upload of a Computer Profile from a .mobileconfig file,
-  creating the Category if required.
+  Generic jamf recipe to be used with overrides for repeated manual upload
+  of a Computer Profile from a .mobileconfig file, creating the Category if
+  required.
 
   Intended use is to generate an override from this recipe, then
   give the override an unique Identifier, rename it, and populate
@@ -15,7 +15,7 @@ Description: |
   JSS_URL, API_USERNAME, and API_PASSWORD are expected to be populated
   in your AutoPkg preferences, override Input variables, or by
   command-line keys.
-Identifier: com.github.davidbpirie.jamf-upload.genericcomputerprofile
+Identifier: com.github.davidbpirie.jamf.genericcomputerprofile
 MinimumVersion: 2.3.0
 
 Input:
