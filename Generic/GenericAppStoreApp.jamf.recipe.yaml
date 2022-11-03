@@ -1,0 +1,46 @@
+Description: |
+  Adds a Mac App Store app to Jamf Pro, creating the Category if
+  required, and then creates a Policy from the provided template.
+
+  JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
+  SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
+  in your AutoPkg preferences, override Input variables, or by
+  command-line keys.
+
+  Template file JAMF_POLICY_TEMPLATE needs to either be found in your
+  recipe search path or provide a full path.
+  Examples are available from
+  https://github.com/autopkg/davidbpirie-recipes/tree/main/JamfTemplates
+  or https://github.com/autopkg/grahampugh-recipes/tree/main/Jamf_Recipes.
+  It is recommended to store it in your RecipeOverrides directory and
+  can be shared across multiple recipe overrides. Any additional
+  variable substitutions within the template need to be provided as Input
+  variables either within the override or command-line keys.
+
+Identifier: com.github.davidbpirie.jamf.genericappstoreapp
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: GenericAppStoreApp
+  JAMF_APP_NAME: Generic App Store App
+  JAMF_APP_ICON_URI:
+  JAMF_APP_POLICY_TEMPLATE: "%RECIPE_DIR%/JamfMacAppTemplate.xml"
+  JAMF_APP_REPLACE: 'True'
+  JAMF_CATEGORY: Productivity
+  JAMF_CATEGORY_PRIORITY: '10'
+  JAMF_CATEGORY_REPLACE: 'False'
+
+Process:
+  - Processor: com.github.grahampugh.jamf-upload.processors/JamfCategoryUploader
+    Arguments:
+      category_name: '%JAMF_CATEGORY%'
+      category_priority: '%JAMF_CATEGORY_PRIORITY%'
+      replace_category: '%JAMF_CATEGORY_REPLACE%'
+
+  - Processor: com.github.grahampugh.jamf-upload.processors/JamfMacAppUploader
+    Arguments:
+      macapp_name: '%JAMF_APP_NAME%'
+      selfservice_icon_uri: '%JAMF_APP_ICON_URI%'
+      macapp_template: '%JAMF_APP_POLICY_TEMPLATE%'
+      replace_macapp: '%JAMF_APP_REPLACE%'
+
