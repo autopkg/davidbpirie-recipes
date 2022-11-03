@@ -23,8 +23,8 @@ MinimumVersion: 2.3.0
 Input:
   NAME: GenericAppStoreApp
   JAMF_APP_NAME: Generic App Store App
-  JAMF_APP_ICON_URI: ''
-  JAMF_APP_POLICY_TEMPLATE: "%RECIPE_DIR%/JamfMacAppTemplate.xml"
+  JAMF_APP_ICON_URI: ' '
+  JAMF_APP_POLICY_TEMPLATE: JamfMacAppTemplate.xml
   JAMF_APP_REPLACE: 'True'
   JAMF_CATEGORY: Productivity
   JAMF_CATEGORY_PRIORITY: '10'
