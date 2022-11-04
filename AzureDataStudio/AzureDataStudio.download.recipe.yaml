@@ -4,21 +4,14 @@ MinimumVersion: 2.3.0
 
 Input:
   NAME: AzureDataStudio
-  BASE_URL: https://docs.microsoft.com/en-gb/sql/azure-data-studio/download-azure-data-studio
+  PRODUCTID: '2204569'
+  DOWNLOADURL: 'https://go.microsoft.com/fwlink/?linkid=%PRODUCTID%'
 
 Process:
-- Processor: URLTextSearcher
-  Arguments:
-    re_pattern: Download\s*<a href=\"([^\"]*)\".*>\s*?Azure Data Studio for macOS<
-    result_output_var_name: url
-    url: '%BASE_URL%'
-
 - Processor: URLDownloader
   Arguments:
-    curl_opts:
-    - --no-alpn
+    url: '%DOWNLOADURL'
     filename: azuredatastudio-macos.zip
-    url: '%url%'
 
 - Processor: EndOfCheckPhase
 
