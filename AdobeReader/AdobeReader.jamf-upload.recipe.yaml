@@ -1,5 +1,5 @@
 Description: |
-  Downloads the current Adobe Acrobat Reader DC pkg and repackages,
+  Downloads the current Adobe Acrobat Reader pkg and repackages,
   replacing a problematic preinstall script, and enabling installation
   on non-boot volumes, then uploads the package to Jamf Pro, creating
   the Category if required.
@@ -9,17 +9,17 @@ Description: |
   in your AutoPkg preferences, override Input variables, or by
   command-line keys.
 
-Identifier: com.github.davidbpirie.jamf-upload.AdobeReaderDC
+Identifier: com.github.davidbpirie.jamf-upload.AdobeReader
 MinimumVersion: 2.3.0
-ParentRecipe: com.github.autopkg.pkg.AdobeReaderDC
+ParentRecipe: com.github.autopkg.pkg.AdobeReader
 
 Input:
-  NAME: AdobeReaderDC
+  NAME: AdobeReader
   JAMF_CATEGORY: Business
   JAMF_CATEGORY_PRIORITY: '10'
   JAMF_CATEGORY_REPLACE: 'False'
   JAMF_PKG_NAME: '%NAME%'
-  JAMF_PKG_INFO: "More powerful than other PDF software, Adobe Acrobat Reader DC is the free, trusted standard for viewing, printing, and annotating PDFs. And now, it's connected to Adobe Document Cloud so it's easier than ever to work with PDFs on computers and mobile devices."
+  JAMF_PKG_INFO: "Adobe Reader is the global standard for reliably viewing, printing, and commenting on PDF documents. It's the only PDF file viewer that can open and interact with all types of PDF content, including forms and multimedia."
   JAMF_PKG_NOTES: 'Generated and uploaded by AutoPkg'
   JAMF_PKG_PRIORITY: '10'
   JAMF_PKG_REBOOT_REQUIRED: 'False'
@@ -30,13 +30,6 @@ Input:
   JAMF_PKG_REPLACE_METADATA: 'False'
 
 Process:
-- Processor: DeprecationWarning
-  Arguments:
-    warning_message: |
-      This processor is deprecated and will be removed from this repository by 2022/11/30.
-      You may want to consider the AdobeReader.jamf-upload recipe which has been updated
-      after Adobe removed the "DC" suffix.
-
   - Processor: com.github.grahampugh.jamf-upload.processors/JamfCategoryUploader
     Arguments:
       category_name: '%JAMF_CATEGORY%'
