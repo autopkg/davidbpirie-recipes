@@ -10,7 +10,7 @@ Input:
 Process:
 - Processor: URLDownloader
   Arguments:
-    url: '%DOWNLOADURL'
+    url: '%DOWNLOADURL%'
     filename: azuredatastudio-macos.zip
 
 - Processor: EndOfCheckPhase
