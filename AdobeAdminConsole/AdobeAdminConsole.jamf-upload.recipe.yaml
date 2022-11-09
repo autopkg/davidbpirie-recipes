@@ -4,8 +4,9 @@ Description: |
   package to Jamf Pro, creating the Category if required.
 
   NAME must match the name you supplied when you built the pkg in the
-  Adobe Admin Console. Requires that the expanded archive with that
-  NAME be located in ~/Downloads.
+  Adobe Admin Console, so should be provided in an override.
+  Requires that the expanded archive with that NAME be located in
+  ~/Downloads.
 
   JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
   SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
@@ -32,6 +33,10 @@ Input:
   JAMF_PKG_REPLACE_METADATA: 'False'
 
 Process:
+  - Processor: StopProcessingIf
+    Arguments:
+      predicate: NAME == "AdobeAdminConsole"
+
   - Processor: com.github.grahampugh.jamf-upload.processors/JamfCategoryUploader
     Arguments:
       category_name: '%JAMF_CATEGORY%'
