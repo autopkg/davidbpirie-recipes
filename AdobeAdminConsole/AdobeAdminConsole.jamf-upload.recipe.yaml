@@ -22,7 +22,6 @@ Input:
   JAMF_CATEGORY_PRIORITY: '10'
   JAMF_CATEGORY_REPLACE: 'False'
   JAMF_PKG_NAME: '%NAME%'
-  JAMF_PKG_INFO: '%aacp_application_description%'
   JAMF_PKG_NOTES: 'Generated and uploaded by AutoPkg'
   JAMF_PKG_PRIORITY: '10'
   JAMF_PKG_REBOOT_REQUIRED: 'False'
@@ -47,7 +46,7 @@ Process:
     Arguments:
       pkg_name: '%JAMF_PKG_NAME%-%version%.pkg'
       pkg_category: '%JAMF_CATEGORY%'
-      pkg_info: '%JAMF_PKG_INFO%'
+      pkg_info: '%aacp_application_description%'
       pkg_notes: '%JAMF_PKG_NOTES%'
       pkg_priority: '%JAMF_PKG_PRIORITY%'
       reboot_required: '%JAMF_PKG_REBOOT_REQUIRED%'
