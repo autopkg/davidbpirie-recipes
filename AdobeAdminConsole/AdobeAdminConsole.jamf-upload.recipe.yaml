@@ -1,20 +1,24 @@
 Description: |
-  Adds version information to the pkg name of an Adobe Admin Console-
-  generated pkg that you have already downloaded, then uploads the
-  package to Jamf Pro, creating the Category if required.
+  Expands the zip archive downloaded with an Adobe Admin Console-
+  generated downloader, identifies the package name, extracts
+  package metadata from the installer using dataJAR's custom
+  processor, copies the installer package, then uploads the package
+  to Jamf Pro, creating the Category if required.
 
-  NAME must match the name you supplied when you built the pkg in the
-  Adobe Admin Console, so should be provided in an override.
-  Requires that the expanded archive with that NAME be located in
-  ~/Downloads.
+  Intended use is to generate an override from this recipe, then
+  give the override an unique Identifier and populate all the
+  Input variables. When using the recipe, also provide the source
+  archive via the -p parameter eg:
+  autopkg run MyAdobeApp.jamf-upload -p MyAdobeApp.zip
 
   JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
   SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
   in your AutoPkg preferences, override Input variables, or by
   command-line keys.
+
 Identifier: com.github.davidbpirie.jamf-upload.AdobeAdminConsole
 MinimumVersion: 2.3.0
-ParentRecipe: com.github.jazzace.pkg.AdobeAdminConsole
+ParentRecipe: com.github.davidbpirie.pkg.AdobeAdminConsole
 
 Input:
   NAME: AdobeAdminConsole
@@ -32,10 +36,6 @@ Input:
   JAMF_PKG_REPLACE_METADATA: 'False'
 
 Process:
-  - Processor: StopProcessingIf
-    Arguments:
-      predicate: NAME == "AdobeAdminConsole"
-
   - Processor: com.github.grahampugh.jamf-upload.processors/JamfCategoryUploader
     Arguments:
       category_name: '%JAMF_CATEGORY%'
@@ -44,7 +44,7 @@ Process:
 
   - Processor: com.github.grahampugh.jamf-upload.processors/JamfPackageUploader
     Arguments:
-      pkg_name: '%JAMF_PKG_NAME%-%version%.pkg'
+      pkg_name: '%JAMF_PKG_NAME%_%aacp_application_install_lang%_%aacp_application_architecture_type%-%version%.pkg'
       pkg_category: '%JAMF_CATEGORY%'
       pkg_info: '%aacp_application_description%'
       pkg_notes: '%JAMF_PKG_NOTES%'
