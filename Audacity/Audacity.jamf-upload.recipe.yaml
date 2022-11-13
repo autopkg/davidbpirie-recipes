@@ -12,6 +12,7 @@ ParentRecipe: com.github.ahousseini-recipes.pkg.Audacity
 
 Input:
   NAME: Audacity
+  ARCH: x86_64
   JAMF_CATEGORY: Music
   JAMF_CATEGORY_PRIORITY: '10'
   JAMF_CATEGORY_REPLACE: 'False'
@@ -35,7 +36,7 @@ Process:
 
 - Processor: com.github.grahampugh.jamf-upload.processors/JamfPackageUploader
   Arguments:
-    pkg_name: '%JAMF_PKG_NAME%_%java_version%.%openjdk_build_number%_%BUNDLE_TYPE%_%ARCHITECTURE%-%version%.pkg'
+    pkg_name: '%JAMF_PKG_NAME%_%ARCH%-%version%.pkg'
     pkg_category: '%JAMF_CATEGORY%'
     pkg_info: '%JAMF_PKG_INFO%'
     pkg_notes: '%JAMF_PKG_NOTES%'
