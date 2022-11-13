@@ -7,7 +7,7 @@ Input:
   NAME: Audacity
   MUNKI_DISPLAYNAME: Audacity
   MUNKI_DESCRIPTION: Audacity is a free, easy-to-use, multi-track audio editor and recorder for Windows, Mac OS X, GNU/Linux and other operating systems.
-  MUNKI_CATEGORY: Productivity
+  MUNKI_CATEGORY: Music
   MUNKI_DEVELOPER: Audacity
   MUNKI_MINIMUM_OS_VERSION: 10.13.0
   MUNKI_REPO_SUBDIR: '%MUNKI_CATEGORY%/%MUNKI_DEVELOPER%/%NAME%'
