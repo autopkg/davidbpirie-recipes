@@ -2,7 +2,7 @@ Description: |
   Downloads the latest version of Audacity and creates a package, then
   uploads the package to Jamf Pro, creating the Category if required.
 
-  archs: x86_64, arm64
+  Archs: x86_64, arm64
 
   JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
   SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
