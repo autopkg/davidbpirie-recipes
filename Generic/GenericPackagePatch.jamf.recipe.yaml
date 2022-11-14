@@ -1,0 +1,75 @@
+Description: |
+  Generic jamf recipe to be used with overrides for repeated
+  manual upload of a package, creating the Category if required,
+  and then creating a policy and patch policy from the provided
+  templates.
+
+  Intended use is to generate an override from this recipe, then
+  give the override an unique Identifier and populate all the
+  Input variables. When using the recipe, also provide the source
+  package via the -p parameter and version via the -k parameter eg:
+  autopkg run MyPackage.jamf -p MyPackage.pkg -k version=1.0
+
+  JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
+  SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
+  in your AutoPkg preferences, override Input variables, or by
+  command-line keys.
+
+  Policy icon file for JAMF_POLICY_ICON needs to either be found in
+  your recipe search path or provide a full path.
+
+  Template files for JAMF_PATCH_TEMPLATE and JAMF_POLICY_TEMPLATE need
+  to either be found in your recipe search path or provide a full path.
+  Examples are available from
+  https://github.com/autopkg/grahampugh-recipes/tree/main/Jamf_Recipes.
+  It is recommended to store it in your RecipeOverrides directory and
+  can be shared across multiple recipe overrides.
+
+Identifier: com.github.davidbpirie.jamf.genericpackagepatch
+ParentRecipe: com.github.davidbpirie.jamf.genericpackage
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: GenericPackage
+  version: Provide_version_via_input_key
+  JAMF_APPLICATION_NAME: '%NAME%'
+  JAMF_CATEGORY: Business
+  JAMF_CATEGORY_PRIORITY: '10'
+  JAMF_CATEGORY_REPLACE: 'False'
+  JAMF_PATCH_POLICY_NAME: 'Update %JAMF_APPLICATION_NAME%-dev'
+  JAMF_PATCH_REPLACE: 'True'
+  JAMF_PATCH_TEMPLATE: 'Put_Patch_Template_into_AutoPkg_recipe_override'
+  JAMF_PATCH_TITLE: '%JAMF_APPLICATION_NAME%'
+  JAMF_POLICY_ICON: '%NAME%.png'
+  JAMF_POLICY_NAME: 'Install %JAMF_APPLICATION_NAME%-dev'
+  JAMF_POLICY_TEMPLATE: 'Put_Policy_Template_into_AutoPkg_recipe_override'
+  JAMF_PKG_NAME: '%NAME%'
+  JAMF_PKG_INFO: Generic package.
+  JAMF_PKG_NOTES: Generated and uploaded by AutoPkg
+  JAMF_PKG_PRIORITY: '10'
+  JAMF_PKG_REBOOT_REQUIRED: 'False'
+  JAMF_PKG_OS_REQUIREMENTS: ''
+  JAMF_PKG_REQUIRED_PROCESSOR: None
+  JAMF_PKG_SEND_NOTIFICATION: 'False'
+  JAMF_PKG_REPLACE: 'False'
+  JAMF_PKG_REPLACE_METADATA: 'False'
+  JAMF_REPLACE_ICON: 'False'
+  JAMF_REPLACE_POLICY: 'True'
+  JAMF_UPDATE_PREDICATE: 'pkg_uploaded == False'
+
+Process:
+  - Processor: StopProcessingIf
+    Arguments:
+      predicate: JAMF_PATCH_TEMPLATE == "Put_Patch_Template_into_AutoPkg_recipe_override"
+
+  - Processor: StopProcessingIf
+    Arguments:
+      predicate: "%JAMF_UPDATE_PREDICATE%"
+
+  - Processor: com.github.grahampugh.jamf-upload.processors/JamfPatchUploader
+    Arguments:
+      patch_softwaretitle: '%JAMF_PATCH_TITLE%'
+      patch_name: '%JAMF_PATCH_POLICY_NAME%'
+      patch_template: '%JAMF_PATCH_TEMPLATE%'
+      patch_icon_policy_name: '%JAMF_POLICY_NAME%'
+      replace_patch: '%JAMF_PATCH_REPLACE%'
