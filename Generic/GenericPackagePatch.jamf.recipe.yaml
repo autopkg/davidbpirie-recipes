@@ -45,7 +45,7 @@ Input:
   JAMF_POLICY_TEMPLATE: 'Put_Policy_Template_into_AutoPkg_recipe_override'
   JAMF_PKG_NAME: '%NAME%'
   JAMF_PKG_INFO: Generic package.
-  JAMF_PKG_NOTES: Generated and uploaded by AutoPkg
+  JAMF_PKG_NOTES: Uploaded by AutoPkg
   JAMF_PKG_PRIORITY: '10'
   JAMF_PKG_REBOOT_REQUIRED: 'False'
   JAMF_PKG_OS_REQUIREMENTS: ''
