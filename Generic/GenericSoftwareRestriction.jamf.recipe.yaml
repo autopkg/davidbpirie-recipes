@@ -1,0 +1,57 @@
+Description: |
+  Generic jamf recipe to be used with overrides for repeated
+  manual upload of a software restriction.
+
+  Intended use is to generate an override from this recipe, then
+  give the override an unique Identifier and populate all the
+  Input variables.
+
+  JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
+  SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
+  in your AutoPkg preferences, override Input variables, or by
+  command-line keys.
+
+  Template file for JAMF_RESTRICTION_TEMPLATE need to either be found
+  in your recipe search path or provide a full path. Unlike other Jamf
+  Uploader processors, the JamfSoftwareRestrictionUploader processor
+  only performs substitutions on a specific set of key names, so the
+  provided template GenericSoftwareRestrictionTemplate.xml should be
+  used as a base - in most cases with no modification.
+  
+  It is recommended to store your customised template in your
+  RecipeOverrides directory and can be shared across multiple recipe
+  overrides.
+
+Identifier: com.github.davidbpirie.jamf.GenericSoftwareRestriction
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: GenericSoftwareRestriction
+  JAMF_REPLACE_RESTRICTION: 'True'
+  JAMF_RESTRICTION_COMPUTERGROUP: ' '
+  JAMF_RESTRICTION_DELETE_EXECUTABLE: 'False'
+  JAMF_RESTRICTION_DISPLAY_MESSAGE: '%NAME% is not a supported application.'
+  JAMF_RESTRICTION_KILL_PROCESS: 'True'
+  JAMF_RESTRICTION_MATCH_EXACT_PROCESS_NAME: 'True'
+  JAMF_RESTRICTION_NAME: '%NAME%'
+  JAMF_RESTRICTION_PROCESS: '%NAME%.app'
+  JAMF_RESTRICTION_SEND_NOTIFICATION: 'False'
+  JAMF_RESTRICTION_TEMPLATE: Put_Restriction_Template_into_AutoPkg_recipe_override
+
+Process:
+  - Processor: StopProcessingIf
+    Arguments:
+      predicate: JAMF_RESTRICTION_TEMPLATE == "Put_Restriction_Template_into_AutoPkg_recipe_override"
+
+  - Processor: com.github.grahampugh.jamf-upload.processors/JamfSoftwareRestrictionUploader
+    Arguments:
+      restriction_name: '%JAMF_RESTRICTION_NAME%'
+      restriction_template: '%JAMF_RESTRICTION_TEMPLATE%'
+      restriction_computergroup: '%JAMF_RESTRICTION_COMPUTERGROUP%'
+      process_name: '%JAMF_RESTRICTION_PROCESS%'
+      display_message: '%JAMF_RESTRICTION_DISPLAY_MESSAGE%'
+      match_exact_process_name: '%JAMF_RESTRICTION_MATCH_EXACT_PROCESS_NAME%'
+      restriction_send_notification: '%JAMF_RESTRICTION_SEND_NOTIFICATION%'
+      kill_process: '%JAMF_RESTRICTION_KILL_PROCESS%'
+      delete_executable: '%JAMF_RESTRICTION_DELETE_EXECUTABLE%'
+      replace_restriction: '%JAMF_REPLACE_RESTRICTION%'
