@@ -12,12 +12,17 @@ Process:
   Arguments:
     re_pattern: '%SEARCH_RE%'
     url: '%SEARCH_URL%'
-    result_output_var_name: match
+
+- Processor: com.github.homebysix.FindAndReplace/FindAndReplace
+  Arguments:
+    find: ' '
+    input_string: '%match%'
+    replace: '%20'
 
 - Processor: URLDownloader
   Arguments:
     filename: '%NAME%.pkg'
-    url: '%match%'
+    url: '%output_string%'
 
 - Processor: EndOfCheckPhase
 
