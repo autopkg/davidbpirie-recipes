@@ -11,7 +11,7 @@ MinimumVersion: 2.3.0
 ParentRecipe: com.github.hansen-m.pkg.pycharm
 
 Input:
-  NAME: PyCharm CE
+  NAME: PyCharmCE
   JAMF_CATEGORY: Developer Tools
   JAMF_CATEGORY_PRIORITY: '10'
   JAMF_CATEGORY_REPLACE: 'False'
