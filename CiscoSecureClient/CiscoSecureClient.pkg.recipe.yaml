@@ -86,6 +86,25 @@ Process:
 
         ################################################################################
         #
+        # Runs the Cisco Secure Client uninstall script (if it is found) before installing
+        #
+        ################################################################################
+
+        if [ -f /opt/cisco/secureclient/bin/cisco_secure_client_uninstall.sh ]; then
+          /opt/cisco/secureclient/bin/cisco_secure_client_uninstall.sh
+          exit $?
+        fi
+        exit 0
+      file_mode: "0755"
+      file_path: "%RECIPE_CACHE_DIR%/%NAME%/scripts/preinstall"
+
+  - Processor: FileCreator
+    Arguments:
+      file_content: |
+        #!/bin/zsh
+
+        ################################################################################
+        #
         # Installs the Cisco Secure Client package, applying the choices.xml choices file
         #
         ################################################################################
