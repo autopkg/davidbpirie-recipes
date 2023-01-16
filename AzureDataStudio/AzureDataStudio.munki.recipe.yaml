@@ -1,6 +1,6 @@
 Description: Downloads the latest version of Microsoft Azude Data Studio, creates a dmg, then imports it to munki.
 Identifier: com.github.davidbpirie.munki.AzureDataStudio
-ParentRecipe: com.github.davidbpirie.download.AzureDataStudio
+ParentRecipe: com.github.dataJAR-recipes.download.AzureDataStudio
 MinimumVersion: 2.3.0
 
 Input:
