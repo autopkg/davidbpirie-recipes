@@ -27,6 +27,25 @@ Input:
   JAMF_PKG_REPLACE_METADATA: 'False'
 
 Process:
+  - Processor: FlatPkgUnpacker
+    Arguments:
+      flat_pkg_path: '%pathname%'
+      destination_path: '%RECIPE_CACHE_DIR%/unpack'
+  
+  - Processor: com.github.nmcspadden.shared/PackageInfoVersioner
+    Arguments:
+      package_info_path: '%RECIPE_CACHE_DIR%/unpack/macOSLAPS.pkg/PackageInfo'
+
+  - Processor: PkgCopier
+    Arguments:
+      source_pkg: '%pathname%'
+      pkg_path: '%RECIPE_CACHE_DIR%/%NAME%_%version%.pkg'
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+        - '%RECIPE_CACHE_DIR%/unpack'
+
   - Processor: com.github.grahampugh.jamf-upload.processors/JamfCategoryUploader
     Arguments:
       category_name: '%JAMF_CATEGORY%'
