@@ -8,7 +8,7 @@ Description: |
   command-line keys.
 Identifier: com.github.davidbpirie.jamf-upload.OBSBOTWebCam
 MinimumVersion: 2.3.0
-ParentRecipe: io.github.hjuutilainen.pkg.OBSBOTWebCam
+ParentRecipe: com.github.davidbpirie.pkg.OBSBOTWebCam
 
 Input:
   NAME: OBSBOTWebCam
