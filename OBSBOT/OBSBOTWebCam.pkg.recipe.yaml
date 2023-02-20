@@ -1,0 +1,10 @@
+Description: Downloads the latest version of OBSBOT WebCam, then builds a package.
+Identifier: com.github.davidbpirie.pkg.OBSBOTWebCam
+ParentRecipe: com.github.davidbpirie.download.OBSBOTWebCam
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: OBSBOTWebCam
+
+Process:
+- Processor: AppPkgCreator
