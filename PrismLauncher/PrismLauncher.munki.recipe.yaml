@@ -1,0 +1,35 @@
+Description: Download recipe for Prism Launcher, an alternative launcher for Minecraft and fork of ManyMC, then imports it to munki.
+Identifier: com.github.davidbpirie.munki.PrismLauncher
+ParentRecipe: com.github.davidbpirie.download.PrismLauncher
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: PrismLauncher
+  MUNKI_DISPLAYNAME: Prism Launcher
+  MUNKI_DESCRIPTION: Prism Launcher is an alternative launcher for Minecraft, and a fork of ManyMC. It allows you to have multiple, cleanly separated instances of Minecraft (each with their own mods, resource packs, saves, etc) and helps you manage them and their associated options with a simple and powerful interface.
+  MUNKI_CATEGORY: Games
+  MUNKI_DEVELOPER: PrismLauncher
+  MUNKI_REPO_SUBDIR: '%MUNKI_CATEGORY%/%MUNKI_DEVELOPER%/%NAME%'
+  pkginfo:
+    blocking_applications:
+    - Prism Launcher
+    catalogs:
+    - testing
+    category: '%MUNKI_CATEGORY%'
+    description: '%MUNKI_DESCRIPTION%'
+    developer: '%MUNKI_DEVELOPER%'
+    display_name: '%MUNKI_DISPLAYNAME%'
+    name: '%NAME%'
+    unattended_install: true
+    unattended_uninstall: true
+
+Process:
+- Processor: DmgCreator
+  Arguments:
+    dmg_path: '%RECIPE_CACHE_DIR%/%NAME%.dmg'
+    dmg_root: '%RECIPE_CACHE_DIR%/%NAME%'
+
+- Processor: MunkiImporter
+  Arguments:
+    pkg_path: '%dmg_path%'
+    repo_subdirectory: '%MUNKI_REPO_SUBDIR%'

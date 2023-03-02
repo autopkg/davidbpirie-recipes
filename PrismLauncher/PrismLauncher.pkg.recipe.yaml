@@ -1,0 +1,13 @@
+Description: Download recipe for Prism Launcher, an alternative launcher for Minecraft and fork of ManyMC, then builds a package.
+Identifier: com.github.davidbpirie.pkg.PrismLauncher
+ParentRecipe: com.github.davidbpirie.download.PrismLauncher
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: PrismLauncher
+
+Process:
+- Processor: AppPkgCreator
+  Arguments:
+    app_path: '%RECIPE_CACHE_DIR%/%NAME%/*.app'
+

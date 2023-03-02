@@ -1,0 +1,23 @@
+Description: Download recipe for Prism Launcher, an alternative launcher for Minecraft and fork of ManyMC.
+Identifier: com.github.davidbpirie.download.PrismLauncher
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: PrismLauncher
+  asset_regex: PrismLauncher-macOS-[0-9].*.tar.gz
+  github_repo: PrismLauncher/PrismLauncher
+
+Process:
+- Processor: GitHubReleasesInfoProvider
+
+- Processor: URLDownloader
+  Arguments:
+    filename: '%NAME%-macos.tar.gz'
+
+- Processor: EndOfCheckPhase
+
+- Processor: Unarchiver
+  Arguments:
+    archive_path: '%pathname%'
+    destination_path: '%RECIPE_CACHE_DIR%/%NAME%'
+    purge_destination: true
