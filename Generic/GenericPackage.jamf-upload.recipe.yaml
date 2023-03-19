@@ -24,13 +24,14 @@ Input:
   JAMF_PKG_NAME: '%NAME%'
   JAMF_PKG_INFO: Generic package.
   JAMF_PKG_NOTES: Uploaded by AutoPkg
+  JAMF_PKG_OS_REQUIREMENTS: ''
   JAMF_PKG_PRIORITY: '10'
   JAMF_PKG_REBOOT_REQUIRED: 'False'
-  JAMF_PKG_OS_REQUIREMENTS: ''
-  JAMF_PKG_REQUIRED_PROCESSOR: None
-  JAMF_PKG_SEND_NOTIFICATION: 'False'
   JAMF_PKG_REPLACE: 'False'
   JAMF_PKG_REPLACE_METADATA: 'False'
+  JAMF_PKG_REQUIRED_PROCESSOR: None
+  JAMF_PKG_SEND_NOTIFICATION: 'False'
+  JAMF_PKG_SUFFIX: 'pkg'
 
 Process:
   - Processor: PackageRequired
@@ -47,7 +48,7 @@ Process:
 
   - Processor: com.github.grahampugh.jamf-upload.processors/JamfPackageUploader
     Arguments:
-      pkg_name: '%JAMF_PKG_NAME%-%version%.pkg'
+      pkg_name: '%JAMF_PKG_NAME%-%version%.%JAMF_PKG_SUFFIX%'
       pkg_path: '%PKG%'
       pkg_category: '%JAMF_CATEGORY%'
       pkg_info: '%JAMF_PKG_INFO%'
