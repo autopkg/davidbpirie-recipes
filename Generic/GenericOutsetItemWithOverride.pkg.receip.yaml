@@ -1,0 +1,110 @@
+Description: |
+  Generic pkg recipe to be used with overrides for repeated manual creation
+  of multiple versions of an item to be installed in an outset directory.
+  The resulting package includes a postinstall script that sets an outset
+  override for the installed item, forcing it to be re-run on next trigger.
+  Intended use is to generate an override from this recipe, then give the
+  override an unique Identifier and populate all the Input variables.
+
+  OUTSET_ITEM_TYPE is the name of the outset folder the item should be
+  installed in i.e. one of:
+    login-once
+    login-privileged-once
+  
+  Uses StringSplitter processor from com.github.autopkg.robperc.recipes.Processors.
+
+  When using the recipe, also provide the source via the -p parameter and version via the -k parameter eg:
+  autopkg run myoutsetitem.pkg -p myscript.sh -k VERSION=1.0
+Identifier: com.github.davidbpirie.pkg.genericoutsetitemwithoverride
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: GenericOutsetItemWithOverride
+  PKG_ID: com.github.davidbpirie.pkg.genericoutsetitem
+  VERSION: Put_Version_into_AutoPkg_recipe_override
+  OUTSET_ITEM_TYPE: Put_Item_Type_into_AutoPkg_recipe_override
+
+Process:
+- Processor: PackageRequired
+
+- Processor: StopProcessingIf
+  Arguments:
+    predicate: OUTSET_ITEM_TYPE NOT IN { 'login-once', 'login-privileged-once' }
+
+- Processor: StopProcessingIf
+  Arguments:
+    predicate: VERSION == 'Put_Version_into_AutoPkg_recipe_override'
+
+- Processor: StopProcessingIf
+  Arguments:
+    predicate: OUTSET_ITEM_TYPE == 'Put_Item_Type_into_AutoPkg_recipe_override'
+
+- Processor: PkgRootCreator
+  Arguments:
+    pkgdirs:
+      payload: '0775'
+      payload/usr: '0755'
+      payload/usr/local: '0755'
+      payload/usr/local/outset: '0755'
+      payload/usr/local/outset/action_type: '0755'
+      scripts: '0775'
+    pkgroot: '%RECIPE_CACHE_DIR%/%NAME%'
+
+- Processor: FileMover
+  Arguments:
+    source: '%RECIPE_CACHE_DIR%/%NAME%/payload/usr/local/outset/action_type'
+    target: '%RECIPE_CACHE_DIR%/%NAME%/payload/usr/local/outset/%OUTSET_ITEM_TYPE%'
+
+- Processor: com.github.autopkg.robperc.recipes.Processors/StringSplitter
+  Arguments:
+    string: '%PKG%'
+    delimiter: '.'
+    index: -1
+
+- Processor: Copier
+  Arguments:
+    destination_path: '%RECIPE_CACHE_DIR%/%NAME%/payload/usr/local/outset/%OUTSET_ITEM_TYPE%/%NAME%-%VERSION%.%out_string%'
+    overwrite: true
+    source_path: '%PKG%'
+
+- Processor: FileCreator
+  Arguments:
+    file_content: |
+      #!/bin/sh
+          
+      INSTALLATION_PACKAGE="$1"
+      INSTALLATION_DESTINATION="$2"
+      INSTALLATION_VOLUME="$3"
+      INSTALLATION_SYSTEM_ROOT="$4"
+      
+      if [ "${INSTALLATION_VOLUME}" != "/" ]; then
+        exit 0
+      fi
+
+      outset_path=/usr/local/outset/outset
+
+      if [ -e "${outset_path}" ]; then
+        "${outset_path}" --add-override "/usr/local/outset/%OUTSET_ITEM_TYPE%/%NAME%-%VERSION%.%out_string%"
+      fi
+    file_mode: '0755'
+    file_path: '%RECIPE_CACHE_DIR%/%NAME%/scripts/postinstall'
+
+- Processor: PkgCreator
+  Arguments:
+    pkg_request:
+      chown:
+      - group: wheel
+        mode: '0755'
+        path: usr
+        user: root
+      id: '%PKG_ID%'
+      options: purge_ds_store
+      pkgname: '%NAME%-%VERSION%'
+      pkgroot: '%RECIPE_CACHE_DIR%/%NAME%/payload'
+      scripts: '%RECIPE_CACHE_DIR%/%NAME%/scripts'
+      version: '%VERSION%'
+
+- Processor: PathDeleter
+  Arguments:
+    path_list:
+    - '%RECIPE_CACHE_DIR%/%NAME%'
