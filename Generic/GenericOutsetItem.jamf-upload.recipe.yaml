@@ -24,22 +24,19 @@ MinimumVersion: 2.3.0
 
 Input:
   NAME: GenericOutsetItem
-  PKG_ID: com.github.davidbpirie.pkg.genericoutsetitem
-  VERSION: Put_Version_into_AutoPkg_recipe_override
-  OUTSET_ITEM_TYPE: Put_Item_Type_into_AutoPkg_recipe_override
   JAMF_CATEGORY: Utilities
   JAMF_CATEGORY_PRIORITY: '10'
   JAMF_CATEGORY_REPLACE: 'False'
-  JAMF_PKG_NAME: '%NAME%'
   JAMF_PKG_INFO: ''
+  JAMF_PKG_NAME: '%NAME%'
   JAMF_PKG_NOTES: 'Generated and uploaded by AutoPkg'
+  JAMF_PKG_OS_REQUIREMENTS: ''
   JAMF_PKG_PRIORITY: '10'
   JAMF_PKG_REBOOT_REQUIRED: 'False'
-  JAMF_PKG_OS_REQUIREMENTS: ''
-  JAMF_PKG_REQUIRED_PROCESSOR: None
-  JAMF_PKG_SEND_NOTIFICATION: 'False'
   JAMF_PKG_REPLACE: 'False'
   JAMF_PKG_REPLACE_METADATA: 'False'
+  JAMF_PKG_REQUIRED_PROCESSOR: None
+  JAMF_PKG_SEND_NOTIFICATION: 'False'
 
 Process:
   - Processor: com.github.grahampugh.jamf-upload.processors/JamfCategoryUploader
