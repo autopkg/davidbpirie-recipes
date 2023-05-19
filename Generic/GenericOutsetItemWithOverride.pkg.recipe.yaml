@@ -29,7 +29,7 @@ Process:
 
 - Processor: StopProcessingIf
   Arguments:
-    predicate: OUTSET_ITEM_TYPE NOT IN { 'login-once', 'login-privileged-once' }
+    predicate: OUTSET_ITEM_TYPE != 'login-once' AND OUTSET_ITEM_TYPE != 'login-privileged-once'
 
 - Processor: StopProcessingIf
   Arguments:

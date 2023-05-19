@@ -32,7 +32,7 @@ Process:
 
 - Processor: StopProcessingIf
   Arguments:
-    predicate: OUTSET_ITEM_TYPE NOT IN { 'boot-every', 'boot-once', 'login-every', 'login-once', 'login-privileged-every', 'login-privileged-once', 'on-demand' }
+    predicate: OUTSET_ITEM_TYPE != 'boot-every' AND OUTSET_ITEM_TYPE != 'boot-once' AND OUTSET_ITEM_TYPE != 'login-every' AND OUTSET_ITEM_TYPE != 'login-once' AND OUTSET_ITEM_TYPE != 'login-privileged-every' AND OUTSET_ITEM_TYPE != 'login-privileged-once' AND OUTSET_ITEM_TYPE != 'on-demand'
 
 - Processor: StopProcessingIf
   Arguments:
