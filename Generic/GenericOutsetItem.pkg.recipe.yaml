@@ -17,7 +17,7 @@ Description: |
   Uses StringSplitter processor from com.github.autopkg.robperc.recipes.Processors.
 
   When using the recipe, also provide the source via the -p parameter and version via the -k parameter eg:
-  autopkg run myoutsetitem.pkg -p myscript.sh -k VERSION=1.0
+  autopkg run myoutsetitem.pkg -p myscript.sh -k version=1.0
 Identifier: com.github.davidbpirie.pkg.genericoutsetitem
 MinimumVersion: 2.3.0
 
@@ -25,7 +25,7 @@ Input:
   NAME: GenericOutsetItem
   OUTSET_ITEM_TYPE: Put_Item_Type_into_AutoPkg_recipe_override
   PKG_ID: com.github.davidbpirie.pkg.outset-%OUTSET_ITEM_TYPE%.%NAME%
-  VERSION: Put_Version_into_AutoPkg_recipe_override
+  version: Provide_version_in_input_key
 
 Process:
 - Processor: PackageRequired
@@ -36,7 +36,7 @@ Process:
 
 - Processor: StopProcessingIf
   Arguments:
-    predicate: VERSION == 'Put_Version_into_AutoPkg_recipe_override'
+    predicate: version == 'Provide_version_in_input_key'
 
 - Processor: StopProcessingIf
   Arguments:
@@ -65,7 +65,7 @@ Process:
 
 - Processor: Copier
   Arguments:
-    destination_path: '%RECIPE_CACHE_DIR%/%NAME%/payload/usr/local/outset/%OUTSET_ITEM_TYPE%/%NAME%-%VERSION%.%out_string%'
+    destination_path: '%RECIPE_CACHE_DIR%/%NAME%/payload/usr/local/outset/%OUTSET_ITEM_TYPE%/%NAME%-%version%.%out_string%'
     overwrite: true
     source_path: '%PKG%'
 
@@ -79,9 +79,8 @@ Process:
         user: root
       id: '%PKG_ID%'
       options: purge_ds_store
-      pkgname: '%NAME%-%VERSION%'
+      pkgname: '%NAME%-%version%'
       pkgroot: '%RECIPE_CACHE_DIR%/%NAME%/payload'
-      version: '%VERSION%'
 
 - Processor: PathDeleter
   Arguments:

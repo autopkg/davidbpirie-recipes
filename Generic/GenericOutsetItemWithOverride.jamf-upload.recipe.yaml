@@ -14,7 +14,7 @@ Description: |
   Uses StringSplitter processor from com.github.autopkg.robperc.recipes.Processors.
 
   When using the recipe, also provide the source via the -p parameter and version via the -k parameter eg:
-  autopkg run myoutsetitem.jamf-upload -p myscript.sh -k VERSION=1.0
+  autopkg run myoutsetitem.jamf-upload -p myscript.sh -k version=1.0
 Identifier: com.github.davidbpirie.jamf-upload.genericoutsetitemwithoverride
 ParentRecipe: com.github.davidbpirie.pkg.genericoutsetitemwithoverride
 MinimumVersion: 2.3.0
@@ -45,7 +45,7 @@ Process:
 
   - Processor: com.github.grahampugh.jamf-upload.processors/JamfPackageUploader
     Arguments:
-      pkg_name: '%JAMF_PKG_NAME%-%VERSION%.pkg'
+      pkg_name: '%JAMF_PKG_NAME%-%version%.pkg'
       pkg_category: '%JAMF_CATEGORY%'
       pkg_info: '%JAMF_PKG_INFO%'
       pkg_notes: '%JAMF_PKG_NOTES%'
