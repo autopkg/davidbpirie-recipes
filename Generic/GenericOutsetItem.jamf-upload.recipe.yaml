@@ -24,6 +24,7 @@ MinimumVersion: 2.3.0
 
 Input:
   NAME: GenericOutsetItem
+  OUTSET_ITEM_TYPE: Put_Item_Type_into_AutoPkg_recipe_override
   JAMF_CATEGORY: Utilities
   JAMF_CATEGORY_PRIORITY: '10'
   JAMF_CATEGORY_REPLACE: 'False'
