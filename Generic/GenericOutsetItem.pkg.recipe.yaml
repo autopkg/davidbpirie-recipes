@@ -64,13 +64,13 @@ Process:
 - Processor: com.github.grahampugh.recipes.commonprocessors/StringReplacer
   Arguments:
     input_string: '%pkg_path%'
-    string_to_replace: '%RECIPE_CACHE_DIR%'
-    replacement_string: '%RECIPE_CACHE_DIR%/%NAME%/payload/usr/local/outset/%OUTSET_ITEM_TYPE%'
+    string_to_replace: '%RECIPE_CACHE_DIR%/'
+    replacement_string: ''
 
 - Processor: FileMover
   Arguments:
     source: '%pkg_path%'
-    target: '%output_string%'
+    target: '%RECIPE_CACHE_DIR%/%NAME%/payload/usr/local/outset/%OUTSET_ITEM_TYPE%/%output_string%'
 
 - Processor: PkgCreator
   Arguments:
