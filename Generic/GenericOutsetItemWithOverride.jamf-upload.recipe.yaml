@@ -11,8 +11,6 @@ Description: |
     login-once
     login-privileged-once
 
-  Uses StringSplitter processor from com.github.autopkg.robperc.recipes.Processors.
-
   When using the recipe, also provide the source via the -p parameter and version via the -k parameter eg:
   autopkg run myoutsetitem.jamf-upload -p myscript.sh -k version=1.0
 Identifier: com.github.davidbpirie.jamf-upload.genericoutsetitemwithoverride

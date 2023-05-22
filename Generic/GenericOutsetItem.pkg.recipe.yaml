@@ -14,7 +14,7 @@ Description: |
     login-privileged-once
     on-demand
 
-  Uses StringSplitter processor from com.github.autopkg.robperc.recipes.Processors.
+  Uses StringReplacer processor from com.github.grahampugh.recipes.commonprocessors.
 
   When using the recipe, also provide the source via the -p parameter and version via the -k parameter eg:
   autopkg run myoutsetitem.pkg -p myscript.sh -k version=1.0
@@ -57,17 +57,20 @@ Process:
     source: '%RECIPE_CACHE_DIR%/%NAME%/payload/usr/local/outset/action_type'
     target: '%RECIPE_CACHE_DIR%/%NAME%/payload/usr/local/outset/%OUTSET_ITEM_TYPE%'
 
-- Processor: com.github.autopkg.robperc.recipes.Processors/StringSplitter
+- Processor: PkgCopier
   Arguments:
-    string: '%PKG%'
-    delimiter: '.'
-    index: -1
+    source_pkg: '%PKG%'
 
-- Processor: Copier
+- Processor: com.github.grahampugh.recipes.commonprocessors/StringReplacer
   Arguments:
-    destination_path: '%RECIPE_CACHE_DIR%/%NAME%/payload/usr/local/outset/%OUTSET_ITEM_TYPE%/%NAME%-%version%.%out_string%'
-    overwrite: true
-    source_path: '%PKG%'
+    input_string: '%pkg_path%'
+    string_to_replace: '%RECIPE_CACHE_DIR%'
+    replacement_string: '%RECIPE_CACHE_DIR%/%NAME%/payload/usr/local/outset/%OUTSET_ITEM_TYPE%'
+
+- Processor: FileMover
+  Arguments:
+    source: '%pkg_path%'
+    target: '%output_string%'
 
 - Processor: PkgCreator
   Arguments:
