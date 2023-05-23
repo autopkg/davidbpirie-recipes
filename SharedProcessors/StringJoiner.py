@@ -90,10 +90,10 @@ class StringJoiner(Processor):
                     input_strings = [input_strings]
 
                 for input_string in input_strings:
-                    result_output += f"{value_prefix}{input_string}{value_suffix}"
+                    result_output += f"{str(value_prefix or '')}{input_string}{str(value_suffix or '')}"
 
                 if result_output:
-                    result_output = f"{prefix}{result_output}{suffix}"
+                    result_output = f"{str(prefix or '')}{result_output}{str(suffix or '')}"
 
             self.env[result_output_var_name] = result_output
             self.output(f"{result_output_var_name}: {self.env[result_output_var_name]}")
