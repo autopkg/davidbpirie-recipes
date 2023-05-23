@@ -26,6 +26,8 @@ class StringJoiner(Processor):
     being dictionaries themselves. Each value dictionary must contain
     an array of input_strings (strings), but can also optionally contain
     prefix, suffix, value_prefix, and value_suffix string values.
+    If string_joiner_dict is not provided or empty, the processor
+    completes without error and without making any changes.
     Example:
         <key>output_var_name</key>
         <dict>
@@ -50,7 +52,7 @@ class StringJoiner(Processor):
 
     input_variables = {
         "string_joiner_dict": {
-            "required": True,
+            "required": False,
             "description": "Dictionary of inputs, with the key as the resulting output variable name. See Processor Description for more details."
         }
     }
@@ -66,6 +68,8 @@ class StringJoiner(Processor):
     def main(self):
         string_joiner_dict = self.env.get("string_joiner_dict")
 
+        if not string_joiner_dict:
+            return
         if type(string_joiner_dict) != dict:
             raise ProcessorError(f"string_joiner_dict must be a dictionary - {type(string_joiner_dict)} provided.")
 
