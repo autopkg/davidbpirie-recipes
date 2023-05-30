@@ -120,8 +120,8 @@ class FileTemplateFromLists(Processor):
                     substitutions[substitution_name] += f"{str(value_prefix or '')}{input_string}{str(value_suffix or '')}"
 
                 # Add prefix/suffix if not empty
-                if result_output:
-                    substitutions[substitution_name] = f"{str(prefix or '')}{result_output}{str(suffix or '')}"
+                if substitutions[substitution_name]:
+                    substitutions[substitution_name] = f"{str(prefix or '')}{substitutions[substitution_name]}{str(suffix or '')}"
 
             self.output(f"Substituting {substitution_name} with '{substitutions[substitution_name]}' if found.")
 
