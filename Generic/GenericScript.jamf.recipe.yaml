@@ -1,7 +1,7 @@
 Description: |
   Generic jamf recipe to be used with overrides for repeated
-  manual upload of a script, creating the Category if required,
-  and then creates a Policy from the provided template.
+  manual upload of a script, and then creates a Policy from
+  the provided template.
 
   Intended use is to generate an override from this recipe, then
   give the override an unique Identifier, rename it, and populate

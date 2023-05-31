@@ -21,8 +21,6 @@ Input:
   NAME: GenericOutsetItemWithOverride
   OUTSET_ITEM_TYPE: Put_Item_Type_into_AutoPkg_recipe_override
   JAMF_CATEGORY: Utilities
-  JAMF_CATEGORY_PRIORITY: '10'
-  JAMF_CATEGORY_REPLACE: 'False'
   JAMF_PKG_INFO: ''
   JAMF_PKG_NAME: 'Outset %OUTSET_ITEM_TYPE% %NAME%'
   JAMF_PKG_NOTES: 'Generated and uploaded by AutoPkg'
@@ -35,12 +33,6 @@ Input:
   JAMF_PKG_SEND_NOTIFICATION: 'False'
 
 Process:
-  - Processor: com.github.grahampugh.jamf-upload.processors/JamfCategoryUploader
-    Arguments:
-      category_name: '%JAMF_CATEGORY%'
-      category_priority: '%JAMF_CATEGORY_PRIORITY%'
-      replace_category: '%JAMF_CATEGORY_REPLACE%'
-
   - Processor: com.github.grahampugh.jamf-upload.processors/JamfPackageUploader
     Arguments:
       pkg_name: '%JAMF_PKG_NAME%-%version%.pkg'

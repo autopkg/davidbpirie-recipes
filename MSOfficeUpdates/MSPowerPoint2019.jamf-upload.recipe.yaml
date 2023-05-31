@@ -1,7 +1,7 @@
 Description: |
   Downloads the latest PowerPoint 2019 multilingual update pkg, and
   appends the version to the end of the filename, then uploads the
-  package to Jamf Pro, creating the Category if required.
+  package to Jamf Pro.
 
   JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
   SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
@@ -14,8 +14,6 @@ ParentRecipe: com.github.autopkg.download.MSPowerPoint2019
 Input:
   NAME: MSPowerPoint2019
   JAMF_CATEGORY: Productivity
-  JAMF_CATEGORY_PRIORITY: '10'
-  JAMF_CATEGORY_REPLACE: 'False'
   JAMF_PKG_NAME: '%NAME%'
   JAMF_PKG_INFO: "Create, edit, collaborate, and share presentations using PowerPoint for Mac. Now it's easier than ever to create, edit, and share presentations seamlessly across your devices and with others. Share your files and collaborate in real time within a document or edit Office docs attached to emails. Get smart assistance features as soon as they are released in Word, Excel, and PowerPoint so you're always working with the latest. Whether you need to show off your school project, business plan or family holiday photos, PowerPoint is your go-to app for presentations."
   JAMF_PKG_NOTES: 'Generated and uploaded by AutoPkg'
@@ -28,12 +26,6 @@ Input:
   JAMF_PKG_REPLACE_METADATA: 'False'
 
 Process:
-  - Processor: com.github.grahampugh.jamf-upload.processors/JamfCategoryUploader
-    Arguments:
-      category_name: '%JAMF_CATEGORY%'
-      category_priority: '%JAMF_CATEGORY_PRIORITY%'
-      replace_category: '%JAMF_CATEGORY_REPLACE%'
-
   - Processor: com.github.grahampugh.jamf-upload.processors/JamfPackageUploader
     Arguments:
       pkg_name: '%JAMF_PKG_NAME%-%version%.pkg'

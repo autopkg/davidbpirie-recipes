@@ -1,7 +1,7 @@
 Description: |
   Creates a package that installs the Cisco Secure Client pkg via a
   postinstall script, applying a custom set of choices, then uploads the
-  package to Jamf Pro, creating the Category if required.
+  package to Jamf Pro.
 
   Largely inspired (ie plagiarised with <3) from Graham Pugh's Cisco
   AnyConnect recipe com.github.grahampugh.recipes.pkg.CiscoAnyConnect.
@@ -41,8 +41,6 @@ Input:
     - choice_anyconnect_vpn
   PROFILES: "%RECIPE_DIR%/CiscoSecureClientProfiles"
   JAMF_CATEGORY: Utilities
-  JAMF_CATEGORY_PRIORITY: "10"
-  JAMF_CATEGORY_REPLACE: "False"
   JAMF_PKG_NAME: "%NAME%"
   JAMF_PKG_INFO: "Secure Client harnesses the powerful industry-leading AnyConnect VPN/ZTNA and helps IT and security professionals manage dynamic and scalable endpoint security agents in a unified view."
   JAMF_PKG_NOTES: "Generated and uploaded by AutoPkg"
@@ -55,12 +53,6 @@ Input:
   JAMF_PKG_REPLACE_METADATA: "False"
 
 Process:
-  - Processor: com.github.grahampugh.jamf-upload.processors/JamfCategoryUploader
-    Arguments:
-      category_name: "%JAMF_CATEGORY%"
-      category_priority: "%JAMF_CATEGORY_PRIORITY%"
-      replace_category: "%JAMF_CATEGORY_REPLACE%"
-
   - Processor: com.github.grahampugh.jamf-upload.processors/JamfPackageUploader
     Arguments:
       pkg_name: "%JAMF_PKG_NAME%-%version%.pkg"

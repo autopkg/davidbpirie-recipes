@@ -1,6 +1,6 @@
 Description: |
   Downloads the latest version of macOSLAPS, then uploads the package
-  to Jamf Pro, creating the Category if required.
+  to Jamf Pro.
 
   JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
   SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
@@ -13,8 +13,6 @@ ParentRecipe: com.github.neilmartin83.download.macOSLAPS
 Input:
   NAME: macOSLAPS
   JAMF_CATEGORY: Utilities
-  JAMF_CATEGORY_PRIORITY: '10'
-  JAMF_CATEGORY_REPLACE: 'False'
   JAMF_PKG_NAME: '%NAME%'
   JAMF_PKG_INFO: Swift binary that will change a local administrator password to a random generated password. Similar behavior to LAPS for Windows
   JAMF_PKG_NOTES: 'Generated and uploaded by AutoPkg'
@@ -45,12 +43,6 @@ Process:
     Arguments:
       path_list:
         - '%RECIPE_CACHE_DIR%/unpack'
-
-  - Processor: com.github.grahampugh.jamf-upload.processors/JamfCategoryUploader
-    Arguments:
-      category_name: '%JAMF_CATEGORY%'
-      category_priority: '%JAMF_CATEGORY_PRIORITY%'
-      replace_category: '%JAMF_CATEGORY_REPLACE%'
 
   - Processor: com.github.grahampugh.jamf-upload.processors/JamfPackageUploader
     Arguments:

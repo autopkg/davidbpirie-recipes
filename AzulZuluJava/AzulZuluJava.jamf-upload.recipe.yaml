@@ -1,7 +1,7 @@
 Description: |
   Downloads the latest release dmg version of Azul Zulu Java for
   given Java version, architecture, and bundle type (JDK/JRE),
-  then uploads the package to Jamf Pro, creating the Category if required.
+  then uploads the package to Jamf Pro.
 
   Architectures: x86, arm
   Bundle Types: jre, jdk, jre_fx, jdk_fx
@@ -20,8 +20,6 @@ Input:
   ARCHITECTURE: arm
   BUNDLE_TYPE: jdk
   JAMF_CATEGORY: Developer Tools
-  JAMF_CATEGORY_PRIORITY: '10'
-  JAMF_CATEGORY_REPLACE: 'False'
   JAMF_PKG_NAME: '%NAME%'
   JAMF_PKG_INFO: 'Azul Zulu builds of OpenJDK are open source, TCK-tested and certified builds of OpenJDK. Azul Zulu is available for a wide range of hardware platforms and operating systems.'
   JAMF_PKG_NOTES: 'Generated and uploaded by AutoPkg'
@@ -34,12 +32,6 @@ Input:
   JAMF_PKG_REPLACE_METADATA: 'False'
 
 Process:
-- Processor: com.github.grahampugh.jamf-upload.processors/JamfCategoryUploader
-  Arguments:
-    category_name: '%JAMF_CATEGORY%'
-    category_priority: '%JAMF_CATEGORY_PRIORITY%'
-    replace_category: '%JAMF_CATEGORY_REPLACE%'
-
 - Processor: com.github.grahampugh.jamf-upload.processors/JamfPackageUploader
   Arguments:
     pkg_name: '%JAMF_PKG_NAME%_%java_version%.%openjdk_build_number%_%BUNDLE_TYPE%_%ARCHITECTURE%-%version%.pkg'

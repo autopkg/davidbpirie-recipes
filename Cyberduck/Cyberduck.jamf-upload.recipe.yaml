@@ -1,6 +1,6 @@
 Description: |
   Downloads the current release version of Cyberduck and builds a package, then
-  uploads the package to Jamf Pro, creating the Category if required.
+  uploads the package to Jamf Pro.
 
   JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
   SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
@@ -13,8 +13,6 @@ ParentRecipe: com.github.autopkg.pkg.Cyberduck
 Input:
   NAME: Cyberduck
   JAMF_CATEGORY: Business
-  JAMF_CATEGORY_PRIORITY: "10"
-  JAMF_CATEGORY_REPLACE: "False"
   JAMF_PKG_NAME: "%NAME%"
   JAMF_PKG_INFO: "With an easy to use interface, connect to FTP, SFTP, WebDAV, Amazon S3, Google Storage, Windows Azure, Rackspace Cloud Files and even Google Docs."
   JAMF_PKG_NOTES: "Generated and uploaded by AutoPkg"
@@ -27,12 +25,6 @@ Input:
   JAMF_PKG_REPLACE_METADATA: "False"
 
 Process:
-  - Processor: com.github.grahampugh.jamf-upload.processors/JamfCategoryUploader
-    Arguments:
-      category_name: "%JAMF_CATEGORY%"
-      category_priority: "%JAMF_CATEGORY_PRIORITY%"
-      replace_category: "%JAMF_CATEGORY_REPLACE%"
-
   - Processor: com.github.grahampugh.jamf-upload.processors/JamfPackageUploader
     Arguments:
       pkg_name: "%JAMF_PKG_NAME%-%version%.pkg"

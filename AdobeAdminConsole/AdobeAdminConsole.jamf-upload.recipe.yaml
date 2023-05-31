@@ -3,7 +3,7 @@ Description: |
   generated downloader, identifies the package name, extracts
   package metadata from the installer using dataJAR's custom
   processor, copies the installer package, then uploads the package
-  to Jamf Pro, creating the Category if required.
+  to Jamf Pro.
 
   Intended use is to generate an override from this recipe, then
   give the override an unique Identifier and populate all the
@@ -23,8 +23,6 @@ ParentRecipe: com.github.davidbpirie.pkg.AdobeAdminConsole
 Input:
   NAME: AdobeAdminConsole
   JAMF_CATEGORY: Photo & Video
-  JAMF_CATEGORY_PRIORITY: '10'
-  JAMF_CATEGORY_REPLACE: 'False'
   JAMF_PKG_NAME: '%NAME%'
   JAMF_PKG_NOTES: 'Generated and uploaded by AutoPkg'
   JAMF_PKG_PRIORITY: '10'
@@ -36,12 +34,6 @@ Input:
   JAMF_PKG_REPLACE_METADATA: 'False'
 
 Process:
-  - Processor: com.github.grahampugh.jamf-upload.processors/JamfCategoryUploader
-    Arguments:
-      category_name: '%JAMF_CATEGORY%'
-      category_priority: '%JAMF_CATEGORY_PRIORITY%'
-      replace_category: '%JAMF_CATEGORY_REPLACE%'
-
   - Processor: com.github.grahampugh.jamf-upload.processors/JamfPackageUploader
     Arguments:
       pkg_name: '%JAMF_PKG_NAME%_%aacp_application_install_lang%_%aacp_application_architecture_type%-%version%.pkg'

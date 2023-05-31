@@ -1,7 +1,7 @@
 Description: |
   Generic jamf recipe to be used with overrides for repeated
-  manual upload of a dock item, creating the Category if required,
-  and then creating a policy from the provided template.
+  manual upload of a dock item, and then creating a policy from
+  the provided template.
 
   Intended use is to generate an override from this recipe, then
   give the override an unique Identifier, rename it, and populate
@@ -18,8 +18,6 @@ MinimumVersion: 2.3.0
 Input:
   NAME: GenericDockItem
   JAMF_CATEGORY: Policies
-  JAMF_CATEGORY_PRIORITY: '10'
-  JAMF_CATEGORY_REPLACE: 'False'
   JAMF_DOCKITEM_NAME: '%NAME%'
   JAMF_DOCKITEM_TYPE: 'App'
   JAMF_DOCKITEM_PATH: 'file:///Applications/%NAME%.app/'
@@ -34,12 +32,6 @@ Process:
   - Processor: StopProcessingIf
     Arguments:
       predicate: JAMF_POLICY_TEMPLATE == 'Put_Policy_Template_into_AutoPkg_recipe_override'
-
-  - Processor: com.github.grahampugh.jamf-upload.processors/JamfCategoryUploader
-    Arguments:
-      category_name: '%JAMF_CATEGORY%'
-      category_priority: '%JAMF_CATEGORY_PRIORITY%'
-      replace_category: '%JAMF_CATEGORY_REPLACE%'
 
   - Processor: com.github.grahampugh.jamf-upload.processors/JamfPolicyUploader
     Arguments:

@@ -1,6 +1,6 @@
 Description: |
   Generic jamf-upload recipe to be used with overrides for repeated
-  manual upload of a package, creating the Category if required.
+  manual upload of a package.
 
   Intended use is to generate an override from this recipe, then
   give the override an unique Identifier and populate all the
@@ -19,8 +19,6 @@ Input:
   NAME: GenericPackage
   version: Provide_version_via_input_key
   JAMF_CATEGORY: Business
-  JAMF_CATEGORY_PRIORITY: '10'
-  JAMF_CATEGORY_REPLACE: 'False'
   JAMF_PKG_NAME: '%NAME%'
   JAMF_PKG_INFO: Generic package.
   JAMF_PKG_NOTES: Uploaded by AutoPkg
@@ -39,12 +37,6 @@ Process:
   - Processor: StopProcessingIf
     Arguments:
       predicate: version == "Provide_version_via_input_key"
-
-  - Processor: com.github.grahampugh.jamf-upload.processors/JamfCategoryUploader
-    Arguments:
-      category_name: '%JAMF_CATEGORY%'
-      category_priority: '%JAMF_CATEGORY_PRIORITY%'
-      replace_category: '%JAMF_CATEGORY_REPLACE%'
 
   - Processor: com.github.grahampugh.jamf-upload.processors/JamfPackageUploader
     Arguments:

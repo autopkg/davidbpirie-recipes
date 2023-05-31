@@ -1,7 +1,7 @@
 Description: |
   Downloads the latest version of Adobe's RemoteUpdateManager from
   Adobe, packages into /usr/local/bin, then uploads the package
-  to Jamf Pro, creating the Category if required.
+  to Jamf Pro.
 
   The "ARCH" input variable must be set to either
   "MacIntel" (default) or "AppleSilicon"
@@ -18,8 +18,6 @@ Input:
   NAME: Adobe RemoteUpdateManager
   ARCH: MacIntel
   JAMF_CATEGORY: Utilities
-  JAMF_CATEGORY_PRIORITY: '10'
-  JAMF_CATEGORY_REPLACE: 'False'
   JAMF_PKG_NAME: '%NAME%'
   JAMF_PKG_INFO: 'Adobe app updater.'
   JAMF_PKG_NOTES: 'Generated and uploaded by AutoPkg'
@@ -32,12 +30,6 @@ Input:
   JAMF_PKG_REPLACE_METADATA: 'False'
 
 Process:
-  - Processor: com.github.grahampugh.jamf-upload.processors/JamfCategoryUploader
-    Arguments:
-      category_name: '%JAMF_CATEGORY%'
-      category_priority: '%JAMF_CATEGORY_PRIORITY%'
-      replace_category: '%JAMF_CATEGORY_REPLACE%'
-
   - Processor: com.github.grahampugh.jamf-upload.processors/JamfPackageUploader
     Arguments:
       pkg_name: '%JAMF_PKG_NAME%-%version%.pkg'

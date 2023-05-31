@@ -1,6 +1,6 @@
 Description: |
   Downloads the latest version of Webex and creates a package, then
-  uploads the package to Jamf Pro, creating the Category if required.
+  uploads the package to Jamf Pro.
 
   Input "url" can be one of two:
   Intel: https://binaries.webex.com/WebexTeamsDesktop-MACOS-Gold/Webex.dmg
@@ -18,8 +18,6 @@ Input:
   NAME: Webex
   url: https://binaries.webex.com/WebexDesktop-MACOS-Apple-Silicon-Gold/Webex.dmg
   JAMF_CATEGORY: Business
-  JAMF_CATEGORY_PRIORITY: '10'
-  JAMF_CATEGORY_REPLACE: 'False'
   JAMF_PKG_NAME: '%NAME%'
   JAMF_PKG_INFO: 'One app for everything. And everyone. Calling, meetings, messaging, and events in the cloud for teams of all sizes.'
   JAMF_PKG_NOTES: 'Generated and uploaded by AutoPkg'
@@ -32,12 +30,6 @@ Input:
   JAMF_PKG_REPLACE_METADATA: 'False'
 
 Process:
-  - Processor: com.github.grahampugh.jamf-upload.processors/JamfCategoryUploader
-    Arguments:
-      category_name: '%JAMF_CATEGORY%'
-      category_priority: '%JAMF_CATEGORY_PRIORITY%'
-      replace_category: '%JAMF_CATEGORY_REPLACE%'
-
   - Processor: com.github.grahampugh.jamf-upload.processors/JamfPackageUploader
     Arguments:
       pkg_name: '%JAMF_PKG_NAME%-%version%.pkg'

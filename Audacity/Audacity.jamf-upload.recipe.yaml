@@ -1,6 +1,6 @@
 Description: |
   Downloads the latest version of Audacity and creates a package, then
-  uploads the package to Jamf Pro, creating the Category if required.
+  uploads the package to Jamf Pro.
 
   Archs: x86_64, arm64, universal
 
@@ -16,8 +16,6 @@ Input:
   NAME: Audacity
   ARCH: universal
   JAMF_CATEGORY: Music
-  JAMF_CATEGORY_PRIORITY: '10'
-  JAMF_CATEGORY_REPLACE: 'False'
   JAMF_PKG_NAME: '%NAME%'
   JAMF_PKG_INFO: 'Audacity is a free, easy-to-use, multi-track audio editor and recorder for Windows, Mac OS X, GNU/Linux and other operating systems.'
   JAMF_PKG_NOTES: 'Generated and uploaded by AutoPkg'
@@ -30,12 +28,6 @@ Input:
   JAMF_PKG_REPLACE_METADATA: 'False'
 
 Process:
-- Processor: com.github.grahampugh.jamf-upload.processors/JamfCategoryUploader
-  Arguments:
-    category_name: '%JAMF_CATEGORY%'
-    category_priority: '%JAMF_CATEGORY_PRIORITY%'
-    replace_category: '%JAMF_CATEGORY_REPLACE%'
-
 - Processor: com.github.grahampugh.jamf-upload.processors/JamfPackageUploader
   Arguments:
     pkg_name: '%JAMF_PKG_NAME%_%ARCH%-%version%.pkg'
