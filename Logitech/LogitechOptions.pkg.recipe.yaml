@@ -1,0 +1,36 @@
+Description: |
+  Downloads the latest verison of Logitech Options (Bluetooth and USB)
+  then extracts the installation pkg and version.
+Identifier: com.github.davidbpirie.pkg.logitechoptions
+ParentRecipe: com.github.joshua-d-miller.download.logitechoptions
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: LogitechOptions
+
+Process:
+- Processor: FlatPkgUnpacker
+  Arguments:
+    flat_pkg_path: '%found_filename%/Contents/Resources/LogiMgr.pkg'
+    destination_path: '%RECIPE_CACHE_DIR%/unpack'
+
+- Processor: PkgPayloadUnpacker
+  Arguments:
+    pkg_payload_path: '%RECIPE_CACHE_DIR%/unpack/LogiMgrComponent.pkg/Payload'
+    destination_path: '%RECIPE_CACHE_DIR%/%NAME%'
+    purge_destination: true
+
+- Processor: Versioner
+  Arguments:
+    input_plist_path: '%RECIPE_CACHE_DIR%/%NAME%/Applications/Logi Options.app/Contents/Info.plist'
+
+- Processor: PkgCopier
+  Arguments:
+    source_pkg: '%found_filename%/Contents/Resources/LogiMgr.pkg'
+    pkg_path: '%NAME%-%version%.pkg'
+
+- Processor: PathDeleter
+  Arguments:
+    path_list:
+    - '%RECIPE_CACHE_DIR%/unpack'
+    - '%RECIPE_CACHE_DIR%/%NAME%'
