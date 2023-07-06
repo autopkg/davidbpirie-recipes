@@ -1,12 +1,15 @@
 Description: |
-  Downloads the latest verison of Logitech Options Plus installer application.
+  Downloads the latest verison of Logitech Options Plus offline installer application.
+  See:
+  https://prosupport.logi.com/hc/en-us/articles/10991109278871-Logitech-Options-Offline-Installer
+  for details.
 Identifier: com.github.davidbpirie.download.logitechoptionsplus
 MinimumVersion: 2.3.0
 
 Input:
   NAME: LogitechOptionsPlus
-  DOWNLOAD_URL: https://download01.logi.com/web/ftp/pub/techsupport/optionsplus/logioptionsplus_installer.zip
-  INSTALLER_APP_NAME: 'logioptionsplus_installer'
+  DOWNLOAD_URL: https://download01.logi.com/web/ftp/pub/techsupport/optionsplus/logioptionsplus_installer_offline.zip
+  INSTALLER_APP_NAME: 'logioptionsplus_installer_offline'
 
 Process:
 - Processor: URLDownloader
