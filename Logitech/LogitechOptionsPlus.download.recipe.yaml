@@ -1,0 +1,31 @@
+Description: |
+  Downloads the latest verison of Logitech Options Plus installer application.
+Identifier: com.github.davidbpirie.download.logitechoptionsplus
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: LogitechOptionsPlus
+  DOWNLOAD_URL: https://download01.logi.com/web/ftp/pub/techsupport/optionsplus/logioptionsplus_installer.zip
+  INSTALLER_APP_NAME: 'logioptionsplus_installer'
+
+Process:
+- Processor: URLDownloader
+  Arguments:
+    filename: '%NAME%.zip'
+    url: '%DOWNLOAD_URL%'
+
+- Processor: Unarchiver
+  Arguments:
+    destination_path: '%RECIPE_CACHE_DIR%/expand'
+    purge_destination: true
+
+- Processor: CodeSignatureVerifier
+  Arguments:
+    input_path: '%RECIPE_CACHE_DIR%/expand/%INSTALLER_APP_NAME%.app'
+    requirement: 'identifier "com.logi.optionsplus.installer" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = QED4VVPZWA'
+
+- Processor: Versioner
+  Arguments:
+    input_plist_path: '%RECIPE_CACHE_DIR%/expand/%INSTALLER_APP_NAME%.app/Contents/Info.plist'
+    plist_version_key: CFBundleVersion
+

@@ -1,0 +1,37 @@
+Description: |
+  Downloads the latest verison of Logitech Options Plus installer application,
+  creates a pkg that runs the installer app with the silent option, then
+  imports to munki.
+Identifier: com.github.davidbpirie.munki.logitechoptionsplus
+ParentRecipe: com.github.davidbpirie.pkg.logitechoptionsplus
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: LogitechOptionsPlus
+  MUNKI_DISPLAYNAME: Logitech Options Plus
+  MUNKI_DESCRIPTION: |
+    The Logi Options+ App is the next-gen of Logitech Options that enables even
+    more customization of supported Logitech mice, keyboards and lights. Get
+    the best of Logitech Options, upgraded with a fresh, easy-to-use interface,
+    and our latest features to work even smarter.
+  MUNKI_CATEGORY: Utilities
+  MUNKI_DEVELOPER: Logitech
+  MUNKI_MINIMUM_OS_VERSION: 11.0.0
+  MUNKI_REPO_SUBDIR: '%MUNKI_CATEGORY%/%MUNKI_DEVELOPER%/%NAME%'
+  pkginfo:
+    catalogs:
+    - testing
+    category: '%MUNKI_CATEGORY%'
+    description: '%MUNKI_DESCRIPTION%'
+    developer: '%MUNKI_DEVELOPER%'
+    display_name: '%MUNKI_DISPLAYNAME%'
+    minimum_os_version: '%MUNKI_MINIMUM_OS_VERSION%'
+    name: '%NAME%'
+    unattended_install: true
+    unattended_uninstall: true
+
+Process:
+- Processor: MunkiImporter
+  Arguments:
+    pkg_path: '%pathname%'
+    repo_subdirectory: '%MUNKI_REPO_SUBDIR%'
