@@ -10,7 +10,7 @@ MinimumVersion: 2.3.0
 
 Input:
   NAME: LogitechOptionsPlus
-  INSTALLER_APP_NAME: 'logioptionsplus_installer'
+  INSTALLER_APP_NAME: logioptionsplus_installer_offline
   INSTALLER_LOG: '/private/tmp'
   INSTALLER_FLAG_ANALYTICS: 'No'
   INSTALLER_FLAG_FLOW: 'No'
