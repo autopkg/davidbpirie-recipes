@@ -1,0 +1,40 @@
+Description: |
+  Downloads latest OmniFocus3 disk image and builds a package,
+  then uploads the package to Jamf Pro.
+
+  JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
+  SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
+  in your AutoPkg preferences, override Input variables, or by
+  command-line keys.
+Identifier: com.github.davidbpirie.jamf-upload.omnifocus3
+MinimumVersion: 2.3.0
+ParentRecipe: com.github.autopkg.pkg.omnifocus3
+
+Input:
+  NAME: OmniFocus3
+  JAMF_CATEGORY: Productivity
+  JAMF_PKG_NAME: '%NAME%'
+  JAMF_PKG_INFO: OmniFocus is designed to quickly capture your thoughts and allow you to store, manage, and process them into actionable to-do items. Perfect for the Getting Things Done® system, but flexible enough for any task management style, OmniFocus helps you work smarter by giving you powerful tools for staying on top of all the things you need to do.
+  JAMF_PKG_NOTES: 'Generated and uploaded by AutoPkg'
+  JAMF_PKG_PRIORITY: '10'
+  JAMF_PKG_REBOOT_REQUIRED: 'False'
+  JAMF_PKG_OS_REQUIREMENTS: ''
+  JAMF_PKG_REQUIRED_PROCESSOR: None
+  JAMF_PKG_SEND_NOTIFICATION: 'False'
+  JAMF_PKG_REPLACE: 'False'
+  JAMF_PKG_REPLACE_METADATA: 'False'
+
+Process:
+  - Processor: com.github.grahampugh.jamf-upload.processors/JamfPackageUploader
+    Arguments:
+      pkg_name: '%JAMF_PKG_NAME%-%version%.pkg'
+      pkg_category: '%JAMF_CATEGORY%'
+      pkg_info: '%JAMF_PKG_INFO%'
+      pkg_notes: '%JAMF_PKG_NOTES%'
+      pkg_priority: '%JAMF_PKG_PRIORITY%'
+      reboot_required: '%JAMF_PKG_REBOOT_REQUIRED%'
+      os_requirements: '%JAMF_PKG_OS_REQUIREMENTS%'
+      required_processor: '%JAMF_PKG_REQUIRED_PROCESSOR%'
+      send_notification: '%JAMF_PKG_SEND_NOTIFICATION%'
+      replace_pkg: '%JAMF_PKG_REPLACE%'
+      replace_pkg_metadata: '%JAMF_PKG_REPLACE_METADATA%'
