@@ -1,0 +1,36 @@
+Description: Downloads latest DYMO Connect package.
+Identifier: com.github.davidbpirie.pkg.DYMOConnect
+MinimumVersion: 2.3.0
+ParentRecipe: com.github.davidbpirie.download.DYMOConnect
+
+Input:
+  NAME: DYMOConnect
+
+Process:
+- Processor: FlatPkgUnpacker
+  Arguments:
+    flat_pkg_path: '%pathname%'
+    destination_path: '%RECIPE_CACHE_DIR%/expanded'
+
+- Processor: PkgPayloadUnpacker
+  Arguments:
+    pkg_payload_path: '%RECIPE_CACHE_DIR%/expanded/dymo-connect.pkg/Payload'
+    destination_path: '%RECIPE_CACHE_DIR%/payload'
+    purge_destination: true
+
+- Processor: PlistReader
+  Arguments:
+    info_path: '%RECIPE_CACHE_DIR%/payload/Applications/DYMO Connect.app/Contents/Info.plist'
+    plist_keys:
+      CFBundleShortVersionString: version
+
+- Processor: PkgCopier
+  Arguments:
+    source_pkg: '%pathname%'
+    pkg_path: '%RECIPE_CACHE_DIR%/%NAME%-%version%.pkg'
+
+- Processor: PathDeleter
+  Arguments:
+    path_list:
+    - '%RECIPE_CACHE_DIR%/expanded'
+    - '%RECIPE_CACHE_DIR%/payload'

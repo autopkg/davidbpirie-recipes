@@ -1,0 +1,32 @@
+Description: Downloads latest DYMO Label Software package.
+Identifier: com.github.davidbpirie.download.DYMOLabelSoftware
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: DYMOLabelSoftware
+  BASE_URL: https://www.dymo.com/compatibility-chart.html
+  USER_AGENT: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82
+
+Process:
+- Processor: URLTextSearcher
+  Arguments:
+    re_pattern: All software versions</th>.*<td><a href=\"([^\"]*\.dmg)\">DYMO Label Software[^<]*</a></td>
+    request_headers:
+      user-agent: '%USER_AGENT%'
+    result_output_var_name: url
+    url: '%BASE_URL%'
+    re_flags:
+    - DOTALL
+    - IGNORECASE
+
+- Processor: URLDownloader
+
+- Processor: EndOfCheckPhase
+
+- Processor: CodeSignatureVerifier
+  Arguments:
+    input_path: '%pathname%/*.pkg'
+    expected_authority_names:
+      - 'Developer ID Installer: Sanford, L.P.'
+      - 'Developer ID Certification Authority'
+      - 'Apple Root CA'
