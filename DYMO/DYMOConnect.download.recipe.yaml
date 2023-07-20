@@ -4,20 +4,18 @@ MinimumVersion: 2.3.0
 
 Input:
   NAME: DYMOConnect
-  BASE_URL: https://www.dymo.com/compatibility-chart.html
+  BASE_URL: https://www.dymo.com/support?cfid=user-guide
+  RE_PATTERN: href=\"([^\"]*\.pkg)\">Download
   USER_AGENT: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82
 
 Process:
 - Processor: URLTextSearcher
   Arguments:
-    re_pattern: All software versions</th>.*<td><a href=\"([^\"]*\.pkg)\">DYMO Connect for Desktop[^<]*</a></td>
+    re_pattern: '%RE_PATTERN%'
     request_headers:
       user-agent: '%USER_AGENT%'
     result_output_var_name: url
     url: '%BASE_URL%'
-    re_flags:
-    - DOTALL
-    - IGNORECASE
 
 - Processor: URLDownloader
 
