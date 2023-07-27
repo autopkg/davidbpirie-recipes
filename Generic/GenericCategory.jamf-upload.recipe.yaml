@@ -1,0 +1,27 @@
+Description: |
+  Generic jamf-upload recipe to be used with overrides for repeated
+  manual upload of a Category.
+
+  Intended use is to generate an override from this recipe, then
+  give the override an unique Identifier, rename it, and populate
+  all the Input variables.
+
+  JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
+  SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
+  in your AutoPkg preferences, override Input variables, or by
+  command-line keys.
+Identifier: com.github.davidbpirie.jamf-upload.genericcategory
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: GenericCategory
+  JAMF_CATEGORY_NAME: '%NAME%'
+  JAMF_CATEGORY_PRIORITY: 10
+  JAMF_CATEGORY_REPLACE: 'False'
+
+Process:
+- Processor: com.github.grahampugh.jamf-upload.processors/JamfCategoryUploader
+  Arguments:
+    category_name: '%JAMF_CATEGORY_NAME%'
+    category_priority: '%JAMF_CATEGORY_PRIORITY%'
+    replace_category: '%JAMF_CATEGORY_REPLACE%'
