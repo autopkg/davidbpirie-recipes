@@ -16,7 +16,7 @@ MinimumVersion: 2.3.0
 Input:
   NAME: GenericCategory
   JAMF_CATEGORY_NAME: '%NAME%'
-  JAMF_CATEGORY_PRIORITY: 10
+  JAMF_CATEGORY_PRIORITY: '10'
   JAMF_CATEGORY_REPLACE: 'False'
 
 Process:
