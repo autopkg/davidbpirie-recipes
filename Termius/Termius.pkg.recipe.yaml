@@ -1,0 +1,13 @@
+Description: |
+  Downloads the latest version of Termius and builds a package.
+Identifier: com.github.davidbpirie.pkg.Termius
+ParentRecipe: com.github.davidbpirie.download.Termius
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: Termius
+
+Process:
+- Processor: AppPkgCreator
+  Arguments:
+    app_path: '%pathname%/Termius.app'

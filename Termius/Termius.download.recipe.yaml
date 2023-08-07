@@ -1,0 +1,18 @@
+Description: |
+  Downloads the latest version of Termius.
+Identifier: com.github.davidbpirie.download.Termius
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: Termius
+  url: https://autoupdate.termius.com/mac-universal/Termius.dmg
+
+Process:
+- Processor: URLDownloader
+
+- Processor: EndOfCheckPhase
+
+- Processor: CodeSignatureVerifier
+  Arguments:
+    input_path: '%pathname%/Termius.app'
+    requirement: identifier "com.termius-dmg.mac" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "6KN952WR85"
