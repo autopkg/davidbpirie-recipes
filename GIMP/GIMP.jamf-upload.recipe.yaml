@@ -8,7 +8,7 @@ Description: |
   command-line keys.
 Identifier: com.github.davidbpirie.jamf-upload.GIMP
 MinimumVersion: 2.3.0
-ParentRecipe: io.github.hjuutilainen.download.GIMP
+ParentRecipe: com.github.grahampugh.pkg.GIMP
 
 Input:
   NAME: GIMP
