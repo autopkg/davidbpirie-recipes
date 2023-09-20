@@ -9,12 +9,16 @@ Input:
   NAME: SketchUpPro%RELEASE_YEAR%
   SUP_FOLDER: SketchUp %RELEASE_YEAR%
   DOWNLOAD_URL: https://www.sketchup.com/sketchup/%RELEASE_YEAR%/SketchUpPro-dmg
+  USER_AGENT: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Safari/605.1.15
+
 
 Process:
 - Processor: URLDownloader
   Arguments:
     filename: '%NAME%.dmg'
     url: '%DOWNLOAD_URL%'
+    request_headers:
+      user-agent: '%USER_AGENT%'
 
 - Processor: EndOfCheckPhase
 
