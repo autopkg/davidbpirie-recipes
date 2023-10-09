@@ -1,0 +1,19 @@
+Description: |
+  Creates a package that installs the Cisco ASDM Launcher.
+
+  Package source DMG must be provided either as Input Variable PKG or
+  via the -p parameter eg:
+  autopkg run CiscoASDMLauncher.pkg -p "path/to/dm-launcher.dmg"
+Identifier: com.github.davidbpirie.pkg.CiscoASDMLauncher
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: Cisco ASDM Launcher
+
+Process:
+  - Processor: PackageRequired
+
+  - Processor: AppPkgCreator
+    Arguments:
+      app_path: '%PKG%/*.app'
+      version_key: CFBundleVersion
