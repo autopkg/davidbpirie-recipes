@@ -31,6 +31,7 @@ Process:
       pkg_category: '%JAMF_CATEGORY%'
       pkg_info: '%JAMF_PKG_INFO%'
       pkg_notes: '%JAMF_PKG_NOTES%'
+      pkg_path: '%pathname%'
       pkg_priority: '%JAMF_PKG_PRIORITY%'
       reboot_required: '%JAMF_PKG_REBOOT_REQUIRED%'
       os_requirements: '%JAMF_PKG_OS_REQUIREMENTS%'
@@ -38,8 +39,3 @@ Process:
       send_notification: '%JAMF_PKG_SEND_NOTIFICATION%'
       replace_pkg: '%JAMF_PKG_REPLACE%'
       replace_pkg_metadata: '%JAMF_PKG_REPLACE_METADATA%'
-
-  - Processor: PathDeleter
-    Arguments:
-      path_list:
-      - '%pkg_path%'
