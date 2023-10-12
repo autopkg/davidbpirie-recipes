@@ -8,7 +8,7 @@ Description: |
   command-line keys.
 Identifier: com.github.davidbpirie.jamf-upload.PostHaste
 MinimumVersion: 2.3.0
-ParentRecipe: com.github.dataJAR-recipes.pkg.Post Haste
+ParentRecipe: com.github.davidbpirie.pkg.PostHaste
 
 Input:
   NAME: PostHaste

@@ -1,0 +1,10 @@
+Description: Downloads the latest version of Post Haste and creates a package.
+Identifier: com.github.davidbpirie.pkg.PostHaste
+ParentRecipe: com.github.dataJAR-recipes.download.Post Haste
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: PostHaste
+
+Process:
+  - Processor: AppPkgCreator
