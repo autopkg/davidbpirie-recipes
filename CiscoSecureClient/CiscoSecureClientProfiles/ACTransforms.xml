@@ -1,0 +1,5 @@
+<!-- Optional AnyConnect installer settings are provided below. Uncomment the setting(s) to perform optional action(s) at install time.  -->
+<Transforms>
+    <!-- <DisableVPN>true</DisableVPN> -->
+    <!-- <DisableCustomerExperienceFeedback>true</DisableCustomerExperienceFeedback> -->
+</Transforms>
