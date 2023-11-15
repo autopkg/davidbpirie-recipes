@@ -4,7 +4,7 @@ Description: |
 
 Identifier: com.github.davidbpirie.munki.UTM
 MinimumVersion: 2.3.0
-ParentRecipe: com.github.ahousseini-recipes.pkg.UTM
+ParentRecipe: com.github.ahousseini-recipes.download.UTM
 
 Input:
   NAME: UTM
