@@ -1,0 +1,35 @@
+Description: |
+  Downloads the latest version of UTM and creates a package,
+  then imports to munki.
+
+Identifier: com.github.davidbpirie.munki.UTM
+MinimumVersion: 2.3.0
+ParentRecipe: com.github.ahousseini-recipes.pkg.UTM
+
+Input:
+  NAME: UTM
+  MUNKI_DISPLAYNAME: UTM
+  MUNKI_DESCRIPTION: UTM is a full featured system emulator and virtual machine host for iOS and macOS. It is based off of QEMU. In short, it allows you to run Windows, Linux, and more on your Mac, iPhone, and iPad.
+  MUNKI_CATEGORY: Business
+  MUNKI_DEVELOPER: UTM
+  MUNKI_MINIMUM_OS_VERSION: 11.3.0
+  MUNKI_REPO_SUBDIR: '%MUNKI_CATEGORY%/%MUNKI_DEVELOPER%/%NAME%'
+  pkginfo:
+    blocking_applications:
+    - UTM.app
+    catalogs:
+    - testing
+    category: '%MUNKI_CATEGORY%'
+    description: '%MUNKI_DESCRIPTION%'
+    developer: '%MUNKI_DEVELOPER%'
+    display_name: '%MUNKI_DISPLAYNAME%'
+    minimum_os_version: '%MUNKI_MINIMUM_OS_VERSION%'
+    name: '%NAME%'
+    unattended_install: true
+    unattended_uninstall: true
+
+Process:
+- Processor: MunkiImporter
+  Arguments:
+    pkg_path: '%pathname%'
+    repo_subdirectory: '%MUNKI_REPO_SUBDIR%'
