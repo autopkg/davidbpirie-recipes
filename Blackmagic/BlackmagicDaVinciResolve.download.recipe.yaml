@@ -8,11 +8,11 @@ Description: |
   Notably, REG_COUNTRY must contain sane values:
   - REG_COUNTRY is of the form 'us', 'ca', etc.
 
-Identifier: com.github.davidbpirie.download.DaVinciResolve
+Identifier: com.github.davidbpirie.download.BlackmagicDaVinciResolve
 MinimumVersion: 2.3.0
 
 Input:
-  NAME: DaVinciResolve
+  NAME: BlackmagicDaVinciResolve
   PRODUCT_MAJOR_VERSION: '17'
   PRODUCT_NAME_PATTERN: '^DaVinci Resolve (?P&lt;version&gt;%PRODUCT_MAJOR_VERSION%(\.\d+)*)( Update)*$'
   REG_CITY: ''

@@ -15,12 +15,12 @@ Description: |
   in your AutoPkg preferences, override Input variables, or by
   command-line keys.
 
-Identifier: com.github.davidbpirie.jamf-upload.DaVinciResolve
-ParentRecipe: com.github.davidbpirie.pkg.DaVinciResolve
+Identifier: com.github.davidbpirie.jamf-upload.BlackmagicDaVinciResolve
+ParentRecipe: com.github.davidbpirie.pkg.BlackmagicDaVinciResolve
 MinimumVersion: 2.3.0
 
 Input:
-  NAME: DaVinciResolve
+  NAME: BlackmagicDaVinciResolve
   PRODUCT_MAJOR_VERSION: '17'
   PRODUCT_NAME_PATTERN: '^DaVinci Resolve (?P&lt;version&gt;%PRODUCT_MAJOR_VERSION%(\.\d+)*)( Update)*$'
   JAMF_CATEGORY: Photo & Video
