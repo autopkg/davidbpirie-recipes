@@ -8,8 +8,8 @@ Description: |
   in your AutoPkg preferences, override Input variables, or by
   command-line keys.
 
-Identifier: com.github.davidbpirie.jamf-upload.MacEvaluationUtility
-ParentRecipe: com.github.davidbpirie.pkg.MacEvaluationUtility
+Identifier: com.github.davidbpirie.jamf-upload.iLokLicenseManager
+ParentRecipe: com.github.davidbpirie.pkg.iLokLicenseManager
 MinimumVersion: 2.3.0
 
 Input:
