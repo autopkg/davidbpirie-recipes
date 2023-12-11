@@ -8,7 +8,7 @@ Description: |
   Notably, REG_COUNTRY must contain sane values:
   - REG_COUNTRY is of the form 'us', 'ca', etc.
 
-Identifier: com.github.davidbpirie.download.davinciresolve
+Identifier: com.github.davidbpirie.download.DaVinciResolve
 MinimumVersion: 2.3.0
 
 Input:

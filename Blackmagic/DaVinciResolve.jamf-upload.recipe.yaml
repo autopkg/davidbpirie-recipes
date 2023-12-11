@@ -15,8 +15,8 @@ Description: |
   in your AutoPkg preferences, override Input variables, or by
   command-line keys.
 
-Identifier: com.github.davidbpirie.jamf-upload.davinciresolve
-ParentRecipe: com.github.davidbpirie.pkg.davinciresolve
+Identifier: com.github.davidbpirie.jamf-upload.DaVinciResolve
+ParentRecipe: com.github.davidbpirie.pkg.DaVinciResolve
 MinimumVersion: 2.3.0
 
 Input:
