@@ -22,7 +22,7 @@ MinimumVersion: 2.3.0
 Input:
   NAME: BlackmagicDaVinciResolve
   PRODUCT_MAJOR_VERSION: '17'
-  PRODUCT_NAME_PATTERN: '^DaVinci Resolve (?P&lt;version&gt;%PRODUCT_MAJOR_VERSION%(\.\d+)*)( Update)*$'
+  PRODUCT_NAME_PATTERN: '^DaVinci Resolve (?P<version>%PRODUCT_MAJOR_VERSION%(\.\d+)*)( Update)*$'
   JAMF_CATEGORY: Photo & Video
   JAMF_PKG_NAME: '%NAME%'
   JAMF_PKG_INFO: This software installs the free version of DaVinci Resolve %PRODUCT_MAJOR_VERSION%
