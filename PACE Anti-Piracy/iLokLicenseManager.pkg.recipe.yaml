@@ -1,0 +1,48 @@
+Description: |
+  Downloads the latest iLok License Manager disk image, then copies 
+  the package from the DMG, extracting the version.
+
+Identifier: com.github.davidbpirie.pkg.iLokLicenseManager
+ParentRecipe: io.github.hjuutilainen.download.iLokLicenseManager
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: iLokLicenseManager
+
+Process:
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: "%found_filename%/*.pkg"
+      expected_authority_names:
+        - 'Developer ID Installer: PACE Anti-Piracy, Inc. (TFZ8226T6X)'
+        - Developer ID Certification Authority
+        - Apple Root CA
+
+  - Processor: FlatPkgUnpacker
+    Arguments:
+      flat_pkg_path: "%found_filename%/*.pkg"
+      destination_path: "%RECIPE_CACHE_DIR%/unpack"
+      purge_destination: True
+
+  - Processor: PkgPayloadUnpacker
+    Arguments:
+      pkg_payload_path: '%RECIPE_CACHE_DIR%/unpack/License_Service.pkg/Payload'
+      destination_path: '%RECIPE_CACHE_DIR%/payload'
+      purge_destination: True
+
+  - Processor: PlistReader
+    Arguments:
+      info_path: '%RECIPE_CACHE_DIR%/payload/Library/PrivilegedHelperTools/licenseDaemon.app'
+      plist_keys:
+        CFBundleVersion: version
+
+  - Processor: PkgCopier
+    Arguments:
+      source_pkg: "%found_filename%/*.pkg"
+      pkg_path: "%RECIPE_CACHE_DIR%/%NAME%-%version%.pkg"
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+      - '%RECIPE_CACHE_DIR%/unpack'
+      - '%RECIPE_CACHE_DIR%/payload'
