@@ -34,7 +34,13 @@ Process:
     Arguments:
       info_path: '%RECIPE_CACHE_DIR%/payload/Library/PrivilegedHelperTools/licenseDaemon.app'
       plist_keys:
-        CFBundleVersion: version
+        CFBundleShortVersionString: short-version
+
+  - Processor: com.github.jazzace.processors/TextSearcher
+    Arguments:
+      re_pattern: ^[^ ]*
+      text_in: '%short-version%'
+      result_output_var_name: 'version'
 
   - Processor: PkgCopier
     Arguments:
