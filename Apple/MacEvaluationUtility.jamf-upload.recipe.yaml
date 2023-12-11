@@ -20,7 +20,12 @@ Input:
   NAME: MacEvaluationUtility
   JAMF_CATEGORY: Utilities
   JAMF_PKG_NAME: '%NAME%'
-  JAMF_PKG_INFO: Mac Evaluation Utility evaluates your organization's ability to deploy Mac computers. The app checks the network to help verify that critical hosts and services are reachable for essential services like Automated Device Enrollment and software updates. It also examines the device's management configuration to help make sure you're aligned with best practices. The results can be shared with colleagues to help you build a plan to succeed at deploying Mac computers at scale.
+  JAMF_PKG_INFO: Mac Evaluation Utility evaluates your organization's ability to deploy
+    Mac computers. The app checks the network to help verify that critical hosts and
+    services are reachable for essential services like Automated Device Enrollment
+    and software updates. It also examines the device's management configuration to
+    help make sure you're aligned with best practices. The results can be shared with
+    colleagues to help you build a plan to succeed at deploying Mac computers at scale.
   JAMF_PKG_NOTES: Uploaded by AutoPkg
   JAMF_PKG_OS_REQUIREMENTS: ''
   JAMF_PKG_PRIORITY: '10'
