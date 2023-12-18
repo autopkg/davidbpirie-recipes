@@ -1,0 +1,83 @@
+Description: |
+  Creates a package that installs the client preferences for iLok
+  License Manager and a postinstall script that reloads the license
+  daemon Launch Daemon.
+
+  The source client preferences file must first be created manually
+  on a client device by running iLok License Manager, selecting
+  iLok License Manager -> Preferences -> My Connections, and
+  configuring as required. This will populate the required client
+  preferences file at:
+  /Library/Preferences/com.paceap.eden.floating.v1.client.prefs
+
+  Client preferences file must be provided either as Input Variable
+  PKG or via the -p parameter; the desired package version must be
+  provided via the -k version parameter eg:
+  autopkg run iLokLicenseManagerClientConfig.pkg -p "path/to/com.paceap.eden.floating.v1.client.prefs" -k version "1.0.0"
+
+  PKG_ID is the ID of the generated package.
+
+  Inspired by https://community.jamf.com/t5/jamf-pro/configuring-ilok-license-server-clients/td-p/272536
+Identifier: com.github.davidbpirie.pkg.iLokLicenseManagerClientConfig
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: iLokLicenseManagerClientConfig
+  PKG_ID: com.github.davidbpirie.iLokLicenseManagerClientConfig
+  version: Provide_version_in_input_key
+
+Process:
+  - Processor: PackageRequired
+
+  - Processor: StopProcessingIf
+    Arguments:
+      predicate: version == 'Provide_version_in_input_key'
+
+  - Processor: PkgRootCreator
+    Arguments:
+      pkgdirs:
+        payload: "0775"
+        payload/Library: '0755'
+        payload/Library/Preferences: '0755'
+        scripts: "0775"
+      pkgroot: "%RECIPE_CACHE_DIR%/%NAME%"
+
+  - Processor: Copier
+    Arguments:
+      source_path: "%PKG%"
+      destination_path: "%RECIPE_CACHE_DIR%/%NAME%/payload/Library/Preferences/com.paceap.eden.floating.v1.client.prefs"
+      overwrite: True
+
+  - Processor: FileCreator
+    Arguments:
+      file_content: |
+        #!/bin/zsh
+
+        ################################################################################
+        #
+        # Unloads and reloads the iLok License Manager service
+        #
+        ################################################################################
+
+        /bin/launchctl bootout system /Library/LaunchDaemons/com.paceap.eden.licensed.plist
+        /bin/launchctl bootstrap system /Library/LaunchDaemons/com.paceap.eden.licensed.plist
+
+        exit 0
+      file_mode: "0755"
+      file_path: "%RECIPE_CACHE_DIR%/%NAME%/scripts/postinstall"
+
+  - Processor: PkgCreator
+    Arguments:
+      pkg_request:
+        chown: []
+        id: "%PKG_ID%"
+        options: purge_ds_store
+        pkgname: "%NAME%-%version%"
+        pkgroot: "%RECIPE_CACHE_DIR%/%NAME%/payload"
+        scripts: "%RECIPE_CACHE_DIR%/%NAME%/scripts"
+        version: "%version%"
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+        - "%RECIPE_CACHE_DIR%/%NAME%"
