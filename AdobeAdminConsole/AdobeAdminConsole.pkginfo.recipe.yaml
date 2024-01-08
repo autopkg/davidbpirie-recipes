@@ -1,0 +1,38 @@
+Description: |
+  Expands the zip archive downloaded with an Adobe Admin Console-
+  generated downloader, identifies the package name, then extracts
+  package metadata from the installer using dataJAR's custom
+  processor.
+
+  Run this recipe verbosely to see what the dataJAR custom
+  processor will output. Useful when preparing overrides.
+
+  Intended use is to generate an override from this recipe, then
+  give the override an unique Identifier and populate all the
+  Input variables. When using the recipe, also provide the source
+  archive via the -p parameter eg:
+  autopkg run MyAdobeApp.pkginfo -p MyAdobeApp.zip
+
+Identifier: com.github.davidbpirie.pkginfo.AdobeAdminConsole
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: AdobeAdminConsole
+
+Process:
+  - Processor: PackageRequired
+
+  - Processor: Unarchiver
+    Arguments:
+      archive_path: '%PKG%'
+      destination_path: '%RECIPE_CACHE_DIR%/unpack'
+      purge_destination: True
+
+  - Processor: FileFinder
+    Arguments:
+      pattern: '%RECIPE_CACHE_DIR%/unpack/*' 
+
+  - Processor: com.github.dataJAR-recipes.munki.Adobe XD/AdobeAdminConsolePackagesPkgInfoCreator
+    Arguments:
+      aacp_package_name: '%found_basename%'
+      aacp_packages_path: '%RECIPE_CACHE_DIR%/unpack'

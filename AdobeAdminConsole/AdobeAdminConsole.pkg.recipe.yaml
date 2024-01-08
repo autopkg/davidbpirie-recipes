@@ -13,31 +13,12 @@ Description: |
 
 Identifier: com.github.davidbpirie.pkg.AdobeAdminConsole
 MinimumVersion: 2.3.0
+ParentRecipe: com.github.davidbpirie.pkginfo.AdobeAdminConsole
 
 Input:
   NAME: AdobeAdminConsole
-  JAMF_CATEGORY: Photo & Video
-  JAMF_CATEGORY_PRIORITY: '10'
-  JAMF_CATEGORY_REPLACE: 'False'
 
 Process:
-  - Processor: PackageRequired
-
-  - Processor: Unarchiver
-    Arguments:
-      archive_path: '%PKG%'
-      destination_path: '%RECIPE_CACHE_DIR%/unpack'
-      purge_destination: True
-
-  - Processor: FileFinder
-    Arguments:
-      pattern: '%RECIPE_CACHE_DIR%/unpack/*' 
-
-  - Processor: com.github.dataJAR-recipes.munki.Adobe XD/AdobeAdminConsolePackagesPkgInfoCreator
-    Arguments:
-      aacp_package_name: '%found_basename%'
-      aacp_packages_path: '%RECIPE_CACHE_DIR%/unpack'
-
   - Processor: PkgCopier
     Arguments:
       source_pkg: '%aacp_install_pkg_path%'
