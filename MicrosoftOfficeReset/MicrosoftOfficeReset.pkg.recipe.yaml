@@ -1,0 +1,92 @@
+Description: |
+  Downloads the latest version of the Microsoft Office Reset package,
+  then creates a package that runs the Microsoft Office Reset package
+  via a postinstall script, applying a custom set of choices.
+
+  Intended use is to create multiple overrides, one for each set of
+  option combinations required.
+
+  PKG_ID is the ID of the generated package.
+
+  desired_choices is the list of pkg components you would like installed.
+  Default is to perform a factory reset of Office.
+  All choices as of v1.9.1 are:
+    - com.microsoft.reset.Word
+    - com.microsoft.reset.Excel
+    - com.microsoft.reset.PowerPoint
+    - com.microsoft.reset.Outlook
+    - com.microsoft.remove.Outlook.Data
+    - com.microsoft.reset.OneNote
+    - com.microsoft.reset.OneDrive
+    - com.microsoft.reset.Teams
+    - com.microsoft.remove.SkypeForBusiness
+    - com.microsoft.reset.AutoUpdate
+    - com.microsoft.reset.Credentials
+    - com.microsoft.reset.Factory
+    - com.microsoft.remove.Office
+    - com.microsoft.remove.ZoomPlugin
+    - com.microsoft.remove.WebExPT
+  To find all available choices, run:
+  installer -showChoicesXML -pkg path/to/Microsoft_Office_Reset.pkg
+
+Identifier: com.github.davidbpirie.pkg.MicrosoftOfficeReset
+ParentRecipe: com.github.mlbz521.download.MicrosoftOfficeResetOptions
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: MicrosoftOfficeReset
+  desired_choices:
+    - com.microsoft.reset.Factory
+  PKG_ID: com.github.davidbpirie.MicrosoftOfficeReset
+
+Process:
+  - Processor: PkgRootCreator
+    Arguments:
+      pkgdirs:
+        payload: "0775"
+        scripts: "0775"
+      pkgroot: "%RECIPE_CACHE_DIR%/%NAME%"
+
+  - Processor: PkgCopier
+    Arguments:
+      source_pkg: "%pathname%"
+      pkg_path: "%RECIPE_CACHE_DIR%/%NAME%/scripts/%NAME%.pkg"
+
+  - Processor: com.github.grahampugh.recipes.commonprocessors/ChoicesXMLGenerator
+    Arguments:
+      choices_pkg_path: "%pkg_path%"
+      choices_xml_dest: "%RECIPE_CACHE_DIR%/%NAME%/scripts/choices.xml"
+
+  - Processor: FileCreator
+    Arguments:
+      file_content: |
+        #!/bin/zsh
+
+        ################################################################################
+        #
+        # Runs the MIcrosoft Office Reset package, applying the choices.xml choices file
+        #
+        ################################################################################
+
+        ROOT_DIR="$( cd -- "$(/usr/bin/dirname "$0")"; pwd -P )"
+
+        /usr/sbin/installer -applyChoiceChangesXML "${ROOT_DIR}/choices.xml" -pkg "${ROOT_DIR}/%NAME%.pkg" -target /
+        exit $?
+      file_mode: "0755"
+      file_path: "%RECIPE_CACHE_DIR%/%NAME%/scripts/postinstall"
+
+  - Processor: PkgCreator
+    Arguments:
+      pkg_request:
+        chown: []
+        id: "%PKG_ID%"
+        options: purge_ds_store
+        pkgname: "%NAME%-%version%"
+        pkgroot: "%RECIPE_CACHE_DIR%/%NAME%/payload"
+        scripts: "%RECIPE_CACHE_DIR%/%NAME%/scripts"
+        version: "%version%"
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+        - "%RECIPE_CACHE_DIR%/%NAME%"
