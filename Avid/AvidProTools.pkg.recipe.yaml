@@ -26,7 +26,7 @@ Process:
   - Processor: PkgCopier
     Arguments:
       source_pkg: "%PKG%/*.pkg"
-      pkg_path: "%RECIPE_CACHE_DIR%/%NAME%/scripts/%NAME%.pkg"
+      pkg_path: "%RECIPE_CACHE_DIR%/%NAME%.pkg"
 
   - Processor: FlatPkgUnpacker
     Arguments:
