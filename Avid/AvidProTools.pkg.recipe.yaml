@@ -1,0 +1,55 @@
+Description: |
+  Copies the Install Pro Tools pkg from the source DMG, verifying the signature and
+  extracting the version.
+
+  Package source DMG must be manually downloaded from Avid, then provided
+  either as Input Variable PKG or via the -p parameter eg:
+  autopkg run AvidProTools.pkg -p "path/to/Pro_Tools_2023.12.1_Mac.dmg"
+
+Identifier: com.github.davidbpirie.pkg.AvidProTools
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: AvidProTools
+
+Process:
+  - Processor: PackageRequired
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: "%PKG%/*.pkg"
+      expected_authority_names:
+        - "Developer ID Installer: Avid Technology Inc (4UYUA773XD)"
+        - Developer ID Certification Authority
+        - Apple Root CA
+
+  - Processor: PkgCopier
+    Arguments:
+      source_pkg: "%PKG%/*.pkg"
+      pkg_path: "%RECIPE_CACHE_DIR%/%NAME%/scripts/%NAME%.pkg"
+
+  - Processor: FlatPkgUnpacker
+    Arguments:
+      flat_pkg_path: "%pkg_path%"
+      skip_payload: False
+      destination_path: "%RECIPE_CACHE_DIR%/unpack"
+      purge_destination: True
+
+  - Processor: PkgPayloadUnpacker
+    Arguments:
+      pkg_payload_path: "%RECIPE_CACHE_DIR%/unpack/Pro Tools Application.pkg/Payload"
+      destination_path: "%RECIPE_CACHE_DIR%/unpack-payload"
+      purge_destination: True
+
+  - Processor: PlistReader
+    Arguments:
+      info_path: "%RECIPE_CACHE_DIR%/unpack-payload/Applications/Pro Tools.app"
+      plist_keys:
+        CFBundleShortVersionString: version
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+        - "%RECIPE_CACHE_DIR%/%NAME%"
+        - "%RECIPE_CACHE_DIR%/unpack"
+        - "%RECIPE_CACHE_DIR%/unpack-payload"
