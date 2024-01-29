@@ -1,0 +1,17 @@
+Description: |
+  Downloads the latest version of Wireshark, extracts the version,
+  verifies the signature, then generates a pkg.
+
+  ARCH should be one of Intel or Arm.
+Identifier: com.github.davidbpirie.pkg.wireshark
+ParentRecipe: com.github.davidbpirie.download.wireshark
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: Wireshark
+
+Process:
+- Processor: AppPkgCreator
+  Arguments:
+    app_path: '%pathname%/%app_name%'
+    pkg_path: '%RECIPE_CACHE_DIR%/%NAME%-%version%.pkg'

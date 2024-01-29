@@ -1,0 +1,37 @@
+Description: |
+  Downloads the latest version of Wireshark, extracts the version,
+  then verifies the signature.
+
+  ARCH should be one of Intel or Arm.
+Identifier: com.github.davidbpirie.download.wireshark
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: Wireshark
+  ARCH: Arm
+  SEARCH_URL: https://www.wireshark.org/download.html
+  SEARCH_RE: href=\"(https:\/\/[^\"]*osx/Wireshark[^\"]*%ARCH%[^\"]*64\.dmg)\"
+
+Process:
+- Processor: URLTextSearcher
+  Arguments:
+    re_pattern: '%SEARCH_RE%'
+    url: '%SEARCH_URL%'
+    re_flags:
+    - IGNORECASE
+
+- Processor: URLDownloader
+  Arguments:
+    filename: '%NAME%.dmg'
+    url: '%match%'
+
+- Processor: EndOfCheckPhase
+
+- Processor: AppDmgVersioner
+  Arguments:
+    dmg_path: '%pathname%'
+
+- Processor: CodeSignatureVerifier
+  Arguments:
+    input_path: '%pathname%/%app_name%'
+    requirement: identifier "org.wireshark.Wireshark" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "7Z6EMTD2C6"
