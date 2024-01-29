@@ -1,0 +1,17 @@
+Description: |
+  Downloads the latest version of Wireshark, then copies the
+  Install ChmodBPF pkg from the downloaded dmg.
+
+Identifier: com.github.davidbpirie.pkg.wiresharkchmodbpf
+ParentRecipe: com.github.davidbpirie.download.wireshark
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: WiresharkChmodBPF
+  SOURCE_PKG_NAME: Install ChmodBPF
+
+Process:
+- Processor: PkgCopier
+  Arguments:
+    source_pkg: '%pathname%/%SOURCE_PKG_NAME%.pkg'
+    pkg_path: '%RECIPE_CACHE_DIR%/%NAME%.pkg'
