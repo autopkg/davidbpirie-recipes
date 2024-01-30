@@ -1,6 +1,7 @@
 Description: |
   Downloads the latest version of Wireshark, then copies the
-  Install ChmodBPF pkg from the downloaded dmg.
+  Install ChmodBPF pkg from the downloaded dmg, verifying the code
+  signature and extracting the version.
 
   ARCH should be one of Intel or Arm, but should not affect the result.
 Identifier: com.github.davidbpirie.pkg.wiresharkchmodbpf
@@ -12,7 +13,28 @@ Input:
   SOURCE_PKG_NAME: Install ChmodBPF
 
 Process:
+- Processor: CodeSignatureVerifier
+  Arguments:
+    input_path: '%pathname%/%SOURCE_PKG_NAME%.pkg'
+    expected_authority_names:
+      - "Developer ID Installer: Wireshark Foundation (7Z6EMTD2C6)"
+      - "Developer ID Certification Authority"
+      - "Apple Root CA"    
+
+- Processor: FlatPkgUnpacker
+  Arguments:
+    flat_pkg_path: '%pathname%/%SOURCE_PKG_NAME%.pkg'
+    destination_path: '%RECIPE_CACHE_DIR%/unpack'
+
+- Processor: FileFinder
+  Arguments:
+    pattern: '%RECIPE_CACHE_DIR%/unpack/*/PackageInfo'
+
+- Processor: com.github.nmcspadden.shared/PackageInfoVersioner
+  Arguments:
+    package_info_path: '%found_filename%'
+
 - Processor: PkgCopier
   Arguments:
     source_pkg: '%pathname%/%SOURCE_PKG_NAME%.pkg'
-    pkg_path: '%RECIPE_CACHE_DIR%/%NAME%.pkg'
+    pkg_path: '%RECIPE_CACHE_DIR%/%NAME%-%version%.pkg'
