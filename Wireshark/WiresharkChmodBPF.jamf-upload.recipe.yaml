@@ -1,6 +1,7 @@
 Description: |
-  Downloads the latest version of Wireshark, copies the Install
-  ChmodBPF pkg from the downloaded dmg, then uploads the package
+  Downloads the latest version of Wireshark, then copies the
+  Install ChmodBPF pkg from the downloaded dmg, verifying the code
+  signature and extracting the version, then uploads the package
   to Jamf Pro.
 
   ARCH should be one of Intel or Arm, but should not affect the result.
@@ -31,7 +32,7 @@ Input:
 Process:
   - Processor: com.github.grahampugh.jamf-upload.processors/JamfPackageUploader
     Arguments:
-      pkg_name: '%JAMF_PKG_NAME%.%JAMF_PKG_SUFFIX%'
+      pkg_name: '%JAMF_PKG_NAME%-%version%.%JAMF_PKG_SUFFIX%'
       pkg_category: '%JAMF_CATEGORY%'
       pkg_info: '%JAMF_PKG_INFO%'
       pkg_notes: '%JAMF_PKG_NOTES%'
