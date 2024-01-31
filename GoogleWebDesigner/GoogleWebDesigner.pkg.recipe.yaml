@@ -9,7 +9,31 @@ Input:
   NAME: GoogleWebDesigner
 
 Process:
-- Processor: AppPkgCreator
+- Processor: PkgRootCreator
   Arguments:
-    app_path: '%pathname%/%app_name%'
-    pkg_path: '%RECIPE_CACHE_DIR%/%NAME%-%version%.pkg'
+    pkgroot: '%RECIPE_CACHE_DIR%/%NAME%'
+    pkgdirs:
+      Applications: '0775'
+
+- Processor: Copier
+  Arguments:
+    source_path: '%pathname%/%app_name%'
+    destination_path: '%pkgroot%/Applications/%app_name%'
+
+- Processor: com.github.jessepeterson.munki.UniversalTypeClient5/ModeChanger
+  Arguments:
+    filename: '%pkgroot%/Applications/%app_name%'
+    mode: a+rx
+
+- Processor: PkgCreator
+  Arguments:
+    pkg_request:
+      chown:
+      - path: Applications
+        user: root
+        group: admin
+      id: '%bundleid%'
+      options: purge_ds_store
+      pkgname: '%NAME%-%version%'
+      pkgroot: '%RECIPE_CACHE_DIR%/%NAME%'
+      version: '%VERSION%'
