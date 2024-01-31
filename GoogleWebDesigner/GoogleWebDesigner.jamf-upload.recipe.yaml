@@ -11,8 +11,8 @@ MinimumVersion: 2.3.0
 ParentRecipe: com.github.jannheider.pkg.GoogleWebDesigner
 
 Input:
-  NAME: Google Web Designer
-  JAMF_CATEGORY: Utilities
+  NAME: GoogleWebDesigner
+  JAMF_CATEGORY: Business
   JAMF_PKG_NAME: '%NAME%'
   JAMF_PKG_INFO: A free web browser developed by Google from the open source chromium project (href://alternativeto.net/software/chromium/) with a focus on speed and minimalism.
   JAMF_PKG_NOTES: 'Generated and uploaded by AutoPkg'
