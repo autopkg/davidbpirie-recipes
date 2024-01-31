@@ -1,0 +1,15 @@
+Description: |
+  Downloads the latest version of Google Web Designer, extracts the
+  version, verifies the signature, then generates a pkg.
+Identifier: com.github.davidbpirie.pkg.GoogleWebDesigner
+ParentRecipe: com.github.davidbpirie.download.GoogleWebDesigner
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: GoogleWebDesigner
+
+Process:
+- Processor: AppPkgCreator
+  Arguments:
+    app_path: '%pathname%/%app_name%'
+    pkg_path: '%RECIPE_CACHE_DIR%/%NAME%-%version%.pkg'
