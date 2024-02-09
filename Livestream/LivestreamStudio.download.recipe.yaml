@@ -18,6 +18,7 @@ Process:
 
   - Processor: CodeSignatureVerifier
     Arguments:
+      input_path: '%pathname%'
       expected_authority_names:
         - 'Developer ID Installer: Vimeo.com, Inc. (35R365FS4Q)'
         - Developer ID Certification Authority
