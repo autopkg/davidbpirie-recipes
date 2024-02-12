@@ -4,7 +4,7 @@ Description: |
   creates a package that installs the NDI Tools pkg via a postinstall
   script, applying the given choice.
 
-  PKG_ID is the ID of the generated package.
+  APPLICATION_NAME is the name of the application excluding the .app suffix.
 
   desired_choice is the single pkg components you would like installed.
   To find all available choices, run:
@@ -16,6 +16,8 @@ Description: |
     com.newtek.Application-Mac-NDI-VirtualInput
     com.newtek.NDI-Tools
     com.newtek.Test-Patterns-Mac-
+
+  PKG_ID is the ID of the generated package.
 
   Intended use is to generate an override, specifying a single
   choice and providing an unique PKG_ID and Identifier, for

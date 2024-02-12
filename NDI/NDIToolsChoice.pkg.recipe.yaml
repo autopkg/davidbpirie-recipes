@@ -4,8 +4,6 @@ Description: |
   creates a package that installs the NDI Tools pkg via a postinstall
   script, applying the given choice.
 
-  PKG_ID is the ID of the generated package.
-
   desired_choice is the single pkg components you would like installed.
   To find all available choices, run:
   installer -showChoicesXML -pkg path/to/NDIToolsInstaller.pkg
@@ -27,6 +25,8 @@ Description: |
     com.newtek.NDI-HX-Driver
     com.newtek.NDI-Tools
   
+    PKG_ID is the ID of the generated package.
+
   Intended use is to generate an override, specifying a single
   choice and providing an unique PKG_ID and Identifier, for
   each desired NDI Tools item.

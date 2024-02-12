@@ -1,30 +1,22 @@
 Description: |
   Downloads the latest version of the NDI Tools pkg and verifies
-  the signature, extracts the version of the given choice, creates
-  a package that installs the NDI Tools pkg via a postinstall
-  script applying the given choice, then uploads the package to
+  the signature, extracts the version of the given choice app and
+  creates a package that installs the NDI Tools pkg via a postinstall
+  script, applying the given choice, then uploads the package to
   Jamf Pro.
+
+  APPLICATION_NAME is the name of the application excluding the .app suffix.
 
   desired_choice is the single pkg components you would like installed.
   To find all available choices, run:
   installer -showChoicesXML -pkg path/to/NDIToolsInstaller.pkg
-  At time of writing these are:
-    com.newtek.Application-Mac-NDI-ScanConverter
+  At time of writing choices that install an app are:
     com.newtek.Application-Mac-NDI-AccessManager
-    com.newtek.Application-Mac-NDI-VirtualInput
-    com.newtek.NDIVirtualCamera
-    com.newtek.driver.NDIAudio
+    com.newtek.Application-Mac-NDI-ScanConverter
     com.newtek.Application-Mac-NDI-StudioMonitor
-    com.newtek.ndi.recording
-    com.newtek.Test-Patterns-Mac-
-    com.newtek.NewTek-Import-SpeedHQ
-    com.newtek.NDI-Transmit-AdobeCC
-    com.newtek.DAL.NDIplugin
-    com.newtek.DAL.NDIpluginlaunchdaemon
-    com.newtek.HAL.NDIaudioplugin
-    com.newtek.NDI.prefpane
-    com.newtek.NDI-HX-Driver
+    com.newtek.Application-Mac-NDI-VirtualInput
     com.newtek.NDI-Tools
+    com.newtek.Test-Patterns-Mac-
 
   PKG_ID is the ID of the generated package.
 
@@ -37,8 +29,8 @@ Description: |
   choice and providing an unique PKG_ID and Identifier, for
   each desired NDI Tools item.
 
-Identifier: com.github.davidbpirie.jamf-upload.NDIToolsChoice
-ParentRecipe: com.github.davidbpirie.pkg.NDIToolsChoice
+Identifier: com.github.davidbpirie.jamf-upload.NDIToolsChoiceApp
+ParentRecipe: com.github.davidbpirie.pkg.NDIToolsChoiceApp
 MinimumVersion: 2.3.0
 
 Input:
