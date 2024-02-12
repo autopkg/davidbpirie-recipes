@@ -1,0 +1,25 @@
+Description: |
+  Downloads the latest version of the NDI Tools pkg and verifies
+  the signature.
+Identifier: com.github.davidbpirie.download.NDITools
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: NDITools
+  DOWNLOAD_URL: https://downloads.ndi.tv/Tools/NDIToolsInstaller.pkg
+
+Process:
+  - Processor: URLDownloader
+    Arguments:
+      filename: '%NAME%.pkg'
+      url: '%DOWNLOAD_URL%'
+
+  - Processor: EndOfCheckPhase
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: '%pathname%'
+      expected_authority_names:
+        - 'Developer ID Installer: NewTek, Inc. (W8U66ET244)'
+        - Developer ID Certification Authority
+        - Apple Root CA
