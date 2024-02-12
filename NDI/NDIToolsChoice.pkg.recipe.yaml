@@ -2,7 +2,7 @@ Description: |
   Downloads the latest version of the NDI Tools pkg and verifies
   the signature, then extracts the version of the given choice and
   creates a package that installs the NDI Tools pkg via a postinstall
-  script, applying the custom choice.
+  script, applying the given choice.
 
   PKG_ID is the ID of the generated package.
 
@@ -26,6 +26,10 @@ Description: |
     com.newtek.NDI.prefpane
     com.newtek.NDI-HX-Driver
     com.newtek.NDI-Tools
+  
+  Intended use is to generate an override, specifying a single
+  choice and providing an unique PKG_ID and Identifier, for
+  each desired NDI Tools item.
 
 Identifier: com.github.davidbpirie.pkg.NDIToolsChoice
 ParentRecipe: com.github.davidbpirie.download.NDITools
