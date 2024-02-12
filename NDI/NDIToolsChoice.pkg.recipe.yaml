@@ -104,8 +104,3 @@ Process:
         scripts: '%RECIPE_CACHE_DIR%/%NAME%/scripts'
         version: '%version%'
 
-  - Processor: PathDeleter
-    Arguments:
-      path_list:
-        - '%RECIPE_CACHE_DIR%/%NAME%'
-        - '%RECIPE_CACHE_DIR%/unpack'

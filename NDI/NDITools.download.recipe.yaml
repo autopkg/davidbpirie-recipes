@@ -11,7 +11,7 @@ Input:
 Process:
   - Processor: URLDownloader
     Arguments:
-      filename: '%NAME%.pkg'
+      filename: NDIToolsInstaller.pkg
       url: '%DOWNLOAD_URL%'
 
   - Processor: EndOfCheckPhase
