@@ -17,6 +17,7 @@
 from __future__ import absolute_import
 
 import subprocess
+import urllib.parse
 
 from autopkglib import Processor, ProcessorError  # pylint: disable=import-error
 import plistlib
@@ -87,7 +88,7 @@ class FirstActivePackageInChoice(Processor):
 
         child_items = self.output_showchoicesxml(choices_pkg_path)
         desired_child_item = self.get_child_with_identifier(child_items=child_items, desired_choice=desired_choice)
-        first_active_pkg = desired_child_item["pathsOfActivePackagesInChoice"][0].split("#",1)[1]
+        first_active_pkg = urllib.parse.unquote(desired_child_item["pathsOfActivePackagesInChoice"][0].split("#",1)[1])
         self.env["first_active_pkg"] = first_active_pkg
         self.output(f"first_active_pkg: {self.env['first_active_pkg']}")
 
