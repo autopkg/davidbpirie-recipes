@@ -105,3 +105,10 @@ Process:
         pkgroot: '%RECIPE_CACHE_DIR%/%NAME%/payload'
         scripts: '%RECIPE_CACHE_DIR%/%NAME%/scripts'
         version: '%version%'
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+        - '%RECIPE_CACHE_DIR%/%NAME%'
+        - '%RECIPE_CACHE_DIR%/unpack'
+        - '%RECIPE_CACHE_DIR%/unpack-payload'

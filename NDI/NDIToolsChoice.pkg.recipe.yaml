@@ -24,7 +24,7 @@ Description: |
     com.newtek.NDI.prefpane
     com.newtek.NDI-HX-Driver
     com.newtek.NDI-Tools
-  
+
     PKG_ID is the ID of the generated package.
 
   Intended use is to generate an override, specifying a single
@@ -105,3 +105,8 @@ Process:
         scripts: '%RECIPE_CACHE_DIR%/%NAME%/scripts'
         version: '%version%'
 
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+        - '%RECIPE_CACHE_DIR%/%NAME%'
+        - '%RECIPE_CACHE_DIR%/unpack'
