@@ -29,7 +29,7 @@ MinimumVersion: 2.3.0
 
 Input:
   NAME: NDIToolsChoiceBundle
-  APPLICATION_NAME: ''
+  BUNDLE_NAME: ''
   desired_choice: ''
   PKG_ID: com.github.davidbpirie.NDIToolsChoice
 
