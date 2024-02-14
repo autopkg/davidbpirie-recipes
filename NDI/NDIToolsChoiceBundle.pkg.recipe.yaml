@@ -1,15 +1,15 @@
 Description: |
   Downloads the latest version of the NDI Tools pkg and verifies
-  the signature, then extracts the version of the given choice app and
+  the signature, then extracts the version of the given choice, and
   creates a package that installs the NDI Tools pkg via a postinstall
   script, applying the given choice.
 
-  APPLICATION_NAME is the name of the application excluding the .app suffix.
+  BUNDLE_NAME is the name of the application or similar bundle.
 
   desired_choice is the single pkg components you would like installed.
   To find all available choices, run:
   installer -showChoicesXML -pkg path/to/NDIToolsInstaller.pkg
-  At time of writing choices that install an app are:
+  At time of writing choices that install a bundle are:
     com.newtek.Application-Mac-NDI-AccessManager
     com.newtek.Application-Mac-NDI-ScanConverter
     com.newtek.Application-Mac-NDI-StudioMonitor
@@ -23,12 +23,12 @@ Description: |
   choice and providing an unique PKG_ID and Identifier, for
   each desired NDI Tools item.
 
-Identifier: com.github.davidbpirie.pkg.NDIToolsChoiceApp
+Identifier: com.github.davidbpirie.pkg.NDIToolsChoiceBundle
 ParentRecipe: com.github.davidbpirie.download.NDITools
 MinimumVersion: 2.3.0
 
 Input:
-  NAME: NDIToolsChoiceApp
+  NAME: NDIToolsChoiceBundle
   APPLICATION_NAME: ''
   desired_choice: ''
   PKG_ID: com.github.davidbpirie.NDIToolsChoice
@@ -65,7 +65,7 @@ Process:
 
   - Processor: PlistReader
     Arguments:
-      info_path: "%RECIPE_CACHE_DIR%/unpack-payload/%APPLICATION_NAME%.app"
+      info_path: "%RECIPE_CACHE_DIR%/unpack-payload/%BUNDLE_NAME%"
       plist_keys:
         CFBundleShortVersionString: version
 

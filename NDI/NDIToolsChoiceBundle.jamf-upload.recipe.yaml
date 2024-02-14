@@ -1,11 +1,11 @@
 Description: |
   Downloads the latest version of the NDI Tools pkg and verifies
-  the signature, extracts the version of the given choice app and
+  the signature, then extracts the version of the given choice,
   creates a package that installs the NDI Tools pkg via a postinstall
-  script, applying the given choice, then uploads the package to
+  script applying the given choice, then uploads the package to
   Jamf Pro.
 
-  APPLICATION_NAME is the name of the application excluding the .app suffix.
+  BUNDLE_NAME is the name of the application or similar bundle.
 
   desired_choice is the single pkg components you would like installed.
   To find all available choices, run:
@@ -29,8 +29,8 @@ Description: |
   choice and providing an unique PKG_ID and Identifier, for
   each desired NDI Tools item.
 
-Identifier: com.github.davidbpirie.jamf-upload.NDIToolsChoiceApp
-ParentRecipe: com.github.davidbpirie.pkg.NDIToolsChoiceApp
+Identifier: com.github.davidbpirie.jamf-upload.NDIToolsChoiceBundle
+ParentRecipe: com.github.davidbpirie.pkg.NDIToolsChoiceBundle
 MinimumVersion: 2.3.0
 
 Input:
