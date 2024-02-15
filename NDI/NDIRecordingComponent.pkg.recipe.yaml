@@ -1,0 +1,91 @@
+Description: |
+  Downloads the latest version of the NDI Tools pkg and verifies
+  the signature, then extracts the version of the NDI Recording
+  Component and creates a package that installs the NDI Tools pkg
+  via a postinstall script, applying the given choice to only
+  install the NDI Recording Component.
+
+  PKG_ID is the ID of the generated package.
+
+Identifier: com.github.davidbpirie.pkg.NDIRecordingComponent
+ParentRecipe: com.github.davidbpirie.download.NDITools
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: NDIRecordingComponent
+  PKG_ID: com.github.davidbpirie.NDITools.NDIRecordingComponent
+
+Process:
+  - Processor: PkgRootCreator
+    Arguments:
+      pkgdirs:
+        payload: '0775'
+        scripts: '0775'
+      pkgroot: '%RECIPE_CACHE_DIR%/%NAME%'
+
+  - Processor: PkgCopier
+    Arguments:
+      source_pkg: '%pathname%'
+      pkg_path: '%RECIPE_CACHE_DIR%/%NAME%/scripts/NDIToolsInstaller.pkg'
+
+  - Processor: com.github.davidbpirie.SharedProcessors/FirstActivePackageInChoice
+    Arguments:
+      choices_pkg_path: '%pkg_path%'
+      desired_choice: com.newtek.ndi.recording
+
+  - Processor: FlatPkgUnpacker
+    Arguments:
+      flat_pkg_path: '%pkg_path%'
+      skip_payload: False
+      destination_path: '%RECIPE_CACHE_DIR%/unpack'
+      purge_destination: True
+
+  - Processor: com.github.davidbpirie.SharedProcessors/RunShellCommand
+    Arguments:
+      subprocess_args:
+        - '%RECIPE_CACHE_DIR%/unpack/%first_active_pkg%/Payload/Application.Mac.NDI.Recording -help 2>&1 | head -n 1 | sed "s/[^0-9]*\([0-9]*\.[0-9\.]*\)/\1/"'
+
+  - Processor: com.github.grahampugh.recipes.commonprocessors/ChoicesXMLGenerator
+    Arguments:
+      choices_pkg_path: '%pkg_path%'
+      desired_choices:
+        - default
+        - com.newtek.ndi.recording
+      choices_xml_dest: '%RECIPE_CACHE_DIR%/%NAME%/scripts/choices.xml'
+      recursive_child_items: 'True'
+      version: '%subprocess_stdout%'
+
+  - Processor: FileCreator
+    Arguments:
+      file_content: |
+        #!/bin/zsh
+
+        ################################################################################
+        #
+        # Installs the NDIToolsInstaller.pkg, applying the choices.xml choices file
+        #
+        ################################################################################
+
+        ROOT_DIR="$( cd -- "$(/usr/bin/dirname "$0")"; pwd -P )"
+
+        /usr/sbin/installer -applyChoiceChangesXML "${ROOT_DIR}/choices.xml" -pkg "${ROOT_DIR}/NDIToolsInstaller.pkg" -target /
+        exit $?
+      file_mode: '0755'
+      file_path: '%RECIPE_CACHE_DIR%/%NAME%/scripts/postinstall'
+
+  - Processor: PkgCreator
+    Arguments:
+      pkg_request:
+        chown: []
+        id: '%PKG_ID%'
+        options: purge_ds_store
+        pkgname: '%NAME%-%version%'
+        pkgroot: '%RECIPE_CACHE_DIR%/%NAME%/payload'
+        scripts: '%RECIPE_CACHE_DIR%/%NAME%/scripts'
+        version: '%version%'
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+        - '%RECIPE_CACHE_DIR%/%NAME%'
+        - '%RECIPE_CACHE_DIR%/unpack'
