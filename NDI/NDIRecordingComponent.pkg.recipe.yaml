@@ -49,7 +49,7 @@ Process:
   - Processor: com.github.davidbpirie.SharedProcessors/RunShellCommand
     Arguments:
       subprocess_args:
-        - '%RECIPE_CACHE_DIR%/unpack-payload/Application.Mac.NDI.Recording -help 2>&1 | head -n 1 | sed "s/[^0-9]*\([0-9]*\.[0-9\.]*\)/\1/"'
+        - '%RECIPE_CACHE_DIR%/unpack-payload/Application.Mac.NDI.Recording -help 2>&1 | head -n 1 | sed "s/^[^0-9]*\([0-9]*\.[0-9\.]*\)$/\1/"'
 
   - Processor: com.github.grahampugh.recipes.commonprocessors/ChoicesXMLGenerator
     Arguments:
