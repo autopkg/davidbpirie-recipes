@@ -13,7 +13,7 @@ Description: |
   autopkg run NDIHXDriver.pkg -k version=1.0
 
 Identifier: com.github.davidbpirie.pkg.NDIHXDriver
-ParentRecipe: com.github.davidbpirie.download.NDIHXDriver
+ParentRecipe: com.github.davidbpirie.download.NDITools
 MinimumVersion: 2.3.0
 
 Input:
