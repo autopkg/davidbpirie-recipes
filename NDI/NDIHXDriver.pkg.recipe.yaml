@@ -1,21 +1,31 @@
 Description: |
   Downloads the latest version of the NDI Tools pkg and verifies
-  the signature, then extracts the version of the NDI Recording
-  Component and creates a package that installs the NDI Tools pkg
+  the signature, then extracts the version of the NDI HX Driver
+  and creates a package that installs the NDI Tools pkg
   via a postinstall script, applying the given choice to only
-  install the NDI Recording Component.
+  install the NDI HX Driver. The postinstall script also writes
+  the supplied version to:
+  /Library/Application Support/NewTek/NDI/HX_Driver/version.txt
 
   PKG_ID is the ID of the generated package.
 
-Identifier: com.github.davidbpirie.pkg.NDIRecordingComponent
-ParentRecipe: com.github.davidbpirie.download.NDITools
+  When using the recipe, also provide the version via the -k parameter eg:
+  autopkg run NDIHXDriver.pkg -k version=1.0
+
+Identifier: com.github.davidbpirie.pkg.NDIHXDriver
+ParentRecipe: com.github.davidbpirie.download.NDIHXDriver
 MinimumVersion: 2.3.0
 
 Input:
-  NAME: NDIRecordingComponent
-  PKG_ID: com.github.davidbpirie.NDITools.NDIRecordingComponent
+  NAME: NDIHXDriver
+  version: Provide_version_in_input_key
+  PKG_ID: com.github.davidbpirie.NDITools.NDIHXDriver
 
 Process:
+  - Processor: StopProcessingIf
+    Arguments:
+      predicate: version == 'Provide_version_in_input_key'
+
   - Processor: PkgRootCreator
     Arguments:
       pkgdirs:
@@ -31,35 +41,16 @@ Process:
   - Processor: com.github.davidbpirie.SharedProcessors/FirstActivePackageInChoice
     Arguments:
       choices_pkg_path: '%pkg_path%'
-      desired_choice: com.newtek.ndi.recording
-
-  - Processor: FlatPkgUnpacker
-    Arguments:
-      flat_pkg_path: '%pkg_path%'
-      skip_payload: False
-      destination_path: '%RECIPE_CACHE_DIR%/unpack'
-      purge_destination: True
-
-  - Processor: PkgPayloadUnpacker
-    Arguments:
-      pkg_payload_path: '%RECIPE_CACHE_DIR%/unpack/%first_active_pkg%/Payload'
-      destination_path: '%RECIPE_CACHE_DIR%/unpack-payload'
-      purge_destination: True
-
-  - Processor: com.github.davidbpirie.SharedProcessors/RunShellCommand
-    Arguments:
-      subprocess_args:
-        - '%RECIPE_CACHE_DIR%/unpack-payload/Application.Mac.NDI.Recording -help 2>&1 | head -n 1 | sed "s/^[^0-9]*\([0-9]*\.[0-9\.]*\)$/\1/"'
+      desired_choice: com.newtek.NDI-HX-Driver
 
   - Processor: com.github.grahampugh.recipes.commonprocessors/ChoicesXMLGenerator
     Arguments:
       choices_pkg_path: '%pkg_path%'
       desired_choices:
         - default
-        - com.newtek.ndi.recording
+        - com.newtek.NDI-HX-Driver
       choices_xml_dest: '%RECIPE_CACHE_DIR%/%NAME%/scripts/choices.xml'
       recursive_child_items: 'True'
-      version: '%subprocess_stdout%'
 
   - Processor: FileCreator
     Arguments:
@@ -75,7 +66,11 @@ Process:
         ROOT_DIR="$( cd -- "$(/usr/bin/dirname "$0")"; pwd -P )"
 
         /usr/sbin/installer -applyChoiceChangesXML "${ROOT_DIR}/choices.xml" -pkg "${ROOT_DIR}/NDIToolsInstaller.pkg" -target /
-        exit $?
+        exitCode=$?
+        if [ ${exitCode} -eq 0 ]; then
+          echo "%version%" > "/Library/Application Support/NewTek/NDI/HX_Driver/version.txt"
+        fi
+        exit ${exitCode}
       file_mode: '0755'
       file_path: '%RECIPE_CACHE_DIR%/%NAME%/scripts/postinstall'
 
@@ -94,5 +89,3 @@ Process:
     Arguments:
       path_list:
         - '%RECIPE_CACHE_DIR%/%NAME%'
-        - '%RECIPE_CACHE_DIR%/unpack'
-        - '%RECIPE_CACHE_DIR%/unpack-payload'
