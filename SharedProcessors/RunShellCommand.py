@@ -66,9 +66,9 @@ class RunShellCommand(Processor):
         self.env["subprocess_args"] = result.args
         self.env["subprocess_returncode"] = result.returncode
         self.output(f"subprocess_returncode: {self.env['subprocess_returncode']}")
-        self.env["subprocess_stdout"] = result.stdout
+        self.env["subprocess_stdout"] = result.stdout.rstrip('\n')
         self.output(f"subprocess_stdout: {self.env['subprocess_stdout']}")
-        self.env["subprocess_stderr"] = result.stderr
+        self.env["subprocess_stderr"] = result.stderr.rstrip('\n')
         self.output(f"subprocess_stderr: {self.env['subprocess_stderr']}")
 
 if __name__ == "__main__":
