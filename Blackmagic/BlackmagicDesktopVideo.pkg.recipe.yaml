@@ -45,13 +45,13 @@ Process:
 
   - Processor: PkgPayloadUnpacker
     Arguments:
-      pkg_payload_path: '%RECIPE_CACHE_DIR%/unpack/Manifest.pkg/Payload'
+      pkg_payload_path: '%RECIPE_CACHE_DIR%/unpack/DesktopVideo.pkg/Payload'
       destination_path: '%RECIPE_CACHE_DIR%/payload'
       purge_destination: True
 
   - Processor: PlistReader
     Arguments:
-      info_path: '%RECIPE_CACHE_DIR%/payload/Applications/DaVinci Resolve/DaVinci Resolve.app'
+      info_path: '%RECIPE_CACHE_DIR%/payload/Applications/Blackmagic Desktop Video/Desktop Video Setup.app'
 
   - Processor: PkgCopier
     Arguments:
