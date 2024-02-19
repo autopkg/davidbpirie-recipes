@@ -1,8 +1,8 @@
 Description: |
   Downloads the latest release of calibrite PROFILER as a dmg,
   verifies the signature and extracts the version, generates a
-  pkg, then uploads the package to Jamf Pro. The downloaded
-  dmg is then deleted.
+  pkg, then uploads the package to Jamf Pro. The generated
+  pkg is then deleted.
 
   JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
   SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
