@@ -1,0 +1,29 @@
+Description: |
+  Downloads the latest release of TPGi Colour Contrast Analyzer as a dmg,
+  verifies the signature and extracts the version.
+Identifier: com.github.davidbpirie.download.ColourContrastAnalyzer
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: ColourContrastAnalyzer
+
+Process:
+- Processor: GitHubReleasesInfoProvider
+  Arguments:
+    github_repo: ThePacielloGroup/CCAe
+    asset_regex: .*\.dmg$
+
+- Processor: URLDownloader
+  Arguments:
+    filename: '%NAME%-%version%.dmg'
+
+- Processor: EndOfCheckPhase
+
+- Processor: AppDmgVersioner
+  Arguments:
+    dmg_path: '%pathname%'
+
+- Processor: CodeSignatureVerifier
+  Arguments:
+    input_path: '%pathname%/%app_name%'
+    requirement: identifier "com.electron.cca" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "34RS4UC3M6"
