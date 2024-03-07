@@ -1,0 +1,13 @@
+Description: Downloads the latest version of OBSBOT Center, then builds a package.
+Identifier: com.github.davidbpirie.pkg.OBSBOTCenter
+ParentRecipe: com.github.davidbpirie.download.OBSBOTCenter
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: OBSBOTCenter
+  PKG_ID: com.obsbot.OBSBOTCenter.pkg
+
+Process:
+- Processor: AppPkgCreator
+  Arguments:
+    bundleid: '%PKG_ID%'

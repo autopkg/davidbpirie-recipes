@@ -1,0 +1,23 @@
+Description: Downloads the latest version of OBSBOT Center.
+Identifier: com.github.davidbpirie.download.OBSBOTCenter
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: OBSBOTCenter
+  BASE_URL: https://www.obsbot.com/download/obsbot-tiny-series
+  re_pattern: .*href=\"(https:\/\/[^\"]*Obsbot_Center_OA_E_MacOS_[^\"]*\.dmg)\".*
+
+Process:
+- Processor: URLTextSearcher
+  Arguments:
+    result_output_var_name: url
+    url: '%BASE_URL%'
+
+- Processor: URLDownloader
+
+- Processor: EndOfCheckPhase
+
+- Processor: CodeSignatureVerifier
+  Arguments:
+    input_path: '%pathname%/*.app'
+    requirement: identifier "com.obsbot.OBSBOT_Center" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "7GJANK3822"
