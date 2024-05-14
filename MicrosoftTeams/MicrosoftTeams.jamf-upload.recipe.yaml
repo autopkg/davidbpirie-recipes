@@ -7,8 +7,8 @@ Description: |
   in your AutoPkg preferences, override Input variables, or by
   command-line keys.
 Identifier: com.github.davidbpirie.jamf-upload.MicrosoftTeams
-MinimumVersion: '2.3'
-ParentRecipe: com.github.rtrouton.pkg.microsoftteams
+MinimumVersion: 2.3.0
+ParentRecipe: com.github.autopkg.download.MSTeams
 
 Input:
   NAME: MicrosoftTeams
