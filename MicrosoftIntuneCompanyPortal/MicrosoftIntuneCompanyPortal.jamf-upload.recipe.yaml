@@ -8,7 +8,7 @@ Description: |
   command-line keys.
 Identifier: com.github.davidbpirie.jamf-upload.MicrosoftIntuneCompanyPortal
 MinimumVersion: 2.3.0
-ParentRecipe: com.github.autopkg.download.MSCompanyPortal
+ParentRecipe: com.github.rtrouton.pkg.MicrosoftIntuneCompanyPortal
 
 Input:
   NAME: MicrosoftIntuneCompanyPortal
