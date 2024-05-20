@@ -23,6 +23,11 @@ Description: |
   single example.xml file under vpn. See the administrator guide at
   https://www.cisco.com/c/en/us/support/security/secure-client-5/model.html
   for more details on generating profile xml files.
+
+  Additionally, support for installing a VPN management tunnel profile
+  (VpnMgmtTunProfile.xml) is handled if
+  %PROFILES%/vpn/MgmtTun/VpnMgmtTunProfile.xml is found
+
 Identifier: com.github.davidbpirie.pkg.CiscoSecureClient
 MinimumVersion: "2.3"
 
@@ -104,14 +109,25 @@ Process:
 
         ################################################################################
         #
-        # Installs the Cisco Secure Client package, applying the choices.xml choices file
+        # Installs the Cisco Secure Client package, applying the choices.xml choices files.
+        # Also copies Profiles/vpn/MgmtTun/VpnMgmtTunProfile.xml file into place to
+        # /opt/cisco/secureclient/vpn/profile/mgmttun/VpnMgmtTunProfile.xml if found.
         #
         ################################################################################
 
         ROOT_DIR="$( cd -- "$(/usr/bin/dirname "$0")"; pwd -P )"
+        SRC_MGMT_PROFILE="${ROOT_DIR}/Profiles/vpn/MgmtTun/VpnMgmtTunProfile.xml"
+        DST_MGMT_PROFILE="/opt/cisco/secureclient/vpn/profile/mgmttun/VpnMgmtTunProfile.xml"
 
         /usr/sbin/installer -applyChoiceChangesXML "${ROOT_DIR}/choices.xml" -pkg "${ROOT_DIR}/%NAME%.pkg" -target /
-        exit $?
+        EXIT_RESULT=$?
+
+        if [ -e "${SRC_MGMT_PROFILE}" ]; then
+          echo "Copying Cisco Secure Client management VPN profile from ${SRC_MGMT_PROFILE} to ${DST_MGMT_PROFILE}"
+          /bin/cp "${SRC_MGMT_PROFILE}" "${DST_MGMT_PROFILE}"
+        fi
+
+        exit ${EXIT_RESULT}
       file_mode: "0755"
       file_path: "%RECIPE_CACHE_DIR%/%NAME%/scripts/postinstall"
 
