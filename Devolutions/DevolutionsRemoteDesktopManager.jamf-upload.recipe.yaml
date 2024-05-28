@@ -1,6 +1,7 @@
 Description: |
   Downloads the latest version of Devolutions Remote Desktop Manager,
-  verfies the source, then uploads the package to Jamf Pro.
+  verfies the source, builds a package, then uploads the package to
+  Jamf Pro.
 
   JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
   SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
@@ -8,7 +9,7 @@ Description: |
   command-line keys.
 
 Identifier: com.github.davidbpirie.jamf-upload.DevolutionsRemoteDesktopManager
-ParentRecipe: com.github.dataJAR-recipes.download.Remote Desktop Manager Free
+ParentRecipe: com.github.davidbpirie.pkg.DevolutionsRemoteDesktopManager
 MinimumVersion: 2.3.0
 
 Input:
