@@ -1,7 +1,6 @@
 Description: |
-  Downloads the latest Microsoft Remote Desktop pkg, and appends the
-  version to the end of the filename, then uploads the package to
-  Jamf Pro.
+  Downloads the latest Microsoft Remote Desktop pkg, extracts the
+  version, then uploads the package to Jamf Pro.
 
   JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
   SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
@@ -26,12 +25,27 @@ Input:
   JAMF_PKG_REPLACE_METADATA: 'False'
 
 Process:
+  - Processor: FlatPkgUnpacker
+    Arguments:
+      flat_pkg_path: '%pathname%'
+      destination_path: '%RECIPE_CACHE_DIR%/unpack'
+  
+  - Processor: PkgPayloadUnpacker
+    Arguments:
+      pkg_payload_path: '%RECIPE_CACHE_DIR%/unpack/com.microsoft.rdc.macos.pkg/Payload'
+      destination_path: '%RECIPE_CACHE_DIR%/payload'
+  
+  - Processor: PlistReader
+    Arguments:
+      info_path: '%RECIPE_CACHE_DIR%/payload/Microsoft Remote Desktop.app'
+
   - Processor: com.github.grahampugh.jamf-upload.processors/JamfPackageUploader
     Arguments:
       pkg_name: '%JAMF_PKG_NAME%-%version%.pkg'
       pkg_category: '%JAMF_CATEGORY%'
       pkg_info: '%JAMF_PKG_INFO%'
       pkg_notes: '%JAMF_PKG_NOTES%'
+      pkg_path: '%pathname%'
       pkg_priority: '%JAMF_PKG_PRIORITY%'
       reboot_required: '%JAMF_PKG_REBOOT_REQUIRED%'
       os_requirements: '%JAMF_PKG_OS_REQUIREMENTS%'
@@ -39,3 +53,9 @@ Process:
       send_notification: '%JAMF_PKG_SEND_NOTIFICATION%'
       replace_pkg: '%JAMF_PKG_REPLACE%'
       replace_pkg_metadata: '%JAMF_PKG_REPLACE_METADATA%'
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+        - '%RECIPE_CACHE_DIR%/unpack'
+        - '%RECIPE_CACHE_DIR%/payload'
