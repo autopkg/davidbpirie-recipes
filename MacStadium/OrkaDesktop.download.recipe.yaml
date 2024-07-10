@@ -1,0 +1,24 @@
+Description: Downloads the latest version of Orka Desktop.
+Identifier: com.github.davidbpirie.download.OrkaDesktop
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: OrkaDesktop
+  GITHUB_REPO: macstadium/orka-desktop
+  INCLUDE_PRERELEASES: ''
+
+Process:
+- Processor: GitHubReleasesInfoProvider
+  Arguments:
+    asset_regex: '.*\.dmg'
+    github_repo: '%GITHUB_REPO%'
+    include_prereleases: '%INCLUDE_PRERELEASES%'
+
+- Processor: URLDownloader
+
+- Processor: EndOfCheckPhase
+
+- Processor: CodeSignatureVerifier
+  Arguments:
+    input_path: '%pathname%/Orka Desktop.app'
+    requirement: identifier "com.macstadium.OrkaDesktop" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "23KP83Z488"

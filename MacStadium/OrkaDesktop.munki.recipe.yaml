@@ -1,0 +1,32 @@
+Description: Downloads the latest version of Orka Desktop, then imports to munki.
+Identifier: com.github.davidbpirie.munki.OrkaDesktop
+ParentRecipe: com.github.davidbpirie.download.OrkaDesktop
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: OrkaDesktop
+  MUNKI_DISPLAYNAME: Orka Desktop
+  MUNKI_DESCRIPTION: Virtualize macOS on your laptop for localized build & test.
+  MUNKI_CATEGORY: Business
+  MUNKI_DEVELOPER: MacStadium
+  MUNKI_MINIMUM_OS_VERSION: 13.0.0
+  MUNKI_REPO_SUBDIR: '%MUNKI_CATEGORY%/%MUNKI_DEVELOPER%/%NAME%'
+  pkginfo:
+    blocking_applications:
+    - Orka Desktop.app
+    catalogs:
+    - testing
+    category: '%MUNKI_CATEGORY%'
+    description: '%MUNKI_DESCRIPTION%'
+    developer: '%MUNKI_DEVELOPER%'
+    display_name: '%MUNKI_DISPLAYNAME%'
+    minimum_os_version: '%MUNKI_MINIMUM_OS_VERSION%'
+    name: '%NAME%'
+    unattended_install: true
+    unattended_uninstall: true
+
+Process:
+- Processor: MunkiImporter
+  Arguments:
+    pkg_path: '%pathname%'
+    repo_subdirectory: '%MUNKI_REPO_SUBDIR%'

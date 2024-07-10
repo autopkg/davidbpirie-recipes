@@ -1,0 +1,10 @@
+Description: Downloads the latest version of Orka Desktop, then builds a package.
+Identifier: com.github.davidbpirie.pkg.OrkaDesktop
+ParentRecipe: com.github.davidbpirie.download.OrkaDesktop
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: OrkaDesktop
+
+Process:
+- Processor: AppPkgCreator
