@@ -8,3 +8,5 @@ Input:
 
 Process:
 - Processor: AppPkgCreator
+  Arguments:
+    version: ''
