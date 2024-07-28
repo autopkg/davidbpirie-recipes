@@ -8,7 +8,7 @@ Description: |
   Package source DMG must be manually downloaded from Avid, then provided
   either as Input Variable PKG or via the -p parameter eg:
   via the -p parameter eg:
-  autopkg run AvidProTools.jamf-upload -p "path/to/Plugin_24.3.0_Mac.dmg"
+  autopkg run AvidProToolsPlugin.jamf-upload -p "path/to/Plugin_24.3.0_Mac.dmg"
 
   JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
   SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
