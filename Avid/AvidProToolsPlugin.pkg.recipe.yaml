@@ -28,7 +28,7 @@ Process:
 
   - Processor: FlatPkgUnpacker
     Arguments:
-      flat_pkg_path: "%pkg_path%"
+      flat_pkg_path: "%PKG%/*.pkg"
       skip_payload: False
       destination_path: "%RECIPE_CACHE_DIR%/unpack"
       purge_destination: True
