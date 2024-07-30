@@ -86,7 +86,7 @@ class GitRepoClone(Processor):
             else:
                 raise ProcessorError(f"{self.repo_directory} exists but allow_existing is {self.allow_existing}.")
         else:
-            self.output(subprocess.run(["git", "clone", self.repo_url, self.repo_directory], shell=True, cwd=self.env.get("RECIPE_CACHE_DIR"), capture_output=True, check=self.subprocess_fail_on_error, text=True).stdout)
+            self.output(subprocess.run(["git", "clone", self.repo_url, self.repo_directory], shell=True, cwd=self.env.get("RECIPE_CACHE_DIR"), capture_output=True, check=True, text=True).stdout)
             self.repo_cloned = True
 
         self.env["repo_cloned"] = self.repo_cloned
