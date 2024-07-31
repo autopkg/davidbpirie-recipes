@@ -12,23 +12,24 @@ Input:
   PKG_ID: com.github.davidbpirie.pkg.loopdowncustom
 
 Process:
-  - Processor: com.github.davidbpirie.SharedProcessors/RunShellCommand
+  - Processor: com.github.davidbpirie.SharedProcessors/GitRepoClone
     Arguments:
-      subprocess_args:
-        - git clone %REPO_URL% %RECIPE_CACHE_DIR%/%NAME%/loopdown_repo
-        - subprocess_fail_on_error: True
+      repo_url: '%REPO_URL%'
+      repo_directory: '%RECIPE_CACHE_DIR%/%NAME%/git_repo/loopdown'
+      replace_existing: True
 
   - Processor: com.github.davidbpirie.SharedProcessors/RunShellCommand
     Arguments:
       subprocess_args:
-        - '%RECIPE_CACHE_DIR%/%NAME%/git_repo/loopdown/build.sh %PYTHON_INTERPRETER%'
-        - subprocess_fail_on_error: True
+        - '%RECIPE_CACHE_DIR%/%NAME%/git_repo/loopdown/build.sh'
+        - '%PYTHON_INTERPRETER%'
+      subprocess_fail_on_error: True
   
   - Processor: URLTextSearcher
     Arguments:
-      - re_pattern: '^_version: [^\"]*\"([^\"]*)\"'
-      - url: file://%RECIPE_CACHE_DIR%/%NAME%/git_repo/loopdown/src/ldilib/__init__.py
-      - result_output_var_name: version
+      re_pattern: '^_version: [^\"]*\"([^\"]*)\"'
+      url: file://%RECIPE_CACHE_DIR%/%NAME%/git_repo/loopdown/src/ldilib/__init__.py
+      result_output_var_name: version
 
   - Processor: PkgRootCreator
     Arguments:
