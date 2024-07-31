@@ -12,11 +12,11 @@ Input:
   PKG_ID: com.github.davidbpirie.pkg.loopdowncustom
 
 Process:
-  - Processor: com.github.davidbpirie.SharedProcessors/GitRepoClone
+  - Processor: com.github.davidbpirie.SharedProcessors/RunShellCommand
     Arguments:
-      repo_url: '%REPO_URL%'
-      repo_directory: '%RECIPE_CACHE_DIR%/%NAME%/git_repo/loopdown'
-      replace_existing: True
+      subprocess_args:
+        - git clone %REPO_URL% %RECIPE_CACHE_DIR%/%NAME%/loopdown_repo
+        - subprocess_fail_on_error: True
 
   - Processor: com.github.davidbpirie.SharedProcessors/RunShellCommand
     Arguments:
