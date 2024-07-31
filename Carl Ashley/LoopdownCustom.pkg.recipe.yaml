@@ -8,27 +8,27 @@ MinimumVersion: 2.3.0
 Input:
   NAME: Loopdown
   REPO_URL: https://github.com/carlashley/loopdown.git
-  PYTHON_INTERPRETER: /usr/bin/env python3
+  PYTHON_INTERPRETER: /usr/local/bin/python3
   PKG_ID: com.github.davidbpirie.pkg.loopdowncustom
 
 Process:
-  - Processor: com.github.davidbpirie.SharedProcessors/GitRepoClone
+  - Processor: com.github.davidbpirie.pkg.test_recipe/GitRepoClone
     Arguments:
       repo_url: '%REPO_URL%'
-      repo_directory: '%RECIPE_CACHE_DIR%/%NAME%/git_repo/loopdown'
+      repo_directory: '%RECIPE_CACHE_DIR%/git_repo'
       replace_existing: True
 
-  - Processor: com.github.davidbpirie.SharedProcessors/RunShellCommand
+  - Processor: com.github.davidbpirie.pkg.test_recipe/RunShellCommand
     Arguments:
       subprocess_args:
-        - '%RECIPE_CACHE_DIR%/%NAME%/git_repo/loopdown/build.sh'
-        - '%PYTHON_INTERPRETER%'
+        - './build.sh "%PYTHON_INTERPRETER%"'
       subprocess_fail_on_error: True
-  
+      subprocess_cwd: '%RECIPE_CACHE_DIR%/git_repo'
+
   - Processor: URLTextSearcher
     Arguments:
-      re_pattern: '^_version: [^\"]*\"([^\"]*)\"'
-      url: file://%RECIPE_CACHE_DIR%/%NAME%/git_repo/loopdown/src/ldilib/__init__.py
+      re_pattern: '_version: [^\"]*\"([^\"]*)\"'
+      url: file://%RECIPE_CACHE_DIR%/git_repo/src/ldilib/__init__.py
       result_output_var_name: version
 
   - Processor: PkgRootCreator
@@ -42,7 +42,7 @@ Process:
 
   - Processor: Copier
     Arguments:
-      source_path: '%RECIPE_CACHE_DIR%/%NAME%/git_repo/loopdown/dist/zipapp/usr/local/bin/custom/loopdown'
+      source_path: '%RECIPE_CACHE_DIR%/git_repo/dist/zipapp/usr/local/bin/custom/loopdown-%version%'
       destination_path: '%RECIPE_CACHE_DIR%/%NAME%/payload/usr/local/bin/loopdown'
       overwrite: True
 
@@ -50,24 +50,17 @@ Process:
     Arguments:
       pkg_request:
         chown:
-        - group: wheel
-          mode: '0755'
-          path: usr
-          user: root
+          - group: wheel
+            mode: '0755'
+            path: usr
+            user: root
         id: '%PKG_ID%'
         options: purge_ds_store
         pkgname: '%NAME%-%version%'
         pkgroot: '%RECIPE_CACHE_DIR%/%NAME%/payload'
 
-  - Processor: StopProcessingIf
-    Arguments:
-      predicate: '%repo_cloned% == True'
-  
-  - Processor: StopProcessingIf
-    Arguments:
-      predicate: '%repo_cloned% == False'
-
   - Processor: PathDeleter
     Arguments:
       path_list:
-      - '%RECIPE_CACHE_DIR%/%NAME%'
+        - '%RECIPE_CACHE_DIR%/git_repo'
+        - '%RECIPE_CACHE_DIR%/%NAME%'

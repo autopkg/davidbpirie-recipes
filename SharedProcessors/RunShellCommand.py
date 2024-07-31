@@ -39,6 +39,10 @@ class RunShellCommand(Processor):
             "required": False,
             "default": "True",
         },
+        "subprocess_cwd": {
+            "description": "Current working directory to run the command from. Defaults to %RECIPE_CACHE_DIR%.",
+            "required": False
+        }
     }
     output_variables = {
         "subprocess_args": {
@@ -59,9 +63,10 @@ class RunShellCommand(Processor):
         self.subprocess_args = self.env.get("subprocess_args")
         self.subprocess_timeout = self.env.get("subprocess_timeout", None)
         self.subprocess_fail_on_error = (str(self.env.get("subprocess_fail_on_error")).lower() == "true")
+        self.subprocess_cwd = self.env.get("subprocess_cwd", self.env.get("RECIPE_CACHE_DIR"))
 
         self.output(f"subprocess_args: {' '.join(self.subprocess_args)}")
-        result = subprocess.run(self.subprocess_args, shell=True, cwd=self.env.get("RECIPE_CACHE_DIR"), capture_output=True, check=self.subprocess_fail_on_error, text=True, timeout=self.subprocess_timeout)
+        result = subprocess.run(self.subprocess_args, shell=True, cwd=self.subprocess_cwd, capture_output=True, check=self.subprocess_fail_on_error, text=True, timeout=self.subprocess_timeout)
 
         self.env["subprocess_args"] = result.args
         self.env["subprocess_returncode"] = result.returncode

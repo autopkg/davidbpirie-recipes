@@ -49,7 +49,7 @@ class GitRepoClone(Processor):
     }
     output_variables = {
         "repo_cloned": {
-             "description": "Boolean. True if a git clone is performed."
+             "description": "String. 'True' if a git clone is performed, 'False' if not."
         }
    }
 
@@ -66,6 +66,7 @@ class GitRepoClone(Processor):
             raise ProcessorError(f"repo_url cannot be empty")
 
         if not self.repo_directory.parent.exists():
+            self.output(f"Destination parent directory {self.repo_directory.parent} does not exist - creating.")
             self.repo_directory.parent.mkdir(mode=0o755, parents=True, exist_ok=True)
 
         if self.repo_directory.exists() and self.replace_existing:
@@ -87,12 +88,14 @@ class GitRepoClone(Processor):
                 raise ProcessorError(f"{self.repo_directory} exists but allow_existing is {self.allow_existing}.")
         else:
             try:
-                self.output(subprocess.run(args=f"git clone '{str(self.repo_url)}' '{str(self.repo_directory)}'", shell=True, cwd=self.env.get("RECIPE_CACHE_DIR"), capture_output=True, check=True, text=True).stdout)
+                args=f"git clone '{str(self.repo_url)}' '{str(self.repo_directory)}'"
+                self.output(f"Running command: {args}")
+                self.output(subprocess.run(args=args, shell=True, cwd=self.env.get("RECIPE_CACHE_DIR"), capture_output=True, check=True, text=True).stdout)
             except subprocess.CalledProcessError as e:
                 raise ProcessorError(f"Error running subprocess: {str(e)}; {e.stderr}; {e.stdout}.")
             self.repo_cloned = True
 
-        self.env["repo_cloned"] = self.repo_cloned
+        self.env["repo_cloned"] = str(self.repo_cloned)
         self.output(f"repo_cloned: {self.env['repo_cloned']}")
 
 
