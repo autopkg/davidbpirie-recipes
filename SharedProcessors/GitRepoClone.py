@@ -89,7 +89,7 @@ class GitRepoClone(Processor):
             try:
                 self.output(subprocess.run(["git", "clone", self.repo_url, str(self.repo_directory)], shell=True, cwd=self.env.get("RECIPE_CACHE_DIR"), capture_output=True, check=True, text=True).stdout)
             except subprocess.CalledProcessError as e:
-                raise ProcessorError(f"Error running subprocess: {str(e)}.")
+                raise ProcessorError(f"Error running subprocess: {str(e)}; {e.stderr}; {e.stdout}.")
             self.repo_cloned = True
 
         self.env["repo_cloned"] = self.repo_cloned
