@@ -12,13 +12,13 @@ Input:
   PKG_ID: com.github.davidbpirie.pkg.loopdowncustom
 
 Process:
-  - Processor: com.github.davidbpirie.pkg.test_recipe/GitRepoClone
+  - Processor: com.github.davidbpirie.SharedProcessors/GitRepoClone
     Arguments:
       repo_url: '%REPO_URL%'
       repo_directory: '%RECIPE_CACHE_DIR%/git_repo'
       replace_existing: True
 
-  - Processor: com.github.davidbpirie.pkg.test_recipe/RunShellCommand
+  - Processor: com.github.davidbpirie.SharedProcessors/RunShellCommand
     Arguments:
       subprocess_args:
         - './build.sh "%PYTHON_INTERPRETER%"'
