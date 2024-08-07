@@ -135,8 +135,7 @@ Process:
 
         if [ ! -z "%CSC_LAUNCHATLOGIN_DISABLE%" ]; then
           echo "Disabling Cisco Secure Client Launch at Login feature"
-          /usr/bin/killall "Cisco Secure Client" 2>/dev/null
-          "${AC_INSTALL_HELPER}" -launchAtLogin -disable
+          "${AC_INSTALL_HELPER}" -launchAtLogin -disable 2>/dev/null
         fi
 
         exit ${EXIT_RESULT}
