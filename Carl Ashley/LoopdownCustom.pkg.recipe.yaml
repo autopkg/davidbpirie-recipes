@@ -1,0 +1,66 @@
+Description: |
+  Clones the Loopdown git repo, builds a custom zipapp version,
+  optionally including a custom python interpreter shebang, then
+  builds a package installing it to /usr/local/bin.
+Identifier: com.github.davidbpirie.pkg.LoopdownCustom
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: Loopdown
+  REPO_URL: https://github.com/carlashley/loopdown.git
+  PYTHON_INTERPRETER: /usr/local/bin/python3
+  PKG_ID: com.github.davidbpirie.pkg.loopdowncustom
+
+Process:
+  - Processor: com.github.davidbpirie.SharedProcessors/GitRepoClone
+    Arguments:
+      repo_url: '%REPO_URL%'
+      repo_directory: '%RECIPE_CACHE_DIR%/git_repo'
+      replace_existing: True
+
+  - Processor: com.github.davidbpirie.SharedProcessors/RunShellCommand
+    Arguments:
+      subprocess_args:
+        - './build.sh "%PYTHON_INTERPRETER%"'
+      subprocess_fail_on_error: True
+      subprocess_cwd: '%RECIPE_CACHE_DIR%/git_repo'
+
+  - Processor: URLTextSearcher
+    Arguments:
+      re_pattern: '_version: [^\"]*\"([^\"]*)\"'
+      url: file://%RECIPE_CACHE_DIR%/git_repo/src/ldilib/__init__.py
+      result_output_var_name: version
+
+  - Processor: PkgRootCreator
+    Arguments:
+      pkgdirs:
+        payload: '0775'
+        payload/usr: '0755'
+        payload/usr/local: '0755'
+        payload/usr/local/bin: '0755'
+      pkgroot: '%RECIPE_CACHE_DIR%/%NAME%'
+
+  - Processor: Copier
+    Arguments:
+      source_path: '%RECIPE_CACHE_DIR%/git_repo/dist/zipapp/usr/local/bin/custom/loopdown-%version%'
+      destination_path: '%RECIPE_CACHE_DIR%/%NAME%/payload/usr/local/bin/loopdown'
+      overwrite: True
+
+  - Processor: PkgCreator
+    Arguments:
+      pkg_request:
+        chown:
+          - group: wheel
+            mode: '0755'
+            path: usr
+            user: root
+        id: '%PKG_ID%'
+        options: purge_ds_store
+        pkgname: '%NAME%-%version%'
+        pkgroot: '%RECIPE_CACHE_DIR%/%NAME%/payload'
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+        - '%RECIPE_CACHE_DIR%/git_repo'
+        - '%RECIPE_CACHE_DIR%/%NAME%'

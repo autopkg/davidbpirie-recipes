@@ -1,0 +1,14 @@
+Description: |
+  Downloads the latest release of TPGi Colour Contrast Analyzer as a dmg,
+  verifies the signature and extracts the version, then generates a pkg.
+Identifier: com.github.davidbpirie.pkg.ColourContrastAnalyzer
+ParentRecipe: com.github.davidbpirie.download.ColourContrastAnalyzer
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: ColourContrastAnalyzer
+
+Process:
+- Processor: AppPkgCreator
+  Arguments:
+    app_path: '%pathname%/%app_name%'

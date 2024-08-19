@@ -25,6 +25,9 @@ Input:
   JAMF_PKG_REPLACE_METADATA: 'False'
 
 Process:
+  - Processor: DeprecationWarning
+    Arguments:
+      warning_message: Due to the deprecation of a parent recipe, and VMware's licensing changes, this recipe has been deprecated and will be removed from this repo at a future date.
   - Processor: com.github.grahampugh.jamf-upload.processors/JamfPackageUploader
     Arguments:
       pkg_name: '%JAMF_PKG_NAME%-%version%.pkg'

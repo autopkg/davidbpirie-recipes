@@ -1,0 +1,71 @@
+Description: |
+  Downloads the latest version of the Microsoft Office Reset package,
+  then creates a package that runs the Microsoft Office Reset package
+  via a postinstall script, applying a custom set of choices, then
+  uploads the package to Jamf Pro.
+
+  Intended use is to create multiple overrides, one for each set of
+  option combinations required.
+
+  PKG_ID is the ID of the generated package.
+
+  desired_choices is the list of pkg components you would like installed.
+  Default is to perform a factory reset of Office.
+  All choices as of v1.9.1 are:
+    - com.microsoft.reset.Word
+    - com.microsoft.reset.Excel
+    - com.microsoft.reset.PowerPoint
+    - com.microsoft.reset.Outlook
+    - com.microsoft.remove.Outlook.Data
+    - com.microsoft.reset.OneNote
+    - com.microsoft.reset.OneDrive
+    - com.microsoft.reset.Teams
+    - com.microsoft.remove.SkypeForBusiness
+    - com.microsoft.reset.AutoUpdate
+    - com.microsoft.reset.Credentials
+    - com.microsoft.reset.Factory
+    - com.microsoft.remove.Office
+    - com.microsoft.remove.ZoomPlugin
+    - com.microsoft.remove.WebExPT
+  To find all available choices, run:
+  installer -showChoicesXML -pkg path/to/Microsoft_Office_Reset.pkg
+
+  JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
+  SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
+  in your AutoPkg preferences, override Input variables, or by
+  command-line keys.
+
+Identifier: com.github.davidbpirie.jamf-upload.MicrosoftOfficeReset
+ParentRecipe: com.github.davidbpirie.pkg.MicrosoftOfficeReset
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: MicrosoftOfficeReset
+  JAMF_CATEGORY: Utilities
+  JAMF_PKG_NAME: '%NAME%'
+  JAMF_PKG_INFO: Office-Reset is a free downloadable tool that you can use to fix problems and errors encountered with Microsoft Office for Mac apps. This includes Word, Excel, PowerPoint, Outlook, OneNote, OneDrive, Teams and AutoUpdate. The tool can help fix app launch errors, freezes, hangs, crashes, bad plug-ins, corrupt templates, performance issues, and confusing error messages.
+  JAMF_PKG_NOTES: Uploaded by AutoPkg
+  JAMF_PKG_OS_REQUIREMENTS: ''
+  JAMF_PKG_PRIORITY: '10'
+  JAMF_PKG_REBOOT_REQUIRED: 'False'
+  JAMF_PKG_REPLACE: 'False'
+  JAMF_PKG_REPLACE_METADATA: 'False'
+  JAMF_PKG_REQUIRED_PROCESSOR: None
+  JAMF_PKG_SEND_NOTIFICATION: 'False'
+  JAMF_PKG_SUFFIX: 'pkg'
+
+Process:
+  - Processor: com.github.grahampugh.jamf-upload.processors/JamfPackageUploader
+    Arguments:
+      pkg_name: '%JAMF_PKG_NAME%-%version%.%JAMF_PKG_SUFFIX%'
+      pkg_path: '%pkg_path%'
+      pkg_category: '%JAMF_CATEGORY%'
+      pkg_info: '%JAMF_PKG_INFO%'
+      pkg_notes: '%JAMF_PKG_NOTES%'
+      pkg_priority: '%JAMF_PKG_PRIORITY%'
+      reboot_required: '%JAMF_PKG_REBOOT_REQUIRED%'
+      os_requirements: '%JAMF_PKG_OS_REQUIREMENTS%'
+      required_processor: '%JAMF_PKG_REQUIRED_PROCESSOR%'
+      send_notification: '%JAMF_PKG_SEND_NOTIFICATION%'
+      replace_pkg: '%JAMF_PKG_REPLACE%'
+      replace_pkg_metadata: '%JAMF_PKG_REPLACE_METADATA%'

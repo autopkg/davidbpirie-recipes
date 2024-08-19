@@ -5,10 +5,14 @@ MinimumVersion: 2.3.0
 Input:
   NAME: DYMOConnect
   BASE_URL: https://www.dymo.com/support?cfid=user-guide
-  RE_PATTERN: href=\"([^\"]*\.pkg)\">Download
+  RE_PATTERN: href=\"([^\"]*DCDMac[0-9\.]*\.pkg)\">Download
   USER_AGENT: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82
 
 Process:
+- Processor: DeprecationWarning
+  Arguments:
+    warning_message: This recipe no longer functions as DYMO has modified how their site operates. PRs for alternative solutions welcome.
+
 - Processor: URLTextSearcher
   Arguments:
     re_pattern: '%RE_PATTERN%'

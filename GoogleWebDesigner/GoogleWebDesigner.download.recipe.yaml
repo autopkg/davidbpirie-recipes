@@ -1,0 +1,26 @@
+Description: |
+  Downloads the latest version of Google Web Designer, extracts the
+  version, then verifies the signature.
+Identifier: com.github.davidbpirie.download.GoogleWebDesigner
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: Google Web Designer
+  URL: https://dl.google.com/webdesigner/mac/shell/googlewebdesigner_mac.dmg
+
+Process:
+- Processor: URLDownloader
+  Arguments:
+    filename: '%NAME%.dmg'
+    url: '%URL%'
+
+- Processor: EndOfCheckPhase
+
+- Processor: AppDmgVersioner
+  Arguments:
+    dmg_path: '%pathname%'
+
+- Processor: CodeSignatureVerifier
+  Arguments:
+    input_path: '%pathname%/%app_name%'
+    requirement: identifier "com.google.WebDesigner" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = EQHXZ8M8AV

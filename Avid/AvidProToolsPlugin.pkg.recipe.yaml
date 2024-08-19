@@ -1,0 +1,52 @@
+Description: |
+  Copies the plug-in installer pkg from the source DMG, verifying
+  the signature and extracting the version.
+
+  All Pro Tools plug-ins include a <plugin> AppMan.pkg component,
+  so version information is read from there.
+
+  Package source DMG must be manually downloaded from Avid, then provided
+  either as Input Variable PKG or via the -p parameter eg:
+  autopkg run AvidProToolsPlugin.pkg -p "path/to/Plugin_24.3.0_Mac.dmg"
+
+Identifier: com.github.davidbpirie.pkg.AvidProToolsPlugin
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: AvidProToolsPlugin
+
+Process:
+  - Processor: PackageRequired
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: "%PKG%/*.pkg"
+      expected_authority_names:
+        - "Developer ID Installer: Avid Technology Inc (4UYUA773XD)"
+        - Developer ID Certification Authority
+        - Apple Root CA
+
+  - Processor: FlatPkgUnpacker
+    Arguments:
+      flat_pkg_path: "%PKG%/*.pkg"
+      skip_payload: False
+      destination_path: "%RECIPE_CACHE_DIR%/unpack"
+      purge_destination: True
+
+  - Processor: FileFinder
+    Arguments:
+      pattern: '%RECIPE_CACHE_DIR%/unpack/*AppMan.pkg'
+
+  - Processor: com.github.nmcspadden.shared/PackageInfoVersioner
+    Arguments:
+      package_info_path: '%found_filename%/PackageInfo'
+
+  - Processor: PkgCopier
+    Arguments:
+      source_pkg: "%PKG%/*.pkg"
+      pkg_path: "%RECIPE_CACHE_DIR%/%NAME%-%version%.pkg"
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+        - "%RECIPE_CACHE_DIR%/unpack"

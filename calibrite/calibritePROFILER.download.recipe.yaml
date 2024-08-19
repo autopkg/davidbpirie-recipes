@@ -1,0 +1,29 @@
+Description: |
+  Downloads the latest release of calibrite PROFILER as a dmg,
+  verifies the signature and extracts the version.
+Identifier: com.github.davidbpirie.download.calibritePROFILER
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: calibritePROFILER
+
+Process:
+- Processor: GitHubReleasesInfoProvider
+  Arguments:
+    github_repo: LUMESCA/calibrite-profiler-releases
+    asset_regex: .*\.dmg$
+
+- Processor: URLDownloader
+  Arguments:
+    filename: '%NAME%-%version%.dmg'
+
+- Processor: EndOfCheckPhase
+
+- Processor: AppDmgVersioner
+  Arguments:
+    dmg_path: '%pathname%'
+
+- Processor: CodeSignatureVerifier
+  Arguments:
+    input_path: '%pathname%/%app_name%'
+    requirement: identifier "com.calibrite.profiler" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "5C392763F5"

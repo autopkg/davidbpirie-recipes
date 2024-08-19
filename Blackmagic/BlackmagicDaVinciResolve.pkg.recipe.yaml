@@ -9,13 +9,15 @@ Description: |
   Notably, REG_COUNTRY must contain sane values:
   - REG_COUNTRY is of the form 'us', 'ca', etc.
 
+  Set APP_PKG_NAME to Manifest.pkg for v17, ManifestList for v18
 Identifier: com.github.davidbpirie.pkg.BlackmagicDaVinciResolve
 ParentRecipe: com.github.davidbpirie.download.BlackmagicDaVinciResolve
 MinimumVersion: 2.3.0
 
 Input:
   NAME: BlackmagicDaVinciResolve
-  PRODUCT_MAJOR_VERSION: '17'
+  APP_PKG_NAME: ManifestLite.pkg
+  PRODUCT_MAJOR_VERSION: '18'
   PRODUCT_NAME_PATTERN: '^DaVinci Resolve (?P<version>%PRODUCT_MAJOR_VERSION%(\.\d+)*)( Update)*$'
 
 Process:
@@ -45,7 +47,7 @@ Process:
 
   - Processor: PkgPayloadUnpacker
     Arguments:
-      pkg_payload_path: '%RECIPE_CACHE_DIR%/unpack/Manifest.pkg/Payload'
+      pkg_payload_path: '%RECIPE_CACHE_DIR%/unpack/%APP_PKG_NAME%/Payload'
       destination_path: '%RECIPE_CACHE_DIR%/payload'
       purge_destination: True
 

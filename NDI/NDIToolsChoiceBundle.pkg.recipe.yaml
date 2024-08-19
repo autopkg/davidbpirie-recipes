@@ -1,0 +1,115 @@
+Description: |
+  Downloads the latest version of the NDI Tools pkg and verifies
+  the signature, then extracts the version of the given choice, and
+  creates a package that installs the NDI Tools pkg via a postinstall
+  script, applying the given choice.
+
+  BUNDLE_NAME is the name of the application or similar bundle.
+
+  desired_choice is the single pkg components you would like installed.
+  To find all available choices, run:
+  installer -showChoicesXML -pkg path/to/NDIToolsInstaller.pkg
+  At time of writing choices that install a bundle are:
+    com.newtek.Application-Mac-NDI-AccessManager
+    com.newtek.Application-Mac-NDI-ScanConverter
+    com.newtek.Application-Mac-NDI-StudioMonitor
+    com.newtek.Application-Mac-NDI-VirtualInput
+    com.newtek.NDI-Tools
+    com.newtek.Test-Patterns-Mac-
+
+  PKG_ID is the ID of the generated package.
+
+  Intended use is to generate an override, specifying a single
+  choice and providing an unique PKG_ID and Identifier, for
+  each desired NDI Tools item.
+
+Identifier: com.github.davidbpirie.pkg.NDIToolsChoiceBundle
+ParentRecipe: com.github.davidbpirie.download.NDITools
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: NDIToolsChoiceBundle
+  BUNDLE_NAME: ''
+  desired_choice: ''
+  PKG_ID: com.github.davidbpirie.NDIToolsChoice
+
+Process:
+  - Processor: PkgRootCreator
+    Arguments:
+      pkgdirs:
+        payload: '0775'
+        scripts: '0775'
+      pkgroot: '%RECIPE_CACHE_DIR%/%NAME%'
+
+  - Processor: PkgCopier
+    Arguments:
+      source_pkg: '%pathname%'
+      pkg_path: '%RECIPE_CACHE_DIR%/%NAME%/scripts/NDIToolsInstaller.pkg'
+
+  - Processor: com.github.davidbpirie.SharedProcessors/FirstActivePackageInChoice
+    Arguments:
+      choices_pkg_path: '%pkg_path%'
+
+  - Processor: FlatPkgUnpacker
+    Arguments:
+      flat_pkg_path: '%pkg_path%'
+      skip_payload: False
+      destination_path: '%RECIPE_CACHE_DIR%/unpack'
+      purge_destination: True
+
+  - Processor: PkgPayloadUnpacker
+    Arguments:
+      pkg_payload_path: '%RECIPE_CACHE_DIR%/unpack/%first_active_pkg%/Payload'
+      destination_path: '%RECIPE_CACHE_DIR%/unpack-payload'
+      purge_destination: True
+
+  - Processor: PlistReader
+    Arguments:
+      info_path: "%RECIPE_CACHE_DIR%/unpack-payload/%BUNDLE_NAME%"
+      plist_keys:
+        CFBundleShortVersionString: version
+
+  - Processor: com.github.grahampugh.recipes.commonprocessors/ChoicesXMLGenerator
+    Arguments:
+      choices_pkg_path: '%pkg_path%'
+      desired_choices:
+        - default
+        - '%desired_choice%'
+      choices_xml_dest: '%RECIPE_CACHE_DIR%/%NAME%/scripts/choices.xml'
+      recursive_child_items: 'True'
+
+  - Processor: FileCreator
+    Arguments:
+      file_content: |
+        #!/bin/zsh
+
+        ################################################################################
+        #
+        # Installs the NDIToolsInstaller.pkg, applying the choices.xml choices file
+        #
+        ################################################################################
+
+        ROOT_DIR="$( cd -- "$(/usr/bin/dirname "$0")"; pwd -P )"
+
+        /usr/sbin/installer -applyChoiceChangesXML "${ROOT_DIR}/choices.xml" -pkg "${ROOT_DIR}/NDIToolsInstaller.pkg" -target /
+        exit $?
+      file_mode: '0755'
+      file_path: '%RECIPE_CACHE_DIR%/%NAME%/scripts/postinstall'
+
+  - Processor: PkgCreator
+    Arguments:
+      pkg_request:
+        chown: []
+        id: '%PKG_ID%'
+        options: purge_ds_store
+        pkgname: '%NAME%-%version%'
+        pkgroot: '%RECIPE_CACHE_DIR%/%NAME%/payload'
+        scripts: '%RECIPE_CACHE_DIR%/%NAME%/scripts'
+        version: '%version%'
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+        - '%RECIPE_CACHE_DIR%/%NAME%'
+        - '%RECIPE_CACHE_DIR%/unpack'
+        - '%RECIPE_CACHE_DIR%/unpack-payload'

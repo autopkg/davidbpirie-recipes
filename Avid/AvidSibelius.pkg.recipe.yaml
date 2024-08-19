@@ -1,0 +1,109 @@
+Description: |
+  Copies the Sibelius pkg from the source DMG, verifying the signature and
+  extracting the version, then creates a package that installs the Sibelius
+  pkg via a postinstall script, applying a custom set of choices.
+
+  Package source DMG must be manually downloaded from Avid, then provided
+  either as Input Variable PKG or via the -p parameter eg:
+  autopkg run AvidSibelius.pkg -p "path/to/Sibelius_2023.11.1_Mac.dmg"
+
+  PKG_ID is the ID of the generated package.
+
+  desired_choices is the list of pkg components you would like installed.
+  To find all available choices, run:
+  installer -showChoicesXML -pkg path/to/Install Sibelius.pkg
+
+Identifier: com.github.davidbpirie.pkg.AvidSibelius
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: AvidSibelius
+  desired_choices:
+    - com.avid.pkg.sibelius.app
+    - com.avid.pkg.sibelius.rewire
+    - com.avid.pkg.sibelius.fonts
+    - com.avid.pkg.sibelius.2018.fonts
+  PKG_ID: com.github.davidbpirie.AvidSibelius
+
+Process:
+  - Processor: PackageRequired
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: "%PKG%/*.pkg"
+      expected_authority_names:
+        - "Developer ID Installer: Avid Technology Inc (4UYUA773XD)"
+        - Developer ID Certification Authority
+        - Apple Root CA
+
+  - Processor: PkgRootCreator
+    Arguments:
+      pkgdirs:
+        payload: "0775"
+        scripts: "0775"
+      pkgroot: "%RECIPE_CACHE_DIR%/%NAME%"
+
+  - Processor: PkgCopier
+    Arguments:
+      source_pkg: "%PKG%/*.pkg"
+      pkg_path: "%RECIPE_CACHE_DIR%/%NAME%/scripts/%NAME%.pkg"
+
+  - Processor: FlatPkgUnpacker
+    Arguments:
+      flat_pkg_path: "%pkg_path%"
+      skip_payload: False
+      destination_path: "%RECIPE_CACHE_DIR%/unpack"
+      purge_destination: True
+
+  - Processor: PkgPayloadUnpacker
+    Arguments:
+      pkg_payload_path: "%RECIPE_CACHE_DIR%/unpack/Sibelius.pkg/Payload"
+      destination_path: "%RECIPE_CACHE_DIR%/unpack-payload"
+      purge_destination: True
+
+  - Processor: PlistReader
+    Arguments:
+      info_path: "%RECIPE_CACHE_DIR%/unpack-payload/Applications/Sibelius.app"
+      plist_keys:
+        CFBundleShortVersionString: version
+
+  - Processor: com.github.grahampugh.recipes.commonprocessors/ChoicesXMLGenerator
+    Arguments:
+      choices_pkg_path: "%pkg_path%"
+      choices_xml_dest: "%RECIPE_CACHE_DIR%/%NAME%/scripts/choices.xml"
+
+  - Processor: FileCreator
+    Arguments:
+      file_content: |
+        #!/bin/zsh
+
+        ################################################################################
+        #
+        # Installs the Install Sibelius package, applying the choices.xml choices file
+        #
+        ################################################################################
+
+        ROOT_DIR="$( cd -- "$(/usr/bin/dirname "$0")"; pwd -P )"
+
+        /usr/sbin/installer -applyChoiceChangesXML "${ROOT_DIR}/choices.xml" -pkg "${ROOT_DIR}/%NAME%.pkg" -target /
+        exit $?
+      file_mode: "0755"
+      file_path: "%RECIPE_CACHE_DIR%/%NAME%/scripts/postinstall"
+
+  - Processor: PkgCreator
+    Arguments:
+      pkg_request:
+        chown: []
+        id: "%PKG_ID%"
+        options: purge_ds_store
+        pkgname: "%NAME%-%version%"
+        pkgroot: "%RECIPE_CACHE_DIR%/%NAME%/payload"
+        scripts: "%RECIPE_CACHE_DIR%/%NAME%/scripts"
+        version: "%version%"
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+        - "%RECIPE_CACHE_DIR%/%NAME%"
+        - "%RECIPE_CACHE_DIR%/unpack"
+        - "%RECIPE_CACHE_DIR%/unpack-payload"

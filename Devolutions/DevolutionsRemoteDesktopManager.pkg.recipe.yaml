@@ -1,0 +1,13 @@
+Description: |
+  Downloads the latest version of Devolutions Remote Desktop Manager,
+  verfies the source, then builds a package.
+
+Identifier: com.github.davidbpirie.pkg.DevolutionsRemoteDesktopManager
+ParentRecipe: com.github.dataJAR-recipes.download.Remote Desktop Manager Free
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: DevolutionsRemoteDesktopManager
+
+Process:
+- Processor: AppPkgCreator

@@ -1,0 +1,19 @@
+Description: |
+  Downloads the latest version of noTunes from GitHub as a zip file,
+  unarchives the app, verifies the signature, then builds a pkg.
+Identifier: com.github.davidbpirie.pkg.noTunes
+ParentRecipe: com.github.davidbpirie.download.noTunes
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: noTunes
+
+Process:
+  - Processor: AppPkgCreator
+    Arguments:
+      app_path: '%found_filename%'
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+        - '%found_filename%'
