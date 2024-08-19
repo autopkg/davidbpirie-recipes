@@ -26,10 +26,6 @@ Input:
     unattended_uninstall: true
 
 Process:
-- Processor: MunkiPkginfoMerger
-  Arguments:
-    additional_pkginfo:
-
 - Processor: DmgCreator
   Arguments:
     dmg_path: '%RECIPE_CACHE_DIR%/%NAME%.dmg'
