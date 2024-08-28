@@ -8,7 +8,7 @@ Description: |
   command-line keys.
 Identifier: com.github.davidbpirie.jamf-upload.MicrosoftDefender
 MinimumVersion: 2.3.0
-ParentRecipe: com.github.autopkg.download.MSDefenderATP
+ParentRecipe: com.github.rtrouton.pkg.microsoftdefender
 
 Input:
   NAME: MicrosoftDefender
