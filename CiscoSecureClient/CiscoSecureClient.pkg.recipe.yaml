@@ -10,7 +10,13 @@ Description: |
   autopkg run CiscoSecureClient.pkg -p "path/to/predeploy.dmg"
 
   CSC_LAUNCHATLOGIN_DISABLE if non-empty will disable Cisco Secure Client
-  from automatically launching at login.
+  from automatically launching at login by running:
+    acinstallhelper -launchAtLogin -disable
+  
+  CSC_DISABLEAUTOSTART if non-empty will disable Cisco Secure Client from
+  automatically launching at login by running:
+    /Applications/Cisco/Cisco\ Secure\ Client.app/Contents/MacOS/Cisco\ Secure\ Client disableAutoStart
+  Use this instead of CSC_LAUNCHATLOGIN_DISABLE as of v5.1.5.
 
   SRC_PKG_NAME is the name of the pkg inside the DMG, which is usually
   the default value Cisco Secure Client.pkg
@@ -37,6 +43,7 @@ MinimumVersion: "2.3"
 Input:
   NAME: Cisco Secure Client
   CSC_LAUNCHATLOGIN_DISABLE: ""
+  CSC_DISABLEAUTOSTART: ""
   SRC_PKG_NAME: Cisco Secure Client.pkg
   PKG_ID: com.github.davidbpirie.CiscoSecureClient
   desired_choices:
@@ -124,6 +131,8 @@ Process:
         SRC_MGMT_PROFILE="${ROOT_DIR}/Profiles/vpn/MgmtTun/VpnMgmtTunProfile.xml"
         DST_MGMT_PROFILE="${CSC_DIR}/vpn/profile/mgmttun/VpnMgmtTunProfile.xml"
         AC_INSTALL_HELPER="${CSC_DIR}/bin/acinstallhelper"
+        CSC_APP_DIR="/Applications/Cisco/Cisco Secure Client.app"
+        CSC_APP_BINARY="${CSC_APP_DIR}/Contents/MacOS/Cisco Secure Client"
 
         /usr/sbin/installer -applyChoiceChangesXML "${ROOT_DIR}/choices.xml" -pkg "${ROOT_DIR}/%NAME%.pkg" -target /
         EXIT_RESULT=$?
@@ -136,6 +145,11 @@ Process:
         if [ ! -z "%CSC_LAUNCHATLOGIN_DISABLE%" ]; then
           echo "Disabling Cisco Secure Client Launch at Login feature"
           "${AC_INSTALL_HELPER}" -launchAtLogin -disable 2>/dev/null
+        fi
+
+        if [ ! -z "%CSC_DISABLEAUTOSTART" ]; then
+          echo "Disabling Cisco Secure Client AutoStart feature"
+          "${CSC_APP_BINARY}" disableAutoStart
         fi
 
         exit ${EXIT_RESULT}
