@@ -18,6 +18,9 @@ Description: |
     /Applications/Cisco/Cisco\ Secure\ Client.app/Contents/MacOS/Cisco\ Secure\ Client disableAutoStart
   Use this instead of CSC_LAUNCHATLOGIN_DISABLE as of v5.1.5.
 
+  CSC_TE_AGENT_CONNECTIONSTRING if non-empty will be registered by running:
+    /Applications/Cisco/Cisco\ Secure\ Client\ -\ ThousandEyes\ Endpoint\ Agent.app/Contents/MacOS/csc_te_agent --register '%CSC_TE_AGENT_CONNECTIONSTRING%'
+
   SRC_PKG_NAME is the name of the pkg inside the DMG, which is usually
   the default value Cisco Secure Client.pkg
 
@@ -44,6 +47,7 @@ Input:
   NAME: Cisco Secure Client
   CSC_LAUNCHATLOGIN_DISABLE: ""
   CSC_DISABLEAUTOSTART: ""
+  CSC_TE_AGENT_CONNECTIONSTRING: ""
   SRC_PKG_NAME: Cisco Secure Client.pkg
   PKG_ID: com.github.davidbpirie.CiscoSecureClient
   desired_choices:
@@ -133,6 +137,8 @@ Process:
         AC_INSTALL_HELPER="${CSC_DIR}/bin/acinstallhelper"
         CSC_APP_DIR="/Applications/Cisco/Cisco Secure Client.app"
         CSC_APP_BINARY="${CSC_APP_DIR}/Contents/MacOS/Cisco Secure Client"
+        CSC_TE_APP_DIR="/Applications/Cisco/Cisco Secure Client - ThousandEyes Endpoint Agent.app"
+        CSC_TE_AGENT_BINARY="${CSC_TE_APP_DIR}/Contents/MacOS/csc_te_agent"
 
         /usr/sbin/installer -applyChoiceChangesXML "${ROOT_DIR}/choices.xml" -pkg "${ROOT_DIR}/%NAME%.pkg" -target /
         EXIT_RESULT=$?
@@ -150,6 +156,11 @@ Process:
         if [ ! -z "%CSC_DISABLEAUTOSTART" ]; then
           echo "Disabling Cisco Secure Client AutoStart feature"
           "${CSC_APP_BINARY}" disableAutoStart
+        fi
+
+        if [ ! -z "%CSC_TE_AGENT_CONNECTIONSTRING%" ]; then
+          echo "Registering ThousandEyes Agent"
+          "${CSC_TE_AGENT_BINARY}" --register "%CSC_TE_AGENT_CONNECTIONSTRING%"
         fi
 
         exit ${EXIT_RESULT}
