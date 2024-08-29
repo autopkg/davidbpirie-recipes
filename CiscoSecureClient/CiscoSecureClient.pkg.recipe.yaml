@@ -153,7 +153,7 @@ Process:
           "${AC_INSTALL_HELPER}" -launchAtLogin -disable 2>/dev/null
         fi
 
-        if [ ! -z "%CSC_DISABLEAUTOSTART" ]; then
+        if [ ! -z "%CSC_DISABLEAUTOSTART%" ]; then
           echo "Disabling Cisco Secure Client AutoStart feature"
           "${CSC_APP_BINARY}" disableAutoStart
         fi
