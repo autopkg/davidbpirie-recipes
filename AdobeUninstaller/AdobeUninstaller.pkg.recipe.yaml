@@ -25,6 +25,11 @@ Process:
       destination_path: '%pkgroot%/usr/local/bin/AdobeUninstaller'
       overwrite: true
 
+  - Processor: com.github.jessepeterson.munki.UniversalTypeClient5/ModeChanger
+    Arguments:
+      filename: '%pkgroot%/usr/local/bin/AdobeUninstaller'
+      mode: '0755'
+
   - Processor: com.github.apizz.apizz-recipes.SharedProcessors/ExecutableFileVersioner
     Arguments:
       found_filename: '%pkgroot%/usr/local/bin/AdobeUninstaller'
