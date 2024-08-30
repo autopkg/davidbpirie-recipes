@@ -2,6 +2,13 @@ Description: |
   Downloads the AdobeUninstaller tool, verifies the signature and
   extracts the version, then builds a package installing it into
   /usr/local/bin.
+
+  Note that version must be provided manually e.g.:
+    autopkg run -v AdobeUninstaller.pkg -k version=1.0.0.7
+  You can get the correct version from the AdobeUninstaller binary by
+  running:
+    sudo /path/to/AdobeUninstaller --version
+
 Identifier: com.github.davidbpirie.pkg.AdobeUninstaller
 MinimumVersion: 2.3.0
 ParentRecipe: com.github.davidbpirie.download.AdobeUninstaller
@@ -9,8 +16,13 @@ ParentRecipe: com.github.davidbpirie.download.AdobeUninstaller
 Input:
   NAME: AdobeUninstaller
   PKG_ID: com.github.davidbpirie.pkg.AdobeUninstaller
+  version: Provide_version_manually
 
 Process:
+  - Processor: StopProcessingIf
+    Arguments:
+      predicate: version == "Provide_version_manually"
+
   - Processor: PkgRootCreator
     Arguments:
       pkgdirs:
@@ -25,23 +37,6 @@ Process:
       destination_path: '%pkgroot%/usr/local/bin/AdobeUninstaller'
       overwrite: true
 
-  - Processor: com.github.jessepeterson.munki.UniversalTypeClient5/ModeChanger
-    Arguments:
-      filename: '%pkgroot%/usr/local/bin/AdobeUninstaller'
-      mode: '0755'
-
-  - Processor: com.github.apizz.apizz-recipes.SharedProcessors/ExecutableFileVersioner
-    Arguments:
-      found_filename: '%pkgroot%/usr/local/bin/AdobeUninstaller'
-      interpreter_path: /usr/bin/sudo
-      version_argument: --version
-  
-  - Processor: com.github.jazzace.processors/TextSearcher
-    Arguments:
-      re_pattern: 'AdobeUninstaller version: \"([^\"]*)\".*'
-      text_in: '%version%'
-      result_output_var_name: version
-  
   - Processor: PkgCreator
     Arguments:
       pkg_request:

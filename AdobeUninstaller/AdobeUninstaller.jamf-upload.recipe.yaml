@@ -3,6 +3,12 @@ Description: |
   extracts the version, then builds a package installing it into
   /usr/local/bin, then uploads the package to Jamf Pro.
 
+  Note that version must be provided manually e.g.:
+    autopkg run -v AdobeUninstaller.jamf-upload -k version=1.0.0.7
+  You can get the correct version from the AdobeUninstaller binary by
+  running:
+    sudo /path/to/AdobeUninstaller --version
+
   JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
   SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
   in your AutoPkg preferences, override Input variables, or by
