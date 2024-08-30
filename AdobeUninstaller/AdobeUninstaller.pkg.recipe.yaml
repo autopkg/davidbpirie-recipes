@@ -33,7 +33,7 @@ Process:
   - Processor: com.github.apizz.apizz-recipes.SharedProcessors/ExecutableFileVersioner
     Arguments:
       found_filename: '%pkgroot%/usr/local/bin/AdobeUninstaller'
-      interpreter_path: '%pkgroot%/usr/local/bin/AdobeUninstaller'
+      interpreter_path: /usr/bin/sudo
       version_argument: --version
   
   - Processor: com.github.jazzace.processors/TextSearcher
