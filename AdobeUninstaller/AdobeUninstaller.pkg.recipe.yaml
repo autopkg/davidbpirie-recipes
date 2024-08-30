@@ -19,24 +19,29 @@ Process:
         usr/local/bin: '0755'
       pkgroot: '%RECIPE_CACHE_DIR%/%NAME%'
 
-  - Processor: com.github.apizz.apizz-recipes.SharedProcessors/ExecutableFileVersioner
-    Arguments:
-      found_filename: '%pathname%/AdobeUninstaller'
-      interpreter_path: '%pathname%/AdobeUninstaller'
-      version_argument: --version
-
-  - Processor: com.github.jazzace.processors/TextSearcher
-    Arguments:
-      re_pattern: 'AdobeUninstaller version: \"([^\"]*)\".*'
-      text_in: '%version%'
-      result_output_var_name: version
-
   - Processor: Copier
     Arguments:
       source_path: '%pathname%/AdobeUninstaller'
       destination_path: '%pkgroot%/usr/local/bin/AdobeUninstaller'
       overwrite: true
 
+  - Processor: com.github.jessepeterson.munki.UniversalTypeClient5/ModeChanger
+    Arguments:
+      filename: '%pkgroot%/usr/local/bin/AdobeUninstaller'
+      mode: '0755'
+
+  - Processor: com.github.apizz.apizz-recipes.SharedProcessors/ExecutableFileVersioner
+    Arguments:
+      found_filename: '%pkgroot%/usr/local/bin/AdobeUninstaller'
+      interpreter_path: '%pkgroot%/usr/local/bin/AdobeUninstaller'
+      version_argument: --version
+  
+  - Processor: com.github.jazzace.processors/TextSearcher
+    Arguments:
+      re_pattern: 'AdobeUninstaller version: \"([^\"]*)\".*'
+      text_in: '%version%'
+      result_output_var_name: version
+  
   - Processor: PkgCreator
     Arguments:
       pkg_request:
