@@ -60,7 +60,7 @@ Process:
         id: '%PKG_ID%'
         options: purge_ds_store
         pkgname: '%NAME%-%VERSION%'
-        pkgroot: '%RECIPE_CACHE_DIR%/%NAME%/payload'
+        pkgroot: '%RECIPE_CACHE_DIR%/%NAME%'
         version: '%version%'
 
   - Processor: PathDeleter
