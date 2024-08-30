@@ -27,9 +27,9 @@ Process:
 
   - Processor: com.github.apizz.apizz-recipes.SharedProcessors/ExecutableFileVersioner
     Arguments:
-      found_filename: --version
+      found_filename: '%pkgroot%/usr/local/bin/AdobeUninstaller'
       interpreter_path: '%pkgroot%/usr/local/bin/AdobeUninstaller'
-      version_argument: ''
+      version_argument: --version
   
   - Processor: com.github.jazzace.processors/TextSearcher
     Arguments:
