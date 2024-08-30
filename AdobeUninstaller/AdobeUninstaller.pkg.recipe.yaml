@@ -59,7 +59,7 @@ Process:
           mode: '0755'
         id: '%PKG_ID%'
         options: purge_ds_store
-        pkgname: '%NAME%-%VERSION%'
+        pkgname: '%NAME%-%version%'
         pkgroot: '%RECIPE_CACHE_DIR%/%NAME%'
         version: '%version%'
 
