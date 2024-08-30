@@ -1,5 +1,6 @@
 Description: |
-  Downloads the AdobeUninstall tool and packages it for deployment to
+  Downloads the AdobeUninstaller tool, verifies the signature and
+  extracts the version, then builds a package installing it into
   /usr/local/bin, then uploads the package to Jamf Pro.
 
   JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
@@ -9,7 +10,7 @@ Description: |
 
 Identifier: com.github.davidbpirie.jamf-upload.AdobeUninstaller
 MinimumVersion: 2.3.0
-ParentRecipe: com.github.jazzace.pkg.AdobeUninstaller
+ParentRecipe: com.github.davidbpirie.pkg.AdobeUninstaller
 
 Input:
   NAME: AdobeUninstaller

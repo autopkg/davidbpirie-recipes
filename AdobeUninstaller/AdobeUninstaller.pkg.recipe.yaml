@@ -1,0 +1,70 @@
+Description: |
+  Downloads the AdobeUninstaller tool, verifies the signature and
+  extracts the version, then builds a package installing it into
+  /usr/local/bin.
+Identifier: com.github.davidbpirie.pkg.AdobeUninstaller
+MinimumVersion: 2.3.0
+ParentRecipe: com.github.davidbpirie.download.AdobeUninstaller
+
+Input:
+  NAME: AdobeUninstaller
+  PKG_ID: com.github.davidbpirie.pkg.AdobeUninstaller
+
+Process:
+  - Processor: PkgRootCreator
+    Arguments:
+      pkgdirs:
+        usr: '0755'
+        usr/local: '0755'
+        usr/local/bin: '0755'
+      pkgroot: '%RECIPE_CACHE_DIR%/%NAME%'
+
+  - Processor: Copier
+    Arguments:
+      source_path: '%pathname%/AdobeUninstaller'
+      destination_path: '%pkgroot%/usr/local/bin/AdobeUninstaller'
+      overwrite: true
+
+  - Processor: com.github.apizz.apizz-recipes.SharedProcessors/ExecutableFileVersioner
+    Arguments:
+      found_filename: '%pkgroot%/usr/local/bin/AdobeUninstaller'
+      interpreter_path: /bin/sh
+      version_argument: --version
+  
+  - Processor: com.github.jazzace.processors/TextSearcher
+    Arguments:
+      re_pattern: 'AdobeUninstaller version: \"([^\"]*)\".*'
+      text_in: '%version%'
+      result_output_var_name: version
+  
+  - Processor: PkgCreator
+    Arguments:
+      pkg_request:
+        chown:
+        - path: usr
+          user: root
+          group: wheel
+          mode: '0755'
+        - path: usr/local
+          user: root
+          group: admin
+          mode: '0755'
+        - path: usr/local/bin
+          user: root
+          group: wheel
+          mode: '0755'
+        - path: usr/local/bin/AdobeUninstaller
+          user: root
+          group: wheel
+          mode: '0755'
+        id: '%PKG_ID%'
+        options: purge_ds_store
+        pkgname: '%NAME%-%VERSION%'
+        pkgroot: '%RECIPE_CACHE_DIR%/%NAME%/payload'
+        version: '%version%'
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+      - '%RECIPE_CACHE_DIR%/%NAME%'
+
