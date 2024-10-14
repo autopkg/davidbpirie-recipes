@@ -1,19 +1,21 @@
 Description: |
-  Expands the zip archive downloaded with an Adobe Admin Console-
-  generated downloader, identifies the package name, extracts
-  package metadata from the installer using dataJAR's custom
-  processor, then copies the installer package, renaming to
-  match the recipe name and include the version.
+  For use with DataJAR's AdobeAdminConsolePackagesImporter.py.
+
+  Using the information gathered by AdobeAdminConsolePackagesImporter.py,
+  copies the identified pkg to the recipe cache dir.
 
   Intended use is to generate an override from this recipe, then
   give the override an unique Identifier and populate all the
-  Input variables. When using the recipe, also provide the source
-  archive via the -p parameter eg:
-  autopkg run MyAdobeApp.pkg -p MyAdobeApp.zip
+  Input variables. As per AdobeAdminConsolePackagesImporter.py
+  documentation, your override prefix has to match a name within the
+  application names table (see https://github.com/autopkg/dataJAR-recipes/blob/master/Adobe%20Admin%20Console%20Packages/AdobeAutoPkgApplicationData.json).
+
+  Your override should not be run directly, but rather will be
+  updated and executed by AdobeAdminConsolePackagesImporter.py e.g.:
+  sudo ./AdobeAdminConsolePackagesImporter.py pkg /path/to/downloaded-packages-dir
 
 Identifier: com.github.davidbpirie.pkg.AdobeAdminConsole
 MinimumVersion: 2.3.0
-ParentRecipe: com.github.davidbpirie.pkginfo.AdobeAdminConsole
 
 Input:
   NAME: AdobeAdminConsole
@@ -21,5 +23,5 @@ Input:
 Process:
   - Processor: PkgCopier
     Arguments:
-      source_pkg: '%aacp_install_pkg_path%'
-      pkg_path: '%RECIPE_CACHE_DIR%/%NAME%-%version%.pkg'
+      source_pkg: '%aacp_package_path%'
+      pkg_path: '%RECIPE_CACHE_DIR%/%NAME%-%aacp_application_version%.pkg'

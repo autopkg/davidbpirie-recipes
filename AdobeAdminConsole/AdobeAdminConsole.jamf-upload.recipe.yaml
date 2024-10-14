@@ -1,15 +1,19 @@
 Description: |
-  Expands the zip archive downloaded with an Adobe Admin Console-
-  generated downloader, identifies the package name, extracts
-  package metadata from the installer using dataJAR's custom
-  processor, copies the installer package, then uploads the package
-  to Jamf Pro.
+  For use with DataJAR's AdobeAdminConsolePackagesImporter.py.
+
+  Using the information gathered by AdobeAdminConsolePackagesImporter.py,
+  copies the identified pkg to the recipe cache dir, then uploads the
+  package to Jamf Pro.
 
   Intended use is to generate an override from this recipe, then
   give the override an unique Identifier and populate all the
-  Input variables. When using the recipe, also provide the source
-  archive via the -p parameter eg:
-  autopkg run MyAdobeApp.jamf-upload -p MyAdobeApp.zip
+  Input variables. As per AdobeAdminConsolePackagesImporter.py
+  documentation, your override prefix has to match a name within the
+  application names table (see https://github.com/autopkg/dataJAR-recipes/blob/master/Adobe%20Admin%20Console%20Packages/AdobeAutoPkgApplicationData.json).
+
+  Your override should not be run directly, but rather will be
+  updated and executed by AdobeAdminConsolePackagesImporter.py e.g.:
+  sudo ./AdobeAdminConsolePackagesImporter.py jamf-upload /path/to/downloaded-packages-dir
 
   JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
   SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
@@ -36,7 +40,7 @@ Input:
 Process:
   - Processor: com.github.grahampugh.jamf-upload.processors/JamfPackageUploader
     Arguments:
-      pkg_name: '%JAMF_PKG_NAME%_%aacp_application_install_lang%_%aacp_application_architecture_type%-%version%.pkg'
+      pkg_name: '%JAMF_PKG_NAME%_%aacp_application_install_lang%_%aacp_application_architecture_type%-%aacp_application_version%.pkg'
       pkg_category: '%JAMF_CATEGORY%'
       pkg_info: '%aacp_application_description%'
       pkg_notes: '%JAMF_PKG_NOTES%'
