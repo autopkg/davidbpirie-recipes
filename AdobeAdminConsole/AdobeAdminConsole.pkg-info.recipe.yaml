@@ -1,0 +1,27 @@
+Description: |
+  For use with DataJAR's AdobeAdminConsolePackagesImporter.py.
+
+  Using the information gathered by AdobeAdminConsolePackagesImporter.py,
+  updates your the override with data.
+
+  Intended use is to generate an override from this recipe, then
+  give the override an unique Identifier and populate all the
+  Input variables. As per AdobeAdminConsolePackagesImporter.py
+  documentation, your override prefix has to match a name within the
+  application names table (see https://github.com/autopkg/dataJAR-recipes/blob/master/Adobe%20Admin%20Console%20Packages/AdobeAutoPkgApplicationData.json).
+
+  This recipe is useful if you just want to gather the info, but not
+  do anything with it other than store it in your override. You can
+  then copy the updated data to pkg or jamf-upload recipes and run
+  them directly, instead of utilising AdobeAdminConsolePackagesImporter.py's
+  recipe-running feature.
+
+  Your override should not be run directly, but rather will be
+  updated and executed by AdobeAdminConsolePackagesImporter.py e.g.:
+  sudo ./AdobeAdminConsolePackagesImporter.py pkg /path/to/downloaded-packages-dir
+
+Identifier: com.github.davidbpirie.pkg.AdobeAdminConsole
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: AdobeAdminConsole
