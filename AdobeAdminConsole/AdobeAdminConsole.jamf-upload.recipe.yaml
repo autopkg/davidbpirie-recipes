@@ -36,6 +36,10 @@ Input:
   JAMF_PKG_SEND_NOTIFICATION: 'False'
   JAMF_PKG_REPLACE: 'False'
   JAMF_PKG_REPLACE_METADATA: 'False'
+  aacp_application_architecture_type: Populate with AdobeAdminConsolePackagesImporter.py
+  aacp_application_description: Populate with AdobeAdminConsolePackagesImporter.py
+  aacp_application_install_lang: Populate with AdobeAdminConsolePackagesImporter.py
+  aacp_application_version: Populate with AdobeAdminConsolePackagesImporter.py
 
 Process:
   - Processor: com.github.grahampugh.jamf-upload.processors/JamfPackageUploader
