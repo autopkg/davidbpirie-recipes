@@ -19,8 +19,8 @@ MinimumVersion: 2.3.0
 
 Input:
   NAME: AdobeAdminConsole
-  aacp_package_path: Populate with AdobeAdminConsolePackagesImporter.py
   aacp_application_version: Populate with AdobeAdminConsolePackagesImporter.py
+  aacp_package_path: Populate with AdobeAdminConsolePackagesImporter.py
 
 Process:
   - Processor: PkgCopier
