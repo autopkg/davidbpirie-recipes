@@ -20,7 +20,7 @@ Description: |
   updated and executed by AdobeAdminConsolePackagesImporter.py e.g.:
   sudo ./AdobeAdminConsolePackagesImporter.py pkg /path/to/downloaded-packages-dir
 
-Identifier: com.github.davidbpirie.pkg.AdobeAdminConsole
+Identifier: com.github.davidbpirie.pkg-info.AdobeAdminConsole
 MinimumVersion: 2.3.0
 
 Input:
