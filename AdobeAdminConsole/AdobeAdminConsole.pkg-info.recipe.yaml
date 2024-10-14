@@ -25,3 +25,8 @@ MinimumVersion: 2.3.0
 
 Input:
   NAME: AdobeAdminConsole
+
+Process:
+  - Processor: StopProcessingIf
+    Arguments:
+      predicate: 'True == False'
