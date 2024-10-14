@@ -14,7 +14,7 @@ Description: |
   do anything with it other than store it in your override. You can
   then copy the updated data to pkg or jamf-upload recipes and run
   them directly, instead of utilising AdobeAdminConsolePackagesImporter.py's
-  recipe-running feature.
+  recipe-running feature to complete the operation.
 
   Your override should not be run directly, but rather will be
   updated and executed by AdobeAdminConsolePackagesImporter.py e.g.:
