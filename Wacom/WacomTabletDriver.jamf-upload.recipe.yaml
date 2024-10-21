@@ -1,20 +1,20 @@
 Description: |
-  Downloads the latest drivers for the Wacom Intuos Pro tablets,
-  then uploads the package to Jamf Pro.
+  Downloads the latest drivers for Wacom tablets, then uploads the
+  package to Jamf Pro.
 
   JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
   SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
   in your AutoPkg preferences, override Input variables, or by
   command-line keys.
-Identifier: com.github.davidbpirie.jamf-upload.WacomIntuosProDriver
+Identifier: com.github.davidbpirie.jamf-upload.WacomTabletDriver
 MinimumVersion: 2.3.0
 ParentRecipe: com.github.jps3.download.WacomIntuosProTabletDriver
 
 Input:
-  NAME: WacomIntuosProDriver
+  NAME: WacomTabletDriver
   JAMF_CATEGORY: Graphics and Design
   JAMF_PKG_NAME: '%NAME%'
-  JAMF_PKG_INFO: Drivers and support software for the Wacom Intuos Pro tablets.
+  JAMF_PKG_INFO: Drivers and support software for Wacom tablets.
   JAMF_PKG_NOTES: 'Generated and uploaded by AutoPkg'
   JAMF_PKG_PRIORITY: '10'
   JAMF_PKG_REBOOT_REQUIRED: 'True'
