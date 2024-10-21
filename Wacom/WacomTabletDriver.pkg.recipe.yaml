@@ -1,0 +1,15 @@
+Description: |
+  Downloads the latest drivers for Wacom tablets, then renames the
+  pkg to include the version number.
+Identifier: com.github.davidbpirie.pkg.WacomTabletDriver
+ParentRecipe: com.github.jps3.download.WacomIntuosProTabletDriver
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: WacomTabletDriver
+
+Process:
+  - Processor: PkgCopier
+    Arguments:
+      source_pkg: '%pathname%/Install Wacom Tablet.pkg'
+      pkg_path: '%NAME%-%version%.pkg'

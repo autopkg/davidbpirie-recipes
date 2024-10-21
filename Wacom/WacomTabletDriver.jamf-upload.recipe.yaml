@@ -1,5 +1,6 @@
 Description: |
-  Downloads the latest drivers for Wacom tablets, then uploads the
+  Downloads the latest drivers for Wacom tablets, renames the
+  pkg to include the version number, then uploads the
   package to Jamf Pro.
 
   JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
@@ -8,7 +9,7 @@ Description: |
   command-line keys.
 Identifier: com.github.davidbpirie.jamf-upload.WacomTabletDriver
 MinimumVersion: 2.3.0
-ParentRecipe: com.github.jps3.download.WacomIntuosProTabletDriver
+ParentRecipe: com.github.davidbpirie.pkg.WacomTabletDriver
 
 Input:
   NAME: WacomTabletDriver
@@ -25,10 +26,14 @@ Input:
   JAMF_PKG_REPLACE_METADATA: 'False'
 
 Process:
+  - Processor: PkgCopier
+    Arguments:
+      source_pkg: '%pathname%/Install Wacom Tablet.pkg'
+      pkg_path: '%NAME%.pkg'
+
   - Processor: com.github.grahampugh.jamf-upload.processors/JamfPackageUploader
     Arguments:
       pkg_name: '%JAMF_PKG_NAME%-%version%.pkg'
-      pkg_path: '%pathname%/Install Wacom Tablet.pkg'
       pkg_category: '%JAMF_CATEGORY%'
       pkg_info: '%JAMF_PKG_INFO%'
       pkg_notes: '%JAMF_PKG_NOTES%'
