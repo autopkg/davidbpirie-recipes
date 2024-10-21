@@ -26,11 +26,6 @@ Input:
   JAMF_PKG_REPLACE_METADATA: 'False'
 
 Process:
-  - Processor: PkgCopier
-    Arguments:
-      source_pkg: '%pathname%/Install Wacom Tablet.pkg'
-      pkg_path: '%NAME%.pkg'
-
   - Processor: com.github.grahampugh.jamf-upload.processors/JamfPackageUploader
     Arguments:
       pkg_name: '%JAMF_PKG_NAME%-%version%.pkg'
