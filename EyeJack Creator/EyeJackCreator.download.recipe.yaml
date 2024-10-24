@@ -1,0 +1,27 @@
+Description: |
+  Downloads the latest version of EyeJack Creator for a provided release.
+Identifier: com.github.davidbpirie.download.EyeJackCreator
+MinimumVersion: 2.3.0
+
+Input:
+  RELEASE_YEAR: '2024'
+  NAME: EyeJackCreator%RELEASE_YEAR%
+  BASE_URL: https://s3.amazonaws.com/eyejack-creator-2020/prd/mac/
+
+Process:
+- Processor: URLTextSearcher
+  Arguments:
+    re_pattern: '- url: EyeJack Creator (%RELEASE_YEAR%\S*\.dmg)'
+    url: '%BASE_URL%latest-mac.yml'
+    result_output_var_name: match
+
+- Processor: URLDownloader
+  Arguments:
+    url: '%BASE_URL%EyeJack+Creator+%match%'
+
+- Processor: EndOfCheckPhase
+
+- Processor: CodeSignatureVerifier
+  Arguments:
+    input_path: '%pathname%/EyeJack Creator %RELEASE_YEAR%.app'
+    requirement: identifier "com.eyejackapp.creator" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "69N5JPMK3Q"

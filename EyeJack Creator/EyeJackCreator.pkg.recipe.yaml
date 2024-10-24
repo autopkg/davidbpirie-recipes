@@ -1,0 +1,13 @@
+Description: |
+  Downloads the latest version of EyeJack Creator for a provided release,
+  then builds a package.
+Identifier: com.github.davidbpirie.pkg.EyeJackCreator
+ParentRecipe: com.github.davidbpirie.download.EyeJackCreator
+MinimumVersion: 2.3.0
+
+Input:
+  RELEASE_YEAR: '2024'
+  NAME: EyeJackCreator%RELEASE_YEAR%
+
+Process:
+- Processor: AppPkgCreator
