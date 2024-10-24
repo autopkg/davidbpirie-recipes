@@ -1,6 +1,6 @@
 Description: |
-  Downloads the latest version of EyeJack Creator for a provided release,
-  builds a package, then uploads the package to Jamf Pro.
+  Downloads the latest version of EyeJack Creator, builds a package,
+  then uploads the package to Jamf Pro.
 
   JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
   SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
@@ -11,8 +11,7 @@ MinimumVersion: 2.3.0
 ParentRecipe: com.github.davidbpirie.pkg.EyeJackCreator
 
 Input:
-  RELEASE_YEAR: '2024'
-  NAME: EyeJackCreator%RELEASE_YEAR%
+  NAME: EyeJackCreator
   JAMF_CATEGORY: Photo and Video
   JAMF_PKG_NAME: '%NAME%'
   JAMF_PKG_INFO: EyeJack Creator helps you bring art to life with animation and sound in 3 easy steps..
