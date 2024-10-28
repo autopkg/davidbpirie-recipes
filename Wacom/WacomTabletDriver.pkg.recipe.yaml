@@ -12,4 +12,4 @@ Process:
   - Processor: PkgCopier
     Arguments:
       source_pkg: '%pathname%/Install Wacom Tablet.pkg'
-      pkg_path: '%RECIPE_CACHE_DIR%/%NAME%-%version%.pkg'
+      pkg_path: '%RECIPE_CACHE_DIR%/Install Wacom Tablet-%version%.pkg'
