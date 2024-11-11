@@ -29,8 +29,6 @@ Input:
   version: Provide_version_in_input_key
 
 Process:
-- Processor: PackageRequired
-
 - Processor: StopProcessingIf
   Arguments:
     predicate: OUTSET_ITEM_TYPE != 'boot-every' AND OUTSET_ITEM_TYPE != 'boot-once' AND OUTSET_ITEM_TYPE != 'login-every' AND OUTSET_ITEM_TYPE != 'login-once' AND OUTSET_ITEM_TYPE != 'login-privileged-every' AND OUTSET_ITEM_TYPE != 'login-privileged-once' AND OUTSET_ITEM_TYPE != 'on-demand'
@@ -42,10 +40,6 @@ Process:
 - Processor: StopProcessingIf
   Arguments:
     predicate: version == 'Provide_version_in_input_key'
-
-- Processor: StopProcessingIf
-  Arguments:
-    predicate: OUTSET_ITEM_TYPE == 'Put_Item_Type_into_AutoPkg_recipe_override'
 
 - Processor: PkgRootCreator
   Arguments:
