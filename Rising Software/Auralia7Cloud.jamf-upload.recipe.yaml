@@ -15,7 +15,11 @@ Input:
   NAME: Auralia7Cloud
   JAMF_CATEGORY: Music
   JAMF_PKG_NAME: '%NAME%'
-  JAMF_PKG_INFO: Ear training with real music. With 59 topics and endless customisation Auralia® is simply the best online ear training. We cover all the fundamentals; pitch, rhythm, intervals, chords, scales and tuning. Progress through cadences, melodic dictation, rhythm, jazz progressions and harmonic transcription!
+  JAMF_PKG_INFO: |
+    Ear training with real music. With 59 topics and endless customisation
+    Auralia is simply the best online ear training. We cover all the fundamentals;
+    pitch, rhythm, intervals, chords, scales and tuning. Progress through cadences,
+    melodic dictation, rhythm, jazz progressions and harmonic transcription!
   JAMF_PKG_NOTES: 'Uploaded by AutoPkg'
   JAMF_PKG_PRIORITY: '10'
   JAMF_PKG_REBOOT_REQUIRED: 'False'
