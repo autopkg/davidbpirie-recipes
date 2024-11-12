@@ -1,0 +1,33 @@
+Description: |
+  Downloads the latest version of Musition 7 Cloud as a pkg,
+  then verifies the code signature.
+Identifier: com.github.davidbpirie.download.Musition7Cloud
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: Musition7Cloud
+  BASE_URL: https://www.risingsoftware.com/cloudsupport/downloads
+  SCHOOL_CODE: Put_School_Code_into_AutoPkg_recipe_override
+  re_pattern: <td>Mac</td><td><a href='([^']*musition[^']*)'
+
+Process:
+- Processor: StopProcessingIf
+  Arguments:
+    predicate: SCHOOL_CODE == 'Put_School_Code_into_AutoPkg_recipe_override'
+
+- Processor: URLTextSearcher
+  Arguments:
+    result_output_var_name: url
+    url: '%BASE_URL%?school_code=%SCHOOL_CODE%'
+
+- Processor: URLDownloader
+
+- Processor: EndOfCheckPhase
+
+- Processor: CodeSignatureVerifier
+  Arguments:
+    input_path: '%pathname%'
+    expected_authority_names:
+      - 'Developer ID Installer: Rising Software Australia Pty Ltd (NQMN77T7W6)'
+      - Developer ID Certification Authority
+      - Apple Root CA

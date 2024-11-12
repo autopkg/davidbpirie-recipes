@@ -1,0 +1,37 @@
+Description: |
+  Downloads the latest version of Musition 7 Cloud as a pkg,
+  verifies the code signature, then finds the version.
+Identifier: com.github.davidbpirie.pkg.Musition7Cloud
+ParentRecipe: com.github.davidbpirie.download.Musition7Cloud
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: Musition7Cloud
+
+Process:
+- Processor: FlatPkgUnpacker
+  Arguments:
+    flat_pkg_path: '%pathname%'
+    destination_path: '%RECIPE_CACHE_DIR%/unpack'
+
+- Processor: PkgPayloadUnpacker
+  Arguments:
+    pkg_payload_path: '%RECIPE_CACHE_DIR%/unpack/Musition_7_Cloud.pkg/Payload'
+    destination_path: '%RECIPE_CACHE_DIR%/payload'
+    purge_destination: True
+
+- Processor: PlistReader
+  Arguments:
+    info_path: '%RECIPE_CACHE_DIR%/payload/Applications/Musition 7 Cloud.app'
+
+- Processor: PkgCopier
+  Arguments:
+    source_pkg: '%pathname%'
+    pkg_path: '%RECIPE_CACHE_DIR%/%NAME%-%version%.pkg'
+
+- Processor: PathDeleter
+  Arguments:
+    path_list:
+    - '%RECIPE_CACHE_DIR%/unpack'
+    - '%RECIPE_CACHE_DIR%/payload'
+
