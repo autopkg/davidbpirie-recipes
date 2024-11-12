@@ -1,0 +1,32 @@
+Description: |
+  Downloads MuseScore and creates a package installer for the app,
+  then imports it to munki.
+Identifier: com.github.davidbpirie.munki.MuseScore
+ParentRecipe: com.github.jazzace.download.MuseScore
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: MuseScore
+  MUNKI_DISPLAYNAME: MuseScore
+  MUNKI_DESCRIPTION: The world's most popular notation app.
+  MUNKI_CATEGORY: Music
+  MUNKI_DEVELOPER: MuseScore
+  MUNKI_REPO_SUBDIR: '%MUNKI_CATEGORY%/%MUNKI_DEVELOPER%/%NAME%'
+  pkginfo:
+    blocking_applications:
+    - MuseScore 4
+    catalogs:
+    - testing
+    category: '%MUNKI_CATEGORY%'
+    description: '%MUNKI_DESCRIPTION%'
+    developer: '%MUNKI_DEVELOPER%'
+    display_name: '%MUNKI_DISPLAYNAME%'
+    name: '%NAME%'
+    unattended_install: true
+    unattended_uninstall: true
+
+Process:
+- Processor: MunkiImporter
+  Arguments:
+    pkg_path: '%pathname%'
+    repo_subdirectory: '%MUNKI_REPO_SUBDIR%'
