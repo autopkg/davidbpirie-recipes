@@ -6,7 +6,7 @@ MinimumVersion: 2.3.0
 
 Input:
   NAME: Auralia7Cloud
-  BASE_URL: https://www.risingsoftware.com/cloudsupport/downloads?school_code=CITMUSIC
+  BASE_URL: https://www.risingsoftware.com/cloudsupport/downloads
   SCHOOL_CODE: Put_School_Code_into_AutoPkg_recipe_override
   re_pattern: <td>Mac</td><td><a href='([^']*auralia[^']*)'
 
