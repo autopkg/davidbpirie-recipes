@@ -1,8 +1,8 @@
 Description: |
-  Downloads the latest version of Shutter Encoder as a pkg,
-  verifies the code signature, finds the version, re-packages
-  the app without the postinstall script, then uploads the
-  new package to Jamf Pro.
+  Downloads the latest version of Shutter Encoder as a pkg, verifies
+  the code signature, removes global write permissions, finds the
+  version, and re-packages the app without the postinstall script,
+  then uploads the new package to Jamf Pro.
 
   Set ARCH to one of:
   "Mac" for Intel

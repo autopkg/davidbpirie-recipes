@@ -1,7 +1,7 @@
 Description: |
-  Downloads the latest version of Shutter Encoder as a pkg,
-  verifies the code signature, then finds the version and
-  re-packages the app without the postinstall script.
+  Downloads the latest version of Shutter Encoder as a pkg, verifies
+  the code signature, then removes global write permissions, finds
+  the version, and re-packages the app without the postinstall script.
 
   Set ARCH to one of:
   "Mac" for Intel
@@ -15,25 +15,42 @@ Input:
   ARCH: Apple Silicon
 
 Process:
-- Processor: FlatPkgUnpacker
-  Arguments:
-    flat_pkg_path: '%pathname%'
-    destination_path: '%RECIPE_CACHE_DIR%/unpack'
+  - Processor: FlatPkgUnpacker
+    Arguments:
+      flat_pkg_path: '%pathname%'
+      destination_path: '%RECIPE_CACHE_DIR%/unpack'
 
-- Processor: PkgPayloadUnpacker
-  Arguments:
-    pkg_payload_path: '%RECIPE_CACHE_DIR%/unpack/com.paulpacifico.shutterencoder.pkg/Payload'
-    destination_path: '%RECIPE_CACHE_DIR%/payload'
-    purge_destination: True
+  - Processor: PkgPayloadUnpacker
+    Arguments:
+      pkg_payload_path: '%RECIPE_CACHE_DIR%/unpack/com.paulpacifico.shutterencoder.pkg/Payload'
+      destination_path: '%RECIPE_CACHE_DIR%/payload'
+      purge_destination: True
 
-- Processor: AppPkgCreator
-  Arguments:
-    app_path: '%RECIPE_CACHE_DIR%/payload/Shutter Encoder.app'
-    pkg_path: '%RECIPE_CACHE_DIR%/Shutter Encoder %ARCH%-%version%.pkg'
+  - Processor: PkgRootCreator
+    Arguments:
+      pkgdirs:
+        payload: '0775'
+        payload/Applications: '0775'
+      pkgroot: '%RECIPE_CACHE_DIR%/%NAME%'
 
-- Processor: PathDeleter
-  Arguments:
-    path_list:
-    - '%RECIPE_CACHE_DIR%/unpack'
-    - '%RECIPE_CACHE_DIR%/payload'
+  - Processor: FileMover
+    Arguments:
+      source: '%RECIPE_CACHE_DIR%/payload/Shutter Encoder.app'
+      target: '%pkgroot%/payload/Applications/Shutter Encoder.app'
 
+  - Processor: com.github.davidbpirie.SharedProcessors/RunShellCommand
+    Arguments:
+      subprocess_args:
+        - '/bin/chmod -R o-w "%pkgroot%/payload/Applications/Shutter Encoder.app"'
+      subprocess_fail_on_error: True
+
+  - Processor: AppPkgCreator
+    Arguments:
+      app_path: '%pkgroot%/payload/Applications/Shutter Encoder.app'
+      pkg_path: '%RECIPE_CACHE_DIR%/Shutter Encoder new.pkg'
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+        - '%RECIPE_CACHE_DIR%/unpack'
+        - '%RECIPE_CACHE_DIR%/payload'
