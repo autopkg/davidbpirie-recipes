@@ -1,6 +1,7 @@
 Description: |
   Downloads the latest version of Shutter Encoder as a pkg,
   then verifies the code signature.
+
   Set ARCH to one of:
   "Mac" for Intel
   "Apple Silicon" for ARM
