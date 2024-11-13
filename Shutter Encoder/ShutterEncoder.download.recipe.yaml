@@ -1,0 +1,32 @@
+Description: |
+  Downloads the latest version of Shutter Encoder as a pkg,
+  then verifies the code signature.
+  Set ARCH to one of:
+  "Mac" for Intel
+  "Apple Silicon" for ARM
+Identifier: com.github.davidbpirie.download.ShutterEncoder
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: ShutterEncoder
+  ARCH: Apple Silicon
+  BASE_URL: https://www.shutterencoder.com/en/thanks
+  re_pattern: <a href=\"([^\"]*)\">%ARCH%</a>
+
+Process:
+- Processor: URLTextSearcher
+  Arguments:
+    result_output_var_name: url
+    url: '%BASE_URL%'
+
+- Processor: URLDownloader
+
+- Processor: EndOfCheckPhase
+
+- Processor: CodeSignatureVerifier
+  Arguments:
+    input_path: '%pathname%'
+    expected_authority_names:
+      - 'Developer ID Installer: Codebase Media UG (haftungsbeschrankt) (LZ28YRG3Q4)'
+      - Developer ID Certification Authority
+      - Apple Root CA

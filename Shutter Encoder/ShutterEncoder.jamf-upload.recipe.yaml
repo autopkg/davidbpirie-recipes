@@ -1,0 +1,58 @@
+Description: |
+  Downloads the latest version of Shutter Encoder as a pkg,
+  verifies the code signature, finds the version, re-packages
+  the app without the postinstall script, then uploads the
+  new package to Jamf Pro.
+
+  JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
+  SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
+  in your AutoPkg preferences, override Input variables, or by
+  command-line keys.
+Identifier: com.github.davidbpirie.jamf-upload.ShutterEncoder
+MinimumVersion: 2.3.0
+ParentRecipe: com.github.davidbpirie.pkg.ShutterEncoder
+
+Input:
+  NAME: ShutterEncoder
+  JAMF_CATEGORY: Photo and Video
+  JAMF_PKG_NAME: '%NAME%'
+  JAMF_PKG_INFO: |
+    Shutter Encoder is one of the best video converter software, it handles images
+    and audio too!
+    
+    It has been designed by video editors in order to be as accessible and
+    efficient as possible.
+    
+    Shutter Encoder makes use of FFmpeg to handle its encoding, allowing support
+    for almost every codec you've ever heard of, and many more you haven't.
+    
+    Don't just take our word for it though, Avid themselves recommend Shutter
+    Encoder as part of your Media Composer and ProTools ingesting workflow!
+  JAMF_PKG_NOTES: 'Uploaded by AutoPkg'
+  JAMF_PKG_PRIORITY: '10'
+  JAMF_PKG_REBOOT_REQUIRED: 'False'
+  JAMF_PKG_OS_REQUIREMENTS: ''
+  JAMF_PKG_REQUIRED_PROCESSOR: None
+  JAMF_PKG_SEND_NOTIFICATION: 'False'
+  JAMF_PKG_REPLACE: 'False'
+  JAMF_PKG_REPLACE_METADATA: 'False'
+
+Process:
+  - Processor: com.github.grahampugh.jamf-upload.processors/JamfPackageUploader
+    Arguments:
+      pkg_name: '%JAMF_PKG_NAME%-%version%.pkg'
+      pkg_category: '%JAMF_CATEGORY%'
+      pkg_info: '%JAMF_PKG_INFO%'
+      pkg_notes: '%JAMF_PKG_NOTES%'
+      pkg_priority: '%JAMF_PKG_PRIORITY%'
+      reboot_required: '%JAMF_PKG_REBOOT_REQUIRED%'
+      os_requirements: '%JAMF_PKG_OS_REQUIREMENTS%'
+      required_processor: '%JAMF_PKG_REQUIRED_PROCESSOR%'
+      send_notification: '%JAMF_PKG_SEND_NOTIFICATION%'
+      replace_pkg: '%JAMF_PKG_REPLACE%'
+      replace_pkg_metadata: '%JAMF_PKG_REPLACE_METADATA%'
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+      - '%pkg_path%'
