@@ -44,10 +44,18 @@ Process:
         - '/bin/chmod -R o-w "%pkgroot%/payload/Applications/Shutter Encoder.app"'
       subprocess_fail_on_error: True
 
-  - Processor: AppPkgCreator
+  - Processor: PkgCreator
     Arguments:
-      app_path: '%pkgroot%/payload/Applications/Shutter Encoder.app'
-      pkg_path: '%RECIPE_CACHE_DIR%/Shutter Encoder %ARCH%-%version%.pkg'
+      pkg_request:
+        chown:
+        - path: Applications
+          user: root
+          group: admin
+        id: com.paulpacifico.shutterencoder
+        options: purge_ds_store
+        pkgname: '%NAME%-%version%'
+        pkgroot: '%RECIPE_CACHE_DIR%/%NAME%/payload'
+        version: '%version%'
 
   - Processor: PathDeleter
     Arguments:
