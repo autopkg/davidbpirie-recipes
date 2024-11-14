@@ -1,0 +1,49 @@
+Description: |
+  Downloads the latest ColorNavigator 7 installer, modifies a postinstall
+  to no longer open the ColorNavigator 7 window following installation,
+  then uploads the modified package to Jamf Pro.
+
+  POSTINSTALL_SCRIPT_PATH must be set to reflect the location of the
+  "postinstall" script--it can point back to the postinstall in the
+  directory of the original recipe, but due to overrides it must be a
+  piece of override-able INPUT
+
+  JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
+  SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
+  in your AutoPkg preferences, override Input variables, or by
+  command-line keys.
+
+Identifier: com.github.davidbpirie.jamf-upload.ColorNavigator7
+ParentRecipe: com.github.foigus.pkg.ColorNavigator7
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: ColorNavigator7
+  JAMF_CATEGORY: Utilities
+  JAMF_PKG_NAME: '%NAME%'
+  JAMF_PKG_INFO: Complete color management software solution for reliable calibration and quality control management of ColorEdge monitors.
+  JAMF_PKG_NOTES: Uploaded by AutoPkg
+  JAMF_PKG_OS_REQUIREMENTS: ''
+  JAMF_PKG_PRIORITY: '10'
+  JAMF_PKG_REBOOT_REQUIRED: 'False'
+  JAMF_PKG_REPLACE: 'False'
+  JAMF_PKG_REPLACE_METADATA: 'False'
+  JAMF_PKG_REQUIRED_PROCESSOR: None
+  JAMF_PKG_SEND_NOTIFICATION: 'False'
+  JAMF_PKG_SUFFIX: 'pkg'
+
+Process:
+  - Processor: com.github.grahampugh.jamf-upload.processors/JamfPackageUploader
+    Arguments:
+      pkg_name: '%JAMF_PKG_NAME%-%version%.%JAMF_PKG_SUFFIX%'
+      pkg_path: '%RECIPE_CACHE_DIR%/repack/ColorNavigator7-%version%.pkg'
+      pkg_category: '%JAMF_CATEGORY%'
+      pkg_info: '%JAMF_PKG_INFO%'
+      pkg_notes: '%JAMF_PKG_NOTES%'
+      pkg_priority: '%JAMF_PKG_PRIORITY%'
+      reboot_required: '%JAMF_PKG_REBOOT_REQUIRED%'
+      os_requirements: '%JAMF_PKG_OS_REQUIREMENTS%'
+      required_processor: '%JAMF_PKG_REQUIRED_PROCESSOR%'
+      send_notification: '%JAMF_PKG_SEND_NOTIFICATION%'
+      replace_pkg: '%JAMF_PKG_REPLACE%'
+      replace_pkg_metadata: '%JAMF_PKG_REPLACE_METADATA%'
