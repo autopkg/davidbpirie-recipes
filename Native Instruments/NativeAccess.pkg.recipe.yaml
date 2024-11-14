@@ -1,0 +1,17 @@
+Description: |
+  Downloads the latest version of Native Access as a dmg, verifies
+  the code signature, then creates a pkg.
+
+  Set ARCH to one of:
+  "Intel" for Intel
+  "M1" for ARM
+Identifier: com.github.davidbpirie.pkg.NativeAccess
+ParentRecipe: com.github.davidbpirie.download.NativeAccess
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: NativeAccess
+  ARCH: M1
+
+Process:
+  - Processor: AppPkgCreator

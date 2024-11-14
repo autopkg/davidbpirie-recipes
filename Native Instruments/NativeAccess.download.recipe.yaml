@@ -1,0 +1,24 @@
+Description: |
+  Downloads the latest version of Native Access as a dmg, then
+  verifies the code signature.
+
+  Set ARCH to one of:
+  "Intel" for Intel
+  "M1" for ARM
+Identifier: com.github.davidbpirie.download.NativeAccess
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: NativeAccess
+  ARCH: M1
+  url: https://www.native-instruments.com/fileadmin/downloads/Native-Access_2_Mac_%ARCH%.dmg
+
+Process:
+- Processor: URLDownloader
+
+- Processor: EndOfCheckPhase
+
+- Processor: CodeSignatureVerifier
+  Arguments:
+    input_path: '%pathname%/Native Access.app'
+    requirement: identifier "com.native-instruments.nativeaccess2" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "83K5EG6Z9V"
