@@ -29,6 +29,8 @@ Process:
 - Processor: PlistReader
   Arguments:
     info_path: '%RECIPE_CACHE_DIR%/payload/Unity/Unity.app'
+    plist_keys:
+      CFBundleVersion: version
 
 - Processor: PkgCopier
   Arguments:
