@@ -15,3 +15,5 @@ Input:
 
 Process:
   - Processor: AppPkgCreator
+    Arguments:
+      pkg_path: '%RECIPE_CACHE_DIR%/%app_name%_%ARCH%-%version%.pkg'
