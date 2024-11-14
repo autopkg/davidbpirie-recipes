@@ -1,0 +1,35 @@
+Description: |
+  Downloads the latest version of Unity 6 as a pkg, then verifies the
+  code signature.
+
+  Set ARCH to one of:
+  "" for Intel
+  "Arm64" for ARM
+
+Identifier: com.github.davidbpirie.download.Unity6
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: Unity6
+  ARCH: Arm64
+  BASE_URL: https://unity.com/releases/editor/whats-new
+  old_re_pattern: '\"http[^\"]*%ARCH%[^\"]*\.pkg\"'
+  re_pattern: '"(http[^"]*%ARCH%[^"]*\.pkg)"'
+
+Process:
+- Processor: URLTextSearcher
+  Arguments:
+    result_output_var_name: url
+    url: '%BASE_URL%'
+
+- Processor: URLDownloader
+
+- Processor: EndOfCheckPhase
+
+- Processor: CodeSignatureVerifier
+  Arguments:
+    input_path: '%pathname%'
+    expected_authority_names:
+      - 'Developer ID Installer: Unity Technologies SF (9QW8UQUTAA)'
+      - Developer ID Certification Authority
+      - Apple Root CA
