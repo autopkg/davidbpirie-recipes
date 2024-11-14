@@ -4,6 +4,10 @@ Description: |
   then uploads the package to Jamf Pro. The renamed package is then
   deleted.
 
+  Set ARCH to one of:
+  "" for Intel
+  "Arm64" for ARM
+
   JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
   SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
   in your AutoPkg preferences, override Input variables, or by
@@ -14,6 +18,7 @@ ParentRecipe: com.github.davidbpirie.pkg.Unity6
 
 Input:
   NAME: Unity6
+  ARCH: Arm64
   JAMF_CATEGORY: Developer Tools
   JAMF_PKG_NAME: '%NAME%'
   JAMF_PKG_INFO: |
