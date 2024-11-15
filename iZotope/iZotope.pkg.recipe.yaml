@@ -1,0 +1,89 @@
+Description: |
+  Copies the iZotope installer app from the source DMG, verifying the
+  signature, then creates a pkg with a custom postinstall script that
+  runs the installbuilder.sh script from inside the iZotope installer
+  app.
+
+  Intended use case is to generate an override with custom Input
+  values for each iZotope installer.
+
+  INSTALL_SCRIPT_ARGS are sent to the installbuilder.sh when run
+
+  Package source DMG must be manually downloaded, then provided
+  either as Input Variable PKG or via the -p parameter eg:
+  autopkg run iZotope.pkg -p "path/to/RX_11_Spectral_Editor_AAX.izotopeSI 11.1.0.3941-0.dmg"
+
+Identifier: com.github.davidbpirie.pkg.iZotope
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: iZotope
+  INSTALL_SCRIPT_ARGS: --mode unattended
+
+Process:
+  - Processor: PackageRequired
+
+  - Processor: EndOfCheckPhase
+
+  - Processor: AppDmgVersioner
+    Arguments:
+      input_path: '%PKG%'
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: '%PKG%/%app_name%'
+      requirement: identifier "%bundleid%" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = QGULMAPEB2
+
+  - Processor: PkgRootCreator
+    Arguments:
+      pkgdirs:
+        payload: '0775'
+        scripts: '0775'
+      pkgroot: '%RECIPE_CACHE_DIR%/%NAME%'
+
+  - Processor: Copier
+    Arguments:
+      source_path: '%PKG%/%app_name%'
+      destination_path: '%RECIPE_CACHE_DIR%/%NAME%/scripts/%app_name%'
+      overwrite: True
+
+  - Processor: PlistReader
+    Arguments:
+      info_path: '%RECIPE_CACHE_DIR%/%NAME%/scripts/%app_name%'
+      plist_keys:
+        CFBundleName: INSTALLER_NAME
+
+  - Processor: FileCreator
+    Arguments:
+      file_content: |
+        #!/bin/zsh --no-rcs
+
+        ################################################################################
+        #
+        # Runs the iZotope installbuilder.sh script
+        #
+        ################################################################################
+
+        ROOT_DIR="$( cd -- "$(/usr/bin/dirname "$0")"; pwd -P )"
+
+        "${ROOT_DIR}"/%app_name%/Contents/MacOS/installbuilder.sh %INSTALL_SCRIPT_ARGS%
+
+        exit $?
+      file_mode: '0755'
+      file_path: '%RECIPE_CACHE_DIR%/%NAME%/scripts/postinstall'
+
+  - Processor: PkgCreator
+    Arguments:
+      pkg_request:
+        chown: []
+        id: '%bundleid%'
+        options: purge_ds_store
+        pkgname: '%INSTALLER_NAME%-%version%'
+        pkgroot: '%RECIPE_CACHE_DIR%/%NAME%/payload'
+        scripts: '%RECIPE_CACHE_DIR%/%NAME%/scripts'
+        version: '%version%'
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+        - '%RECIPE_CACHE_DIR%/%NAME%'
