@@ -7,7 +7,7 @@ Description: |
   Intended use case is to generate an override with custom Input
   values for each iZotope installer.
 
-  INSTALL_SCRIPT_ARGS are sent to the installbuilder.sh when run
+  INSTALL_SCRIPT_ARGS are sent to the installbuilder.sh when run.
 
   Package source DMG must be manually downloaded, then provided
   either as Input Variable PKG or via the -p parameter eg:
