@@ -19,11 +19,15 @@ Process:
       destination_path: '%RECIPE_CACHE_DIR%/unzip'
       purge_destination: True
 
+  - Processor: FileFinder
+    Arguments:
+      pattern: '%RECIPE_CACHE_DIR%/unzip/*.dmg'
+
   - Processor: AppDmgVersioner
     Arguments:
-      dmg_path: '%RECIPE_CACHE_DIR%/unzip'
+      dmg_path: '%found_filename%'
 
   - Processor: CodeSignatureVerifier
     Arguments:
-      input_path: '%pathname%/%app_name%'
+      input_path: '%found_filename%/%app_name%'
       requirement: identifier "com.purple.babel" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = MQDAEZFX69
