@@ -17,7 +17,7 @@ Identifier: com.github.davidbpirie.pkg.iZotope
 MinimumVersion: 2.3.0
 
 Input:
-  NAME: iZotope
+  NAME: iZotopeInstaller
   INSTALL_SCRIPT_ARGS: --mode unattended
 
 Process:

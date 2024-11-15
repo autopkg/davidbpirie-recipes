@@ -22,7 +22,7 @@ MinimumVersion: 2.3.0
 ParentRecipe: com.github.davidbpirie.pkg.iZotope
 
 Input:
-  NAME: iZotope
+  NAME: iZotopeInstaller
   INSTALL_SCRIPT_ARGS: --mode unattended
   JAMF_CATEGORY: Music
   JAMF_PKG_NAME: '%NAME%'
