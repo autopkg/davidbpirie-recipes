@@ -27,7 +27,7 @@ Process:
 
   - Processor: AppDmgVersioner
     Arguments:
-      input_path: '%PKG%'
+      dmg_path: '%PKG%'
 
   - Processor: CodeSignatureVerifier
     Arguments:
