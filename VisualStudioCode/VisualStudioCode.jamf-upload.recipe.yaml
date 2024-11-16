@@ -8,7 +8,7 @@ Description: |
   command-line keys.
 Identifier: com.github.davidbpirie.jamf-upload.VisualStudioCode
 MinimumVersion: '2.3'
-ParentRecipe: com.github.killahquam.pkg.visualstudioscode
+ParentRecipe: com.github.amsysuk-recipes.pkg.VisualStudioCode
 
 Input:
   NAME: VisualStudioCode
