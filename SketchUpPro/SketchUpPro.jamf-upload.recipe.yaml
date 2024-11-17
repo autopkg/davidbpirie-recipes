@@ -46,4 +46,4 @@ Process:
   - Processor: PathDeleter
     Arguments:
       path_list:
-      - '%pkg_path%'
+        - '%pkg_path%'

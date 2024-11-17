@@ -17,38 +17,38 @@ Process:
 
   - Processor: CodeSignatureVerifier
     Arguments:
-      input_path: "%PKG%/*.pkg"
+      input_path: '%PKG%/*.pkg'
       expected_authority_names:
-        - "Developer ID Installer: Avid Technology Inc (4UYUA773XD)"
+        - 'Developer ID Installer: Avid Technology Inc (4UYUA773XD)'
         - Developer ID Certification Authority
         - Apple Root CA
 
   - Processor: PkgCopier
     Arguments:
-      source_pkg: "%PKG%/*.pkg"
-      pkg_path: "%RECIPE_CACHE_DIR%/%NAME%.pkg"
+      source_pkg: '%PKG%/*.pkg'
+      pkg_path: '%RECIPE_CACHE_DIR%/%NAME%.pkg'
 
   - Processor: FlatPkgUnpacker
     Arguments:
-      flat_pkg_path: "%pkg_path%"
+      flat_pkg_path: '%pkg_path%'
       skip_payload: False
-      destination_path: "%RECIPE_CACHE_DIR%/unpack"
+      destination_path: '%RECIPE_CACHE_DIR%/unpack'
       purge_destination: True
 
   - Processor: PkgPayloadUnpacker
     Arguments:
-      pkg_payload_path: "%RECIPE_CACHE_DIR%/unpack/Pro Tools Application.pkg/Payload"
-      destination_path: "%RECIPE_CACHE_DIR%/unpack-payload"
+      pkg_payload_path: '%RECIPE_CACHE_DIR%/unpack/Pro Tools Application.pkg/Payload'
+      destination_path: '%RECIPE_CACHE_DIR%/unpack-payload'
       purge_destination: True
 
   - Processor: PlistReader
     Arguments:
-      info_path: "%RECIPE_CACHE_DIR%/unpack-payload/Applications/Pro Tools.app"
+      info_path: '%RECIPE_CACHE_DIR%/unpack-payload/Applications/Pro Tools.app'
       plist_keys:
         CFBundleShortVersionString: version
 
   - Processor: PathDeleter
     Arguments:
       path_list:
-        - "%RECIPE_CACHE_DIR%/unpack"
-        - "%RECIPE_CACHE_DIR%/unpack-payload"
+        - '%RECIPE_CACHE_DIR%/unpack'
+        - '%RECIPE_CACHE_DIR%/unpack-payload'

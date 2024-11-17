@@ -11,19 +11,18 @@ Input:
   DOWNLOAD_URL: https://www.sketchup.com/sketchup/%RELEASE_YEAR%/SketchUpPro-dmg
   USER_AGENT: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Safari/605.1.15
 
-
 Process:
-- Processor: URLDownloader
-  Arguments:
-    filename: '%NAME%.dmg'
-    url: '%DOWNLOAD_URL%'
-    request_headers:
-      user-agent: '%USER_AGENT%'
+  - Processor: URLDownloader
+    Arguments:
+      filename: '%NAME%.dmg'
+      url: '%DOWNLOAD_URL%'
+      request_headers:
+        user-agent: '%USER_AGENT%'
 
-- Processor: EndOfCheckPhase
+  - Processor: EndOfCheckPhase
 
-- Processor: CodeSignatureVerifier
-  Arguments:
-    input_path: '%pathname%/%SUP_FOLDER%/SketchUp.app'
-    requirement: identifier "com.sketchup.SketchUp.%RELEASE_YEAR%" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = J8PVMCY7KL
-    strict_verification: true
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: '%pathname%/%SUP_FOLDER%/SketchUp.app'
+      requirement: identifier "com.sketchup.SketchUp.%RELEASE_YEAR%" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = J8PVMCY7KL
+      strict_verification: true

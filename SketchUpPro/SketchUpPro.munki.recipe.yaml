@@ -17,9 +17,9 @@ Input:
   MUNKI_REPO_SUBDIR: '%MUNKI_CATEGORY%/%MUNKI_DEVELOPER%/%NAME%'
   pkginfo:
     blocking_applications:
-    - SketchUp.app
+      - SketchUp.app
     catalogs:
-    - testing
+      - testing
     category: '%MUNKI_CATEGORY%'
     description: '%MUNKI_DESCRIPTION%'
     developer: '%MUNKI_DEVELOPER%'
@@ -29,11 +29,11 @@ Input:
     unattended_install: true
 
 Process:
-- Processor: MunkiImporter
-  Arguments:
-    repo_subdirectory: '%MUNKI_REPO_SUBDIR%'
+  - Processor: MunkiImporter
+    Arguments:
+      repo_subdirectory: '%MUNKI_REPO_SUBDIR%'
 
   - Processor: PathDeleter
     Arguments:
       path_list:
-      - '%pkg_path%'
+        - '%pkg_path%'

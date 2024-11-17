@@ -30,19 +30,15 @@ class MicrosoftOneDriveVersioner(Processor):
     input_variables = {
         "bundle_short_version": {
             "required": True,
-            "description": "The version string from CFBundleShortVersionString"
+            "description": "The version string from CFBundleShortVersionString",
         },
         "bundle_version": {
             "required": False,
             "description": "The version string from CFBundleVersion",
-            "default": ""
-        }
+            "default": "",
+        },
     }
-    output_variables = {
-        "version": {
-            "description": "Generated version string"
-        }
-    }
+    output_variables = {"version": {"description": "Generated version string"}}
 
     description = __doc__
 
@@ -52,10 +48,18 @@ class MicrosoftOneDriveVersioner(Processor):
         self.output("bundle_short_version: {}".format(bundle_short_version))
         bundle_version = self.env.get("bundle_version")
         self.output("bundle_version: {}".format(bundle_version))
-        first_period = bundle_short_version.index('.')
-        bundle_short_version_reduced = bundle_short_version[:first_period] + bundle_short_version[first_period+1:]
-        if (bundle_short_version_reduced in bundle_version) and (bundle_version.index(bundle_short_version_reduced) == 0):
-            version = bundle_short_version + bundle_version[len(bundle_short_version_reduced):]
+        first_period = bundle_short_version.index(".")
+        bundle_short_version_reduced = (
+            bundle_short_version[:first_period]
+            + bundle_short_version[first_period + 1 :]
+        )
+        if (bundle_short_version_reduced in bundle_version) and (
+            bundle_version.index(bundle_short_version_reduced) == 0
+        ):
+            version = (
+                bundle_short_version
+                + bundle_version[len(bundle_short_version_reduced) :]
+            )
         else:
             version = bundle_short_version
         replacement_string = self.env.get("replacement_string")

@@ -14,7 +14,8 @@ Input:
   NAME: PyCharmCE
   JAMF_CATEGORY: Developer Tools
   JAMF_PKG_NAME: '%NAME%'
-  JAMF_PKG_INFO: PyCharm is designed by programmers, for programmers, to provide all
+  JAMF_PKG_INFO: |
+    PyCharm is designed by programmers, for programmers, to provide all
     the tools you need for productive Python development.
   JAMF_PKG_NOTES: 'Generated and uploaded by AutoPkg'
   JAMF_PKG_PRIORITY: '10'
@@ -45,4 +46,4 @@ Process:
   - Processor: PathDeleter
     Arguments:
       path_list:
-      - '%pkg_path%'
+        - '%pkg_path%'

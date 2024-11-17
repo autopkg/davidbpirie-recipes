@@ -38,7 +38,7 @@ Process:
   - Processor: FlatPkgUnpacker
     Arguments:
       flat_pkg_path: '%found_filename%/*.pkg'
-      destination_path: "%RECIPE_CACHE_DIR%/unpack"
+      destination_path: '%RECIPE_CACHE_DIR%/unpack'
       purge_destination: True
 
   - Processor: PkgPayloadUnpacker
@@ -59,6 +59,6 @@ Process:
   - Processor: PathDeleter
     Arguments:
       path_list:
-      - '%RECIPE_CACHE_DIR%/unzip'
-      - '%RECIPE_CACHE_DIR%/unpack'
-      - '%RECIPE_CACHE_DIR%/payload'
+        - '%RECIPE_CACHE_DIR%/unzip'
+        - '%RECIPE_CACHE_DIR%/unpack'
+        - '%RECIPE_CACHE_DIR%/payload'

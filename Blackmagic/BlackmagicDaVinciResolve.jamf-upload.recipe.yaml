@@ -25,7 +25,8 @@ Input:
   PRODUCT_NAME_PATTERN: '^DaVinci Resolve (?P<version>%PRODUCT_MAJOR_VERSION%(\.\d+)*)( Update)*$'
   JAMF_CATEGORY: Photo & Video
   JAMF_PKG_NAME: '%NAME%'
-  JAMF_PKG_INFO: This software installs the free version of DaVinci Resolve %PRODUCT_MAJOR_VERSION%
+  JAMF_PKG_INFO:
+    This software installs the free version of DaVinci Resolve %PRODUCT_MAJOR_VERSION%
     which features up to 10x faster editing performance, Fairlight audio post production,
     dozens of new filters and effects and more. Technical support is available via the
     Blackmagic Design community forums.
@@ -58,4 +59,4 @@ Process:
   - Processor: PathDeleter
     Arguments:
       path_list:
-      - '%pkg_path%'
+        - '%pkg_path%'

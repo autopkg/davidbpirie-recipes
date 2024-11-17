@@ -31,7 +31,7 @@ Process:
       info_path: '%RECIPE_CACHE_DIR%/%NAME%/Applications/zoom.us.app/Contents/Info.plist'
       plist_keys:
         CFBundleShortVersionString: version
-    
+
   - Processor: com.github.grahampugh.jamf-upload.processors/JamfPackageUploader
     Arguments:
       pkg_name: '%JAMF_PKG_NAME%-%version%.%JAMF_PKG_SUFFIX%'
@@ -50,4 +50,4 @@ Process:
   - Processor: PathDeleter
     Arguments:
       path_list:
-      - '%pkg_path%'
+        - '%pkg_path%'

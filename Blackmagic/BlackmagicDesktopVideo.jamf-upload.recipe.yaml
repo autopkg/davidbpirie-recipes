@@ -25,7 +25,8 @@ Input:
   PRODUCT_NAME_PATTERN: '^Desktop Video (?P<version>%PRODUCT_MAJOR_VERSION%(\.\d+)*)*$'
   JAMF_CATEGORY: Photo & Video
   JAMF_PKG_NAME: '%NAME%'
-  JAMF_PKG_INFO: Blackmagic Desktop Video includes everything you need to set up your DeckLink,
+  JAMF_PKG_INFO:
+    Blackmagic Desktop Video includes everything you need to set up your DeckLink,
     Multibridge, UltraStudio, Intensity and H.264 Pro Recorder for any task in your facility.
   JAMF_PKG_NOTES: Uploaded by AutoPkg
   JAMF_PKG_OS_REQUIREMENTS: ''
@@ -56,4 +57,4 @@ Process:
   - Processor: PathDeleter
     Arguments:
       path_list:
-      - '%pkg_path%'
+        - '%pkg_path%'

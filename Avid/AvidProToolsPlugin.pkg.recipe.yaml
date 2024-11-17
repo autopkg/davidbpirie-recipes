@@ -20,17 +20,17 @@ Process:
 
   - Processor: CodeSignatureVerifier
     Arguments:
-      input_path: "%PKG%/*.pkg"
+      input_path: '%PKG%/*.pkg'
       expected_authority_names:
-        - "Developer ID Installer: Avid Technology Inc (4UYUA773XD)"
+        - 'Developer ID Installer: Avid Technology Inc (4UYUA773XD)'
         - Developer ID Certification Authority
         - Apple Root CA
 
   - Processor: FlatPkgUnpacker
     Arguments:
-      flat_pkg_path: "%PKG%/*.pkg"
+      flat_pkg_path: '%PKG%/*.pkg'
       skip_payload: False
-      destination_path: "%RECIPE_CACHE_DIR%/unpack"
+      destination_path: '%RECIPE_CACHE_DIR%/unpack'
       purge_destination: True
 
   - Processor: FileFinder
@@ -43,10 +43,10 @@ Process:
 
   - Processor: PkgCopier
     Arguments:
-      source_pkg: "%PKG%/*.pkg"
-      pkg_path: "%RECIPE_CACHE_DIR%/%NAME%-%version%.pkg"
+      source_pkg: '%PKG%/*.pkg'
+      pkg_path: '%RECIPE_CACHE_DIR%/%NAME%-%version%.pkg'
 
   - Processor: PathDeleter
     Arguments:
       path_list:
-        - "%RECIPE_CACHE_DIR%/unpack"
+        - '%RECIPE_CACHE_DIR%/unpack'
