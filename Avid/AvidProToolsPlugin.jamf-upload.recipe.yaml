@@ -1,6 +1,7 @@
 Description: |
   Copies the plug-in installer pkg from the source DMG, verifying
-  the signature and extracting the version, then uploads the package to Jamf Pro.
+  the signature and extracting the version, then uploads the package to Jamf Pro
+  and deletes the package.
 
   All Pro Tools plug-ins include a <plugin> AppMan.pkg component,
   so version information is read from there.
@@ -49,3 +50,8 @@ Process:
       send_notification: '%JAMF_PKG_SEND_NOTIFICATION%'
       replace_pkg: '%JAMF_PKG_REPLACE%'
       replace_pkg_metadata: '%JAMF_PKG_REPLACE_METADATA%'
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+      - '%pkg_path%'

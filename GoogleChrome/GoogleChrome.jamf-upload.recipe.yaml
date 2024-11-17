@@ -1,6 +1,6 @@
 Description: |
   Downloads latest Google Chrome disk image and builds a package, then
-  uploads the package to Jamf Pro.
+  uploads the package to Jamf Pro and deletes the package.
 
   JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
   SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
@@ -23,11 +23,13 @@ Input:
   JAMF_PKG_SEND_NOTIFICATION: 'False'
   JAMF_PKG_REPLACE: 'False'
   JAMF_PKG_REPLACE_METADATA: 'False'
+  JAMF_PKG_SUFFIX: 'pkg'
 
 Process:
   - Processor: com.github.grahampugh.jamf-upload.processors/JamfPackageUploader
     Arguments:
-      pkg_name: '%JAMF_PKG_NAME%-%version%.pkg'
+      pkg_name: '%JAMF_PKG_NAME%-%version%.%JAMF_PKG_SUFFIX%'
+      pkg_path: '%pkg_path%'
       pkg_category: '%JAMF_CATEGORY%'
       pkg_info: '%JAMF_PKG_INFO%'
       pkg_notes: '%JAMF_PKG_NOTES%'
@@ -38,3 +40,8 @@ Process:
       send_notification: '%JAMF_PKG_SEND_NOTIFICATION%'
       replace_pkg: '%JAMF_PKG_REPLACE%'
       replace_pkg_metadata: '%JAMF_PKG_REPLACE_METADATA%'
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+      - '%pkg_path%'

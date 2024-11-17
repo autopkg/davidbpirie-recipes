@@ -1,0 +1,48 @@
+Description: |
+  Downloads the current standalone Microsoft OneDrive installer,
+  extracts version information and renames the installer package.
+
+  JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
+  SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
+  in your AutoPkg preferences, override Input variables, or by
+  command-line keys.
+Identifier: com.github.davidbpirie.jamf-upload.MicrosoftOneDrive
+MinimumVersion: 2.3.0
+ParentRecipe: com.github.rtrouton.download.microsoftonedrive
+
+Input:
+  NAME: MicrosoftOneDrive
+
+Process:
+  - Processor: FlatPkgUnpacker
+    Arguments:
+      flat_pkg_path: '%pathname%'
+      destination_path: '%RECIPE_CACHE_DIR%/unpack'
+  
+  - Processor: PkgPayloadUnpacker
+    Arguments:
+      pkg_payload_path: '%RECIPE_CACHE_DIR%/unpack/%SOFTWARETITLE%.pkg/Payload'
+      destination_path: '%RECIPE_CACHE_DIR%/payload'
+  
+  - Processor: PlistReader
+    Arguments:
+      info_path: '%RECIPE_CACHE_DIR%/payload/%SOFTWARETITLE%.app'
+      plist_keys:
+        CFBundleShortVersionString: bundle_short_version
+        CFBundleVersion: bundle_version
+  
+  - Processor: MicrosoftOneDriveVersioner
+    Arguments:
+      bundle_short_version: '%bundle_short_version%'
+      bundle_version: '%bundle_version%'
+
+  - Processor: PkgCopier
+    Arguments:
+      source_pkg: '%pathname%'
+      pkg_path: '%RECIPE_CACHE_DIR%/%VENDOR%_%SOFTWARETITLE%_%version%.pkg'
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+        - '%RECIPE_CACHE_DIR%/unpack'
+        - '%RECIPE_CACHE_DIR%/payload'

@@ -47,3 +47,10 @@ Process:
       send_notification: '%JAMF_PKG_SEND_NOTIFICATION%'
       replace_pkg: '%JAMF_PKG_REPLACE%'
       replace_pkg_metadata: '%JAMF_PKG_REPLACE_METADATA%'
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+      - '%RECIPE_CACHE_DIR%/unpack'
+      - '%RECIPE_CACHE_DIR%/payload'
+      - '%RECIPE_CACHE_DIR%/repack'

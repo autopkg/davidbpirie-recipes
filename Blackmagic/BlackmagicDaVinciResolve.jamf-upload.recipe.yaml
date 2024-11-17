@@ -1,7 +1,7 @@
 Description: |
   Downloads latest version of DaVinci Resolve disk image, then
   copies the package from the DMG, extracting the version, then
-  uploads the package to Jamf Pro.
+  uploads the package to Jamf Pro and deletes the package.
 
   This product requires registration in order to download, so
   you _must_ override all input variables beginning with 'REG_'
@@ -54,3 +54,8 @@ Process:
       send_notification: '%JAMF_PKG_SEND_NOTIFICATION%'
       replace_pkg: '%JAMF_PKG_REPLACE%'
       replace_pkg_metadata: '%JAMF_PKG_REPLACE_METADATA%'
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+      - '%pkg_path%'

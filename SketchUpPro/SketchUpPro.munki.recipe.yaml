@@ -1,4 +1,7 @@
-Description: Downloads the latest version of SketchUp for a given release year as a DMG, builds a pkg, then imports it to Munki.
+Description: |
+  Downloads the latest version of SketchUp for a given release
+  year as a DMG, builds a pkg, then imports it to Munki and deletes
+  the package.
 Identifier: com.github.davidbpirie.munki.sketchuppro
 ParentRecipe: com.github.davidbpirie.pkg.sketchuppro
 MinimumVersion: 2.3.0
@@ -29,3 +32,8 @@ Process:
 - Processor: MunkiImporter
   Arguments:
     repo_subdirectory: '%MUNKI_REPO_SUBDIR%'
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+      - '%pkg_path%'

@@ -2,8 +2,7 @@ Description: |
   For use with DataJAR's AdobeAdminConsolePackagesImporter.py.
 
   Using the information gathered by AdobeAdminConsolePackagesImporter.py,
-  copies the identified pkg to the recipe cache dir, then uploads the
-  package to Jamf Pro.
+  uploads the identified pkg to Jamf Pro.
 
   Intended use is to generate an override from this recipe, then
   give the override an unique Identifier and populate all the
@@ -22,7 +21,6 @@ Description: |
 
 Identifier: com.github.davidbpirie.jamf-upload.AdobeAdminConsole
 MinimumVersion: 2.3.0
-ParentRecipe: com.github.davidbpirie.pkg.AdobeAdminConsole
 
 Input:
   NAME: AdobeAdminConsole
@@ -36,15 +34,18 @@ Input:
   JAMF_PKG_SEND_NOTIFICATION: 'False'
   JAMF_PKG_REPLACE: 'False'
   JAMF_PKG_REPLACE_METADATA: 'False'
+  JAMF_PKG_SUFFIX: 'pkg'
   aacp_application_architecture_type: Populate with AdobeAdminConsolePackagesImporter.py
   aacp_application_description: Populate with AdobeAdminConsolePackagesImporter.py
   aacp_application_install_lang: Populate with AdobeAdminConsolePackagesImporter.py
   aacp_application_version: Populate with AdobeAdminConsolePackagesImporter.py
+  aacp_package_path: Populate with AdobeAdminConsolePackagesImporter.py
 
 Process:
   - Processor: com.github.grahampugh.jamf-upload.processors/JamfPackageUploader
     Arguments:
-      pkg_name: '%JAMF_PKG_NAME%_%aacp_application_install_lang%_%aacp_application_architecture_type%-%aacp_application_version%.pkg'
+      pkg_name: '%JAMF_PKG_NAME%_%aacp_application_install_lang%_%aacp_application_architecture_type%-%aacp_application_version%.%JAMF_PKG_SUFFIX%'
+      pkg_path: '%aacp_package_path%'
       pkg_category: '%JAMF_CATEGORY%'
       pkg_info: '%aacp_application_description%'
       pkg_notes: '%JAMF_PKG_NOTES%'

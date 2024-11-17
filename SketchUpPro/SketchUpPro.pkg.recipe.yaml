@@ -45,3 +45,8 @@ Process:
       options: purge_ds_store
       pkgname: '%NAME%-%version%'
       version: '%version%'
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+      - '%pkgroot%'
