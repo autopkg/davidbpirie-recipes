@@ -34,19 +34,3 @@ Process:
   Arguments:
     input_plist_path: '%RECIPE_CACHE_DIR%/expand/%INSTALLER_APP_NAME%.app/Contents/Info.plist'
     plist_version_key: CFBundleVersion
-
-- Processor: com.github.jazzace.processors/TextSearcher
-  Arguments:
-    re_pattern: ^[0-9]\.[0-9]*
-    text_in: '%version%'
-    result_output_var_name: version_prefix
-
-- Processor: com.github.jazzace.processors/TextSearcher
-  Arguments:
-    re_pattern: ^[0-9]\.[0-9]*\.[0-9]\.(.*)
-    text_in: '%version%'
-    result_output_var_name: version_suffix
-
-- Processor: com.github.rtrouton.SharedProcessors/VariablePlaceholder
-  Arguments:
-    version: '%version_prefix%.%version_suffix%'
