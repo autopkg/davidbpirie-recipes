@@ -42,5 +42,6 @@ Process:
   - Processor: PathDeleter
     Arguments:
       path_list:
+        - '%RECIPE_CACHE_DIR%/%NAME%'
         - '%pkgroot%'
         - '%pkg_path%'
