@@ -1,0 +1,39 @@
+Description: |
+  Generic jamf-upload recipe to be used with overrides for repeated
+  manual upload of a Computer Group.
+
+  Makes use of the FileTemplateFromLists processor.
+
+  Intended use is to generate an override from this recipe, then
+  give the override an unique Identifier, rename it, and populate
+  all the Input variables.
+
+  Template file for JAMF_COMPUTERGROUP_TEMPLATE need to either be found
+  in your recipe search path or provide a full path.
+  Examples are available from
+  https://github.com/autopkg/grahampugh-recipes/tree/main/_Templates_Examples.
+
+  JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
+  SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
+  in your AutoPkg preferences, override Input variables, or by
+  command-line keys.
+Identifier: com.github.davidbpirie.jamf-upload.GenericComputerGroupWithFileTemplateFromLists
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: GenericComputerGroupWithFileTemplateFromLists
+  JAMF_COMPUTERGROUP_NAME: '%NAME%'
+  JAMF_COMPUTERGROUP_TEMPLATE: JamfComputerGroupTemplate.xml
+  JAMF_COMPUTERGROUP_REPLACE: 'False'
+
+Process:
+  - Processor: com.github.davidbpirie.SharedProcessors/FileTemplateFromLists
+    Arguments:
+      template_path: '%JAMF_COMPUTERGROUP_TEMPLATE%'
+      destination_path: '%RECIPE_CACHE_DIR%/PolicyTemplate.xml'
+
+  - Processor: com.github.grahampugh.jamf-upload.processors/JamfComputerGroupUploader
+    Arguments:
+      computergroup_name: '%JAMF_COMPUTERGROUP_NAME%'
+      computergroup_template: '%destination_path%'
+      replace_group: '%JAMF_COMPUTERGROUP_REPLACE%'
