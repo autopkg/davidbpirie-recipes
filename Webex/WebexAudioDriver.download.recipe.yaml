@@ -1,0 +1,25 @@
+Description: |
+  Downloads the Cisco Webex Audio Driver Package from the Cisco Webex
+  Help Center page:
+  https://help.webex.com/en-us/article/WBX9000031110/Cisco-Webex-Audio-Driver-Package-Download-for-Mac
+  as a pkg, then verifies the code signature.
+
+Identifier: com.github.davidbpirie.download.WebexAudioDriver
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: WebexAudioDriver
+  url: https://www.cisco.com/c/dam/en/us/td/docs/collaboration/webex_centers/Collaboration-Help/TS-Help-Portal-Support-Utilities/CiscoAudioDeviceInstall/CiscoAudioDeviceInstall.pkg
+
+Process:
+- Processor: URLDownloader
+
+- Processor: EndOfCheckPhase
+
+- Processor: CodeSignatureVerifier
+  Arguments:
+    input_path: '%pathname%'
+    expected_authority_names:
+      - 'Developer ID Installer: Cisco (DE8Y96K9QP)'
+      - Developer ID Certification Authority
+      - Apple Root CA
