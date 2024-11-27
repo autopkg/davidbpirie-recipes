@@ -1,6 +1,6 @@
 Description: |
   Downloads the latest version of DFU Blaster as a dmg, verifies the
-  code signature, then finds the version.
+  code signature, then finds the version and copies the pkg.
 
 Identifier: com.github.davidbpirie.pkg.DFUBlaster
 ParentRecipe: com.github.kevinmcox.download.DFUBlaster
@@ -24,6 +24,11 @@ Process:
   - Processor: PlistReader
     Arguments:
       info_path: '%RECIPE_CACHE_DIR%/payload/Applications/DFU Blaster Pro.app'
+
+  - Processor: PkgCopier
+    Arguments:
+      source_pkg: '%pathname%/DFU Blaster Pro.pkg'
+      pkg_path: '%RECIPE_CACHE_DIR%/%NAME%-%version%.pkg'
 
   - Processor: PathDeleter
     Arguments:
