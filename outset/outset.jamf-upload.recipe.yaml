@@ -2,13 +2,17 @@ Description: |
   Downloads the current release of Outset from Github,
   then uploads the package to Jamf Pro.
 
+  Set PRERELEASE to a non-empty string to download prereleases, either
+  via Input in an override or via the -k option,
+  i.e.: `-k PRERELEASE=yes
+
   JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
   SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
   in your AutoPkg preferences, override Input variables, or by
   command-line keys.
 Identifier: com.github.davidbpirie.jamf-upload.outset
 MinimumVersion: 2.3.0
-ParentRecipe: com.github.grahamgilbert.download.outset
+ParentRecipe: com.github.dataJAR-recipes.download.Outset
 
 Input:
   NAME: outset
