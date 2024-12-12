@@ -1,0 +1,23 @@
+Description: |
+  Downloads the latest version of North Pole Security Santa
+  from GitHub.
+
+Identifier: com.github.davidbpirie.download.NorthPoleSecSanta
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: NorthPoleSecSanta
+  GITHUB_REPO: northpolesec/santa
+  GITHUB_INCLUDE_PRELEASES: ''
+  GITHUB_ASSET_REGEX: '.*\.dmg'
+
+Process:
+  - Processor: GitHubReleasesInfoProvider
+    Arguments:
+      github_repo: '%GITHUB_REPO%'
+      include_prereleases: '%GITHUB_INCLUDE_PRELEASES%'
+      asset_regex: '%GITHUB_ASSET_REGEX%'
+
+  - Processor: URLDownloader
+
+  - Processor: EndOfCheckPhase
