@@ -7,9 +7,10 @@ MinimumVersion: 2.3.0
 
 Input:
   NAME: NorthPoleSecSanta
+  DOWNLOAD_SUFFIX: dmg
   GITHUB_REPO: northpolesec/santa
   GITHUB_INCLUDE_PRELEASES: ''
-  GITHUB_ASSET_REGEX: '.*\.dmg'
+  GITHUB_ASSET_REGEX: '.*\.%DOWNLOAD_SUFFIX%'
 
 Process:
   - Processor: GitHubReleasesInfoProvider
@@ -19,5 +20,7 @@ Process:
       asset_regex: '%GITHUB_ASSET_REGEX%'
 
   - Processor: URLDownloader
+    Arguments:
+      filename: '%NAME%.%DOWNLOAD_SUFFIX%'
 
   - Processor: EndOfCheckPhase

@@ -9,7 +9,8 @@ MinimumVersion: 2.3.0
 
 Input:
   NAME: NorthPoleSecSanta
-  GITHUB_ASSET_REGEX: '.*\.pkg'
+  DOWNLOAD_SUFFIX: pkg
+  GITHUB_ASSET_REGEX: '.*\.%DOWNLOAD_SUFFIX%'
 
 Process:
   - Processor: CodeSignatureVerifier
