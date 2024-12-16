@@ -1,0 +1,53 @@
+Description: |
+  Downloads from the Epson Australia Support site.
+
+  Set the Input values for SEARCH_OS, SEARCH_CATEGORY, and SEARCH_ID
+  in your override to match your required download.
+
+  Modify RE_PATTERN_1 to select the download from a different section.
+
+Identifier: com.github.davidbpirie.download.EpsonAustraliaSupport
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: EpsonAustraliaSupport
+  BASE_URL: https://www.epson.com.au/support/downloads
+  RE_PATTERN_1: <h3>Printer Driver </h3>.*?<a href="(RedirectLink\.asp\?[^"]*)"
+  RE_PATTERN_2: javascript:driver_download\(\'(.*?)\'\)
+  SEARCH_OS: os15
+  SEARCH_CATEGORY: EcoTankInkjet
+  SEARCH_ID: ET-1810
+  USER_AGENT: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Safari/605.1.15
+
+Process:
+  - Processor: URLTextSearcher
+    Arguments:
+      re_pattern: '%RE_PATTERN_1%'
+      url: '%BASE_URL%/product.asp'
+      result_output_var_name: url_suffix_1
+      request_headers:
+        user-agent: '%USER_AGENT%'
+      curl_opts:
+        - --data
+        - OS=%SEARCH_OS%&sCategory=%SEARCH_CATEGORY%&id=%SEARCH_ID%&techtips=&platform=%SEARCH_OS%&FileType=1
+      re_flags:
+        - DOTALL
+
+  - Processor: URLTextSearcher
+    Arguments:
+      re_pattern: '%RE_PATTERN_2%'
+      url: '%BASE_URL%/%url_suffix_1%'
+      result_output_var_name: url
+      request_headers:
+        user-agent: '%USER_AGENT%'
+      curl_opts: []
+      re_flags:
+        - DOTALL
+
+  - Processor: URLDownloader
+    Arguments:
+      request_headers:
+        user-agent: '%USER_AGENT%'
+      curl_opts: []
+
+  - Processor: EndOfCheckPhase

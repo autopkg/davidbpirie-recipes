@@ -1,0 +1,47 @@
+Description: |
+  Downloads from the Epson Australia Support site, verifies
+  the signature and finds the version.
+
+  Set the Input values for SEARCH_OS, SEARCH_CATEGORY, and SEARCH_ID
+  in your override to match your required download.
+
+  Set PAYLOAD_VERSION_PKG to the name of the payload pkg
+  that should be used for versioning.
+
+  Modify RE_PATTERN_1 to select the download from a different section.
+
+Identifier: com.github.davidbpirie.pkg.EpsonAustraliaSupport
+ParentRecipe: com.github.davidbpirie.download.EpsonAustraliaSupport
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: EpsonAustraliaSupport
+  PAYLOAD_VERSION_PKG: ET-4810_Series.W.USBClassDriver.pkg
+
+Process:
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: '%pathname%/*.pkg'
+      expected_authority_names:
+        - 'Developer ID Installer: Seiko Epson Corporation (TXAEAV5RN4)'
+        - 'Developer ID Certification Authority'
+        - 'Apple Root CA'
+
+  - Processor: PkgCopier
+    Arguments:
+      source_pkg: '%pathname%/*.pkg'
+      pkg_path: '%RECIPE_CACHE_DIR%/%NAME%.pkg'
+
+  - Processor: FlatPkgUnpacker
+    Arguments:
+      flat_pkg_path: '%pkg_path%'
+      destination_path: '%RECIPE_CACHE_DIR%/unpack'
+
+  - Processor: com.github.nmcspadden.shared/PackageInfoVersioner
+    Arguments:
+      package_info_path: '%RECIPE_CACHE_DIR%/unpack/%PAYLOAD_VERSION_PKG%/PackageInfo'
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+        - '%RECIPE_CACHE_DIR%/unpack'
