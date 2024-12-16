@@ -36,5 +36,7 @@ Process:
         - DOTALL
 
   - Processor: URLDownloader
+    Arguments:
+      prefetch_filename: True
 
   - Processor: EndOfCheckPhase
