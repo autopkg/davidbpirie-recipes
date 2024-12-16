@@ -15,6 +15,7 @@ Description: |
   SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
   in your AutoPkg preferences, override Input variables, or by
   command-line keys.
+
 Identifier: com.github.davidbpirie.jamf-upload.EpsonAustraliaSupport
 MinimumVersion: 2.3.0
 ParentRecipe: com.github.davidbpirie.pkg.EpsonAustraliaSupport
