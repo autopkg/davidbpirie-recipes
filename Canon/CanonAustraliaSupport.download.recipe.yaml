@@ -6,7 +6,7 @@ Description: |
 
   Modify RE_PATTERN_1 to select the download from a different section.
 
-Identifier: com.github.davidbpirie.download.EpsonAustraliaSupport
+Identifier: com.github.davidbpirie.download.CanonAustraliaSupport
 MinimumVersion: 2.3.0
 
 Input:
