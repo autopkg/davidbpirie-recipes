@@ -1,0 +1,47 @@
+Description: |
+  Downloads from the Canon Australia Support site, verifies
+  the signature and finds the version.
+
+  Set the Input values for SEARCH_CATEGORY, SEARCH_ID and SEARCH_OPTIONS
+  in your override to match your required download.
+
+  Modify RE_PATTERN_1 to select the download from a different section.
+
+  Set PAYLOAD_VERSION_PKG to the name of the payload pkg
+  that should be used for versioning.
+
+Identifier: com.github.davidbpirie.pkg.CanonAustraliaSupport
+ParentRecipe: com.github.davidbpirie.download.CanonAustraliaSupport
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: CanonAustraliaSupport
+  PAYLOAD_VERSION_PKG: GP-2000.pkg
+
+Process:
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: '%pathname%/*.pkg'
+      expected_authority_names:
+        - 'Developer ID Installer: Canon Inc. (XE2XNRRXZ5)'
+        - 'Developer ID Certification Authority'
+        - 'Apple Root CA'
+
+  - Processor: PkgCopier
+    Arguments:
+      source_pkg: '%pathname%/*.pkg'
+      pkg_path: '%RECIPE_CACHE_DIR%/%NAME%.pkg'
+
+  - Processor: FlatPkgUnpacker
+    Arguments:
+      flat_pkg_path: '%pkg_path%'
+      destination_path: '%RECIPE_CACHE_DIR%/unpack'
+
+  - Processor: com.github.nmcspadden.shared/PackageInfoVersioner
+    Arguments:
+      package_info_path: '%RECIPE_CACHE_DIR%/unpack/%PAYLOAD_VERSION_PKG%/PackageInfo'
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+        - '%RECIPE_CACHE_DIR%/unpack'

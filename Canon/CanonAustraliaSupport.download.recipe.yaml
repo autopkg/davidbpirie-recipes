@@ -1,0 +1,40 @@
+Description: |
+  Downloads from the Canon Australia Support site.
+
+  Set the Input values for SEARCH_CATEGORY, SEARCH_ID and SEARCH_OPTIONS
+  in your override to match your required download.
+
+  Modify RE_PATTERN_1 to select the download from a different section.
+
+Identifier: com.github.davidbpirie.download.EpsonAustraliaSupport
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: CanonAustraliaSupport
+  BASE_URL: https://www.canon.com.au
+  RE_PATTERN_1: <h2>Drivers</h2>.*?<li>\s*<a href="([^"]*)" target="_blank">\s*<div class="flexbox">\s*<div class="col1">\s*<h3>[^<]* \(Mac\)</h3>
+  RE_PATTERN_2: <a[^>]*btn-downloadDriver" href="([^"]*)"[^>]*>Download</a>
+  SEARCH_CATEGORY: large-format-printers
+  SEARCH_ID: imageprograf-gp-2000
+  SEARCH_OPTION: drivers
+
+Process:
+  - Processor: URLTextSearcher
+    Arguments:
+      re_pattern: '%RE_PATTERN_1%'
+      url: '%BASE_URL%/%SEARCH_CATEGORY%/%SEARCH_ID%/support?option=%SEARCH_OPTION%'
+      result_output_var_name: url_suffix_1
+      re_flags:
+        - DOTALL
+
+  - Processor: URLTextSearcher
+    Arguments:
+      re_pattern: '%RE_PATTERN_2%'
+      url: '%BASE_URL%%url_suffix_1%'
+      result_output_var_name: url
+      re_flags:
+        - DOTALL
+
+  - Processor: URLDownloader
+
+  - Processor: EndOfCheckPhase
