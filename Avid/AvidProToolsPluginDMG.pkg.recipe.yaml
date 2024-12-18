@@ -18,7 +18,7 @@ Identifier: com.github.davidbpirie.pkg.AvidProToolsPlugin
 MinimumVersion: 2.3.0
 
 Input:
-  NAME: AvidProToolsPlugin
+  NAME: AvidProToolsPluginDMG
   PKG_ID: com.github.davidbpirie.AvidSibeliusPluginDMG
 
 Process:

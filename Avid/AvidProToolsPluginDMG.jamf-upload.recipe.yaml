@@ -26,7 +26,7 @@ ParentRecipe: com.github.davidbpirie.pkg.AvidProToolsPluginDMG
 MinimumVersion: 2.3.0
 
 Input:
-  NAME: AvidProToolsPlugin
+  NAME: AvidProToolsPluginDMG
   JAMF_CATEGORY: Music
   JAMF_PKG_NAME: '%NAME%'
   JAMF_PKG_INFO: Plug-in for Avid Pro Tools.
