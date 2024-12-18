@@ -57,10 +57,11 @@ Process:
         scripts: '0775'
       pkgroot: '%RECIPE_CACHE_DIR%/%NAME%'
 
-  - Processor: PkgCopier
+  - Processor: Copier
     Arguments:
-      source_pkg: '%PKG%'
-      pkg_path: '%RECIPE_CACHE_DIR%/%NAME%/scripts/%NAME%-%version%.dmg'
+      source_path: '%PKG%'
+      destination_path: '%RECIPE_CACHE_DIR%/%NAME%/scripts/%NAME%-%version%.dmg'
+      overwrite: True
 
   - Processor: FileCreator
     Arguments:
