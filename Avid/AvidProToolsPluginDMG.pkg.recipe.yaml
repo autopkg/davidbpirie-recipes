@@ -22,21 +22,21 @@ Input:
   PKG_ID: com.github.davidbpirie.pkg.AvidProToolsPluginDMG
 
 Process:
+  - Processor: FileFinder
+    Arguments:
+      pattern: '%PKG%/*.pkg'
+
   - Processor: CodeSignatureVerifier
     Arguments:
-      input_path: '%PKG%/*.pkg'
+      pkg_dmg_found_filename: '%dmg_found_filename%'
+      input_path: '%PKG%/%pkg_dmg_found_filename%'
       expected_authority_names:
         - 'Developer ID Installer: Avid Technology Inc (4UYUA773XD)'
         - Developer ID Certification Authority
         - Apple Root CA
 
-  - Processor: FileFinder
-    Arguments:
-      pattern: '%PKG%/*.pkg'
-
   - Processor: FlatPkgUnpacker
     Arguments:
-      pkg_dmg_found_filename: '%dmg_found_filename%'
       flat_pkg_path: '%PKG%/%pkg_dmg_found_filename%'
       skip_payload: False
       destination_path: '%RECIPE_CACHE_DIR%/unpack'
