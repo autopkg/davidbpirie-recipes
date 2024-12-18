@@ -14,7 +14,7 @@ Description: |
   either as Input Variable PKG or via the -p parameter eg:
   autopkg run AvidProToolsPluginDMG.pkg -p "path/to/Plugin_24.3.0_Mac.dmg"
 
-Identifier: com.github.davidbpirie.pkg.AvidProToolsPlugin
+Identifier: com.github.davidbpirie.pkg.AvidProToolsPluginDMG
 MinimumVersion: 2.3.0
 
 Input:
