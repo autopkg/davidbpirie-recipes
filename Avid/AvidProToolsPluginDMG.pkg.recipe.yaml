@@ -1,0 +1,106 @@
+Description: |
+  Creates a payload-free pkg with the source DMG copied into the Scripts
+  directory, with a postinstall script to mount the DMG and
+  install the pkg. The pkg inside the source DMG has the signature
+  verified and a version extracted.
+
+  For use where Avid has *helpfully* included content
+  on the dmg outside of the pkg (e.g. AIR Instruments Bundle, Xpand2).
+  
+  All Pro Tools plug-ins include a <plugin> AppMan.pkg component,
+  so version information is read from there.
+
+  Package source DMG must be manually downloaded from Avid, then provided
+  either as Input Variable PKG or via the -p parameter eg:
+  autopkg run AvidProToolsPluginDMG.pkg -p "path/to/Plugin_24.3.0_Mac.dmg"
+
+Identifier: com.github.davidbpirie.pkg.AvidProToolsPlugin
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: AvidProToolsPlugin
+  PKG_ID: com.github.davidbpirie.AvidSibeliusPluginDMG
+
+Process:
+  - Processor: FileFinder
+    Arguments:
+      pattern: '%PKG%/*.pkg'
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      pkg_dmg_found_filename: '%dmg_found_filename%'
+      input_path: '%PKG%/%dmg_found_filename%'
+      expected_authority_names:
+        - 'Developer ID Installer: Avid Technology Inc (4UYUA773XD)'
+        - Developer ID Certification Authority
+        - Apple Root CA
+
+  - Processor: FlatPkgUnpacker
+    Arguments:
+      flat_pkg_path: '%PKG%/%pkg_dmg_found_filename%'
+      skip_payload: False
+      destination_path: '%RECIPE_CACHE_DIR%/unpack'
+      purge_destination: True
+
+  - Processor: FileFinder
+    Arguments:
+      pattern: '%RECIPE_CACHE_DIR%/unpack/*AppMan.pkg'
+
+  - Processor: com.github.nmcspadden.shared/PackageInfoVersioner
+    Arguments:
+      package_info_path: '%found_filename%/PackageInfo'
+
+  - Processor: PkgRootCreator
+    Arguments:
+      pkgdirs:
+        payload: '0775'
+        scripts: '0775'
+      pkgroot: '%RECIPE_CACHE_DIR%/%NAME%'
+
+  - Processor: PkgCopier
+    Arguments:
+      source_pkg: '%PKG%'
+      pkg_path: '%RECIPE_CACHE_DIR%/%NAME%/scripts/%NAME%-%version%.dmg'
+
+  - Processor: FileCreator
+    Arguments:
+      file_content: |
+        #!/bin/zsh --norcs
+
+        ################################################################################
+        #
+        # Mounts the Avid ProTools Plugin DMG and installs the enclosed pkg
+        #
+        ################################################################################
+
+        ROOT_DIR="$( cd -- "$(/usr/bin/dirname "$0")"; pwd -P )"
+
+        attach_result="$(/usr/bin/hdiutil attach "${ROOT_DIR}/%NAME%-%version%.dmg" -nobrowse -noverify -noautoopen)"
+        mount_path="$(echo "${attach_result}" | /usr/bin/grep Volumes | /usr/bin/awk '{print substr($0, index($0,$3))}')"
+        echo "Disk image ${ROOT_DIR}/%NAME%-%version%.dmg mounted at ${mount_path}"
+
+        /usr/sbin/installer -pkg "${mount_path}/%pkg_dmg_found_filename%" -target /
+        installer_result=$?
+
+        /usr/sbin/hdiutil detach "${mount_path}"
+
+        exit ${installer_result}
+      file_mode: '0755'
+      file_path: '%RECIPE_CACHE_DIR%/%NAME%/scripts/postinstall'
+
+  - Processor: PkgCreator
+    Arguments:
+      pkg_request:
+        chown: []
+        id: '%PKG_ID%'
+        options: purge_ds_store
+        pkgname: '%NAME%-%version%'
+        pkgroot: '%RECIPE_CACHE_DIR%/%NAME%/payload'
+        scripts: '%RECIPE_CACHE_DIR%/%NAME%/scripts'
+        version: '%version%'
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+        - '%RECIPE_CACHE_DIR%/%NAME%'
+        - '%RECIPE_CACHE_DIR%/unpack'
