@@ -19,7 +19,7 @@ MinimumVersion: 2.3.0
 
 Input:
   NAME: AvidProToolsPluginDMG
-  PKG_ID: com.github.davidbpirie.AvidSibeliusPluginDMG
+  PKG_ID: com.github.davidbpirie.pkg.AvidProToolsPluginDMG
 
 Process:
   - Processor: FileFinder
