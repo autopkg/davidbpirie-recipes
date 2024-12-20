@@ -9,7 +9,7 @@ Description: |
   Package source DMG must be manually downloaded using Native Access,
   grabbing the DMG from the Downloads folder before it is deleted, then
   provided either as Input Variable PKG or via the -p parameter eg:
-  autopkg run NativeAccessDMGContent.pkg -p "path/to/Content_Installer.dmg"
+  autopkg run NativeAccessDMGContent.jamf-upload -p "path/to/Content_Installer.dmg"
 
   JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
   SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
