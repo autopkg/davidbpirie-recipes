@@ -7,13 +7,9 @@ Input:
   LOCALE: en_AU
 
 Process:
-- Processor: com.github.n8felton.shared/AppleSupportDownloadInfoProvider
-  Arguments:
-    ARTICLE_NUMBER: '1664'
-
 - Processor: URLDownloader
   Arguments:
-    url: '%url%'
+    url: 'https://updates.cdn-apple.com/2019/cert/041-90809-20191028-de07bcac-151f-4c5f-9626-1ba7d0db1a49/AirPortUtility.dmg'
 
 - Processor: EndOfCheckPhase
 
