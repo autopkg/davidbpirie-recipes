@@ -32,6 +32,7 @@ ParentRecipe: com.github.davidbpirie.pkg.NativeAccessISOContentMinimal
 
 Input:
   NAME: NativeAccessISOContentMinimal
+  PKG_ID: com.github.davidbpirie.NativeAccessISOContentMinimal
   desired_choices:
     - NativeAccessISOContentLibrary
   JAMF_CATEGORY: Music
