@@ -1,27 +1,39 @@
 Description: |
-  Copies the content installer pkg from the source DMG, verifies
-  the signature and extracts the version, then uploads the package
-  to Jamf Pro.
+  Locates the main installation pkg from the source ISO, verifies
+  the signature, extracts the version, creates a new
+  payload-free pkg with the source pkg in the scripts directory
+  and a postinstall script to install it with only the provided
+  choice selected, then uploads the new package to Jamf Pro.
 
-  All Native Access content delivered on DMGs include a <content> Factory
-  Content.pkg component, so version information is read from there.
+  All Native Access content delivered on ISOs include a <content>
+  Factory Content.pkg component, so version information is read
+  from there.
+  They also include the main content in separate Part X.pkg files,
+  which are stripped out in this process. It is intended that this
+  content is made available through a network share.
 
-  Package source DMG must be manually downloaded using Native Access,
-  grabbing the DMG from the Downloads folder before it is deleted, then
+  Package source ISO must be manually downloaded using Native Access,
+  grabbing the ISO from the Downloads folder before it is deleted, then
   provided either as Input Variable PKG or via the -p parameter eg:
-  autopkg run NativeAccessDMGContent.jamf-upload -p "path/to/Content_Installer.dmg"
+  autopkg run NativeAccessISOContentMinimal.jamf-upload -p "path/to/Content_Installer.iso"
+
+  desired_choices is the list of pkg components you would like installed,
+  which must be set in your override. To find all available choices, run:
+  installer -showChoicesXML -pkg "path/to/Content Installer Mac.pkg"
 
   JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
   SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
   in your AutoPkg preferences, override Input variables, or by
   command-line keys.
 
-Identifier: com.github.davidbpirie.jamf-upload.NativeAccessDMGContent
+Identifier: com.github.davidbpirie.jamf-upload.NativeAccessISOContentMinimal
 MinimumVersion: 2.3.0
-ParentRecipe: com.github.davidbpirie.pkg.NativeAccessDMGContent
+ParentRecipe: com.github.davidbpirie.pkg.NativeAccessISOContentMinimal
 
 Input:
-  NAME: NativeAccessDMGContent
+  NAME: NativeAccessISOContentMinimal
+  desired_choices:
+    - NativeAccessISOContentLibrary
   JAMF_CATEGORY: Music
   JAMF_PKG_NAME: '%NAME%'
   JAMF_PKG_INFO: Native Instruments content obtained through Native Access.
