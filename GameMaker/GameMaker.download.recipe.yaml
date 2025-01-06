@@ -4,7 +4,7 @@ MinimumVersion: 2.3.0
 
 Input:
   NAME: GameMaker
-  DOWNLOAD_URL: https://www.yoyogames.com/download/studio2/mac
+  DOWNLOAD_URL: https://gamemaker.io/en/download/mac/monthly/GameMaker.pkg
 
 Process:
 - Processor: URLDownloader
