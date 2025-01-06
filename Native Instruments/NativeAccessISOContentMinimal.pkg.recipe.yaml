@@ -26,6 +26,7 @@ MinimumVersion: 2.3.0
 
 Input:
   NAME: NativeAccessISOContentMinimal
+  PKG_ID: com.github.davidbpirie.NativeAccessISOContentMinimal
   desired_choices:
     - NativeAccessISOContentLibrary
 
