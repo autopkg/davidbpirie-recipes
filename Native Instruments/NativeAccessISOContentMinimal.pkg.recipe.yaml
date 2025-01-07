@@ -72,6 +72,7 @@ Process:
     Arguments:
       choices_pkg_path: '%pkg_path%'
       choices_xml_dest: '%RECIPE_CACHE_DIR%/%NAME%/scripts/choices.xml'
+      recursive_child_items: 'True'
 
   - Processor: FileCreator
     Arguments:
