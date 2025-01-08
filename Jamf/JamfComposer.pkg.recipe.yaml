@@ -1,0 +1,27 @@
+Description: |
+  Copies the Composer app from the source DMG, verifying the signature,
+  then creates a pkg.
+
+  Package source DMG must be manually downloaded, then provided
+  either as Input Variable PKG or via the -p parameter eg:
+  autopkg run JamfComposer.pkg -p "path/to/JamfProApps11.12.1.dmg"
+
+Identifier: com.github.davidbpirie.pkg.JamfComposer
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: JamfComposer
+
+Process:
+  - Processor: PackageRequired
+
+  - Processor: EndOfCheckPhase
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: '%PKG%/Jamf Pro/Composer.app'
+      requirement: anchor apple generic and identifier "com.jamfsoftware.Composer" and (certificate leaf[field.1.2.840.113635.100.6.1.9] /* exists */ or certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "483DWKW443")
+
+  - Processor: AppPkgCreator
+    Arguments:
+      app_path: '%PKG%/Jamf Pro/Composer.app'
