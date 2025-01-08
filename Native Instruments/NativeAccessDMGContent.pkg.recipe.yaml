@@ -15,6 +15,7 @@ MinimumVersion: 2.3.0
 
 Input:
   NAME: NativeAccessDMGContent
+  PAYLOAD_VERSION_PKG_PATTERN: '* Factory Content.pkg'
 
 Process:
   - Processor: PackageRequired
@@ -36,7 +37,7 @@ Process:
 
   - Processor: FileFinder
     Arguments:
-      pattern: '%RECIPE_CACHE_DIR%/unpack/* Factory Content.pkg'
+      pattern: '%RECIPE_CACHE_DIR%/unpack/%PAYLOAD_VERSION_PKG_PATTERN%'
 
   - Processor: com.github.nmcspadden.shared/PackageInfoVersioner
     Arguments:
