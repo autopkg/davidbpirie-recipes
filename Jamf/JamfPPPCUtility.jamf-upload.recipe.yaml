@@ -7,12 +7,12 @@ Description: |
   in your AutoPkg preferences, override Input variables, or by
   command-line keys.
 
-Identifier: com.github.davidbpirie.jamf-upload.PPPCUtility
+Identifier: com.github.davidbpirie.jamf-upload.JamfPPPCUtility
 MinimumVersion: 2.3.0
 ParentRecipe: com.github.dataJAR-recipes.pkg.PPPC-Utility
 
 Input:
-  NAME: PPPCUtility
+  NAME: JamfPPPCUtility
   JAMF_CATEGORY: Utilities
   JAMF_PKG_NAME: '%NAME%'
   JAMF_PKG_INFO: PPPC Utility is a macOS (10.15 and newer) application for creating configuration profiles containing the Privacy Preferences Policy Control payload for macOS. The profiles can be saved locally, signed or unsigned. Profiles can also be uploaded directly to a Jamf Pro server.
