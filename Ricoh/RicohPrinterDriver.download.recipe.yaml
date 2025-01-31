@@ -1,0 +1,42 @@
+Description: |
+  Downloads the latest Ricoh printer driver for a specific model.
+
+  Set the Input values for MODEL in your override to match your
+  required download.
+
+Identifier: com.github.davidbpirie.download.RicohPrinterDriver
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: RicohPrinterDriver
+  BASE_URL: https://rapnet.ricoh.com.au/wps/portal/public/proddrivers
+  MODEL: MP C3004exSP
+  LANGUAGE: en
+
+Process:
+  - Processor: URLTextSearcher
+    Arguments:
+      re_pattern: <a target="_blanks" href="(.*)\.htm">%MODEL%</a>
+      result_output_var_name: model_url
+      url: '%BASE_URL%'
+
+  - Processor: URLTextSearcher
+    Arguments:
+      re_pattern: <a href="(.*\.dmg)"
+      result_output_var_name: download_url
+      url: '%model_url%%LANGUAGE%.htm'
+
+  - Processor: URLDownloader
+    Arguments:
+      url: '%download_url%'
+      prefetch_filename: True
+
+  - Processor: EndOfCheckPhase
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: '%pathname%/*.pkg'
+      expected_authority_names:
+        - 'Developer ID Installer: Ricoh Co., Ltd. (5KACUT3YX8)'
+        - Developer ID Certification Authority
+        - Apple Root CA

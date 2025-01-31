@@ -1,0 +1,43 @@
+Description: |
+  Downloads the latest Ricoh printer driver for a specific model,
+  verifies the signature and finds the version.
+
+  Set the Input values for MODEL in your override to match your
+  required download.
+
+Identifier: com.github.davidbpirie.pkg.RicohPrinterDriver
+ParentRecipe: com.github.davidbpirie.download.RicohPrinterDriver
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: RicohPrinterDriver
+
+Process:
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: '%pathname%/*.pkg'
+      expected_authority_names:
+        - 'Developer ID Installer: Ricoh Co., Ltd. (5KACUT3YX8)'
+        - Developer ID Certification Authority
+        - Apple Root CA
+
+  - Processor: PkgCopier
+    Arguments:
+      source_pkg: '%pathname%/*.pkg'
+      pkg_path: '%RECIPE_CACHE_DIR%/%NAME%.pkg'
+
+  - Processor: FlatPkgUnpacker
+    Arguments:
+      flat_pkg_path: '%pkg_path%'
+      destination_path: '%RECIPE_CACHE_DIR%/unpack'
+
+  - Processor: URLTextSearcher
+    Arguments:
+      re_pattern: \s*<product id=".*" version="(.*)"/>
+      result_output_var_name: version
+      url: file:///%RECIPE_CACHE_DIR%/unpack/Distribution
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+        - '%RECIPE_CACHE_DIR%/unpack'
