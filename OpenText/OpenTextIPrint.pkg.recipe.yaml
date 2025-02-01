@@ -1,0 +1,61 @@
+Description: |
+  Unzips the source, then copies the Install iPrint pkg from inside the enclosed
+  DMG, verifying the signature and extracting the version.
+
+  Package source zip must be manually downloaded from OpenText, then provided
+  either as Input Variable PKG or via the -p parameter eg:
+  autopkg run OpenTextIPrint.pkg -p "path/to/iprintdmg622.zip"
+
+Identifier: com.github.davidbpirie.pkg.OpenTextIPrint
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: OpenTextIPrint
+
+Process:
+  - Processor: PackageRequired
+
+  - Processor: Unarchiver
+    Arguments:
+      archive_path: '%PKG%'
+      destination_path: '%RECIPE_CACHE_DIR%/unzip'
+      purge_destination: True
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: '%RECIPE_CACHE_DIR%/unzip/iprint.dmg/iPrint.pkg'
+      expected_authority_names:
+        - 'Developer ID Installer: Open Text  Corporation (4B9GHJ9X43)'
+        - Developer ID Certification Authority
+        - Apple Root CA
+
+  - Processor: FlatPkgUnpacker
+    Arguments:
+      flat_pkg_path: '%RECIPE_CACHE_DIR%/unzip/iprint.dmg/iPrint.pkg'
+      skip_payload: False
+      destination_path: '%RECIPE_CACHE_DIR%/unpack'
+      purge_destination: True
+
+  - Processor: PkgPayloadUnpacker
+    Arguments:
+      pkg_payload_path: '%RECIPE_CACHE_DIR%/unpack/iPrintContents.pkg/Payload'
+      destination_path: '%RECIPE_CACHE_DIR%/unpack-payload'
+      purge_destination: True
+
+  - Processor: PlistReader
+    Arguments:
+      info_path: '%RECIPE_CACHE_DIR%/unpack-payload/Library/Application Support/Novell/iPrint/iprint-listener.app'
+      plist_keys:
+        CFBundleShortVersionString: version
+
+  - Processor: PkgCopier
+    Arguments:
+      source_pkg: '%RECIPE_CACHE_DIR%/unzip/iprint.dmg/iPrint.pkg'
+      pkg_path: '%RECIPE_CACHE_DIR%/%NAME%-%version%.pkg'
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+        - '%RECIPE_CACHE_DIR%/unzip'
+        - '%RECIPE_CACHE_DIR%/unpack'
+        - '%RECIPE_CACHE_DIR%/unpack-payload'
