@@ -3,8 +3,9 @@ Description: |
   DMG, verifying the signature and extracting the version, then uploads the
   package to Jamf Pro.
 
-  Set the Input values for MODEL in your override to match your
-  required download.
+  Package source zip must be manually downloaded from OpenText, then provided
+  either as Input Variable PKG or via the -p parameter eg:
+  autopkg run OpenTextIPrint.jamf-upload -p "path/to/iprintdmg622.zip"
 
   JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
   SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
