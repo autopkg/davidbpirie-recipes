@@ -11,6 +11,7 @@ MinimumVersion: 2.3.0
 
 Input:
   NAME: RicohPrinterDriver
+  PAYLOAD_VERSION_PKG: ppds.pkg
 
 Process:
   - Processor: CodeSignatureVerifier
@@ -21,14 +22,9 @@ Process:
         - Developer ID Certification Authority
         - Apple Root CA
 
-  - Processor: PkgCopier
-    Arguments:
-      source_pkg: '%pathname%/*.pkg'
-      pkg_path: '%RECIPE_CACHE_DIR%/%NAME%.pkg'
-
   - Processor: FlatPkgUnpacker
     Arguments:
-      flat_pkg_path: '%pkg_path%'
+      flat_pkg_path: '%pathname%/*.pkg'
       destination_path: '%RECIPE_CACHE_DIR%/unpack'
 
   - Processor: URLTextSearcher
@@ -36,6 +32,27 @@ Process:
       re_pattern: \s*<product id=".*" version="(.*)"/>
       result_output_var_name: version
       url: file:///%RECIPE_CACHE_DIR%/unpack/Distribution
+
+  - Processor: URLTextSearcher
+    Arguments:
+      re_pattern: \s*<pkg-ref id=com\.RICOH\.print\.PS_Printers_Vol([0-9]*)_EXP\.ppds\.pkg
+      result_output_var_name: version_major
+      url: file:///%RECIPE_CACHE_DIR%/unpack/Distribution
+
+  - Processor: com.github.nmcspadden.shared/PackageInfoVersioner
+    Arguments:
+      package_info_path: '%RECIPE_CACHE_DIR%/unpack/%PAYLOAD_VERSION_PKG%/PackageInfo'
+
+  - Processor: com.github.jazzace.processors/TextSearcher
+    Arguments:
+      re_pattern: .*([1-9][0-9]*)_.*
+      text_in: '%pkg_id%'
+      result_output_var_name: volume_version
+
+  - Processor: PkgCopier
+    Arguments:
+      source_pkg: '%pathname%/*.pkg'
+      pkg_path: '%RECIPE_CACHE_DIR%/%NAME%_Vol%volume_version%-%version%.pkg'
 
   - Processor: PathDeleter
     Arguments:
