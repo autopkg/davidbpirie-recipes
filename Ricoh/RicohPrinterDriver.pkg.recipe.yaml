@@ -27,18 +27,6 @@ Process:
       flat_pkg_path: '%pathname%/*.pkg'
       destination_path: '%RECIPE_CACHE_DIR%/unpack'
 
-  - Processor: URLTextSearcher
-    Arguments:
-      re_pattern: \s*<product id=".*" version="(.*)"/>
-      result_output_var_name: version
-      url: file:///%RECIPE_CACHE_DIR%/unpack/Distribution
-
-  - Processor: URLTextSearcher
-    Arguments:
-      re_pattern: \s*<pkg-ref id=com\.RICOH\.print\.PS_Printers_Vol([0-9]*)_EXP\.ppds\.pkg
-      result_output_var_name: version_major
-      url: file:///%RECIPE_CACHE_DIR%/unpack/Distribution
-
   - Processor: com.github.nmcspadden.shared/PackageInfoVersioner
     Arguments:
       package_info_path: '%RECIPE_CACHE_DIR%/unpack/%PAYLOAD_VERSION_PKG%/PackageInfo'
