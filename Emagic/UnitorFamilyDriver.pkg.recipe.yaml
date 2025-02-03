@@ -1,7 +1,7 @@
 Description: |
   Downloads the latest version of the Unitor Family Driver from the
   Apple Support site, verify the signature and extracts the version.
-Identifier: com.github.davidbpirie.download.UnitorFamilyDriver
+Identifier: com.github.davidbpirie.pkg.UnitorFamilyDriver
 ParentRecipe: com.github.davidbpirie.download.AppleSupportArticle
 MinimumVersion: 2.3.0
 
