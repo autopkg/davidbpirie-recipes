@@ -7,7 +7,7 @@ MinimumVersion: 2.3.0
 Input:
   NAME: AppleSupportArticle
   ARTICLE_LOCALE: en-us
-  ARTICLE_ID: 106429
+  ARTICLE_ID: '106429'
   ARTICLE_BASE_URL: https://support.apple.com
   ARTICLE_REGEX: <a class="cta gb-call-to-action" href="(.*)">Download</a>
 
