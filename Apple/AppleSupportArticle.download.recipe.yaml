@@ -1,0 +1,31 @@
+Description: |
+  Downloads a linked item from an Apple Support article and verifies
+  the signature.
+Identifier: com.github.davidbpirie.download.AppleSupportArticle
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: AppleSupportArticle
+  ARTICLE_LOCALE: en-us
+  ARTICLE_ID: 106429
+  ARTICLE_BASE_URL: https://support.apple.com
+  ARTICLE_REGEX: <a class="cta gb-call-to-action" href="(.*)">Download</a>
+
+Process:
+- Processor: URLTextSearcher
+  Arguments:
+    re_pattern: '%ARTICLE_REGEX%'
+    url: '%ARTICLE_BASE_URL%/%ARTICLE_LOCALE%/%ARTICLE_ID%'
+    result_output_var_name: url
+
+- Processor: URLDownloader
+
+- Processor: EndOfCheckPhase
+
+- Processor: CodeSignatureVerifier
+  Arguments:
+    expected_authority_names:
+    - Software Update
+    - Apple Software Update Certification Authority
+    - Apple Root CA
+    input_path: '%pathname%/*.pkg'
