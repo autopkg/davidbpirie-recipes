@@ -1,0 +1,28 @@
+Description: |
+  Downloads the latest version of rekordbox 7.
+
+Identifier: com.github.davidbpirie.download.rekordbox7
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: rekordbox7
+  BASE_URL: https://rekordbox.com/en/download/
+  RE_PATTERN: https://cdn\.rekordbox\.com/files/.*?/Install_rekordbox_7_.*\.pkg_\.zip
+  USER_AGENT: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Safari/605.1.15
+
+Process:
+  - Processor: URLTextSearcher
+    Arguments:
+      re_pattern: '%RE_PATTERN%'
+      url: '%BASE_URL%'
+      result_output_var_name: url
+      request_headers:
+        user-agent: '%USER_AGENT%'
+
+  - Processor: URLDownloader
+    Arguments:
+      request_headers:
+        user-agent: '%USER_AGENT%'
+      curl_opts: []
+
+  - Processor: EndOfCheckPhase
