@@ -1,0 +1,32 @@
+Description: |
+  Downloads the latest version of rekordbox 7, verifies the signature
+  and finds the version.
+
+Identifier: com.github.davidbpirie.pkg.rekordbox7
+MinimumVersion: 2.3.0
+ParentRecipe: com.github.dataJAR-recipes.download.rekordbox 7
+
+Input:
+  NAME: rekordbox7
+
+Process:
+  - Processor: FlatPkgUnpacker
+    Arguments:
+      flat_pkg_path: '%pkg_path%'
+      destination_path: '%RECIPE_CACHE_DIR%/unpack'
+
+  - Processor: PkgPayloadUnpacker
+    Arguments:
+      pkg_payload_path: '%RECIPE_CACHE_DIR%/unpack/rekordbox.pkg/Payload'
+      destination_path: '%RECIPE_CACHE_DIR%/payload'
+      purge_destination: True
+
+  - Processor: PlistReader
+    Arguments:
+      info_path: '%RECIPE_CACHE_DIR%/payload/rekordbox.app'
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+        - '%RECIPE_CACHE_DIR%/unpack'
+        - '%RECIPE_CACHE_DIR%/payload'

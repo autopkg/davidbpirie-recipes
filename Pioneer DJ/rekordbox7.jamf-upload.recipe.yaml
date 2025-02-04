@@ -9,7 +9,7 @@ Description: |
 
 Identifier: com.github.davidbpirie.jamf-upload.rekordbox7
 MinimumVersion: 2.3.0
-ParentRecipe: com.github.dataJAR-recipes.download.rekordbox 7
+ParentRecipe: com.github.davidbpirie.pkg.rekordbox7
 
 Input:
   NAME: rekordbox7
