@@ -1,7 +1,7 @@
 Description: |
   Downloads VueScan, verifies the app signature, creates an installer
   package with the app and the needed authorization file, then uploads
-  the package to Jamf Pro.
+  the package to Jamf Pro and deletes the local copy.
 
   The recipe requires the authorization file created by VueScan for your
   licence. The suggested way to do this is to install VueScan on the
@@ -56,3 +56,8 @@ Process:
       send_notification: '%JAMF_PKG_SEND_NOTIFICATION%'
       replace_pkg: '%JAMF_PKG_REPLACE%'
       replace_pkg_metadata: '%JAMF_PKG_REPLACE_METADATA%'
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+        - '%pkg_path%'
