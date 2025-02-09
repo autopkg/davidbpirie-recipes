@@ -11,6 +11,7 @@ MinimumVersion: 2.3.0
 
 Input:
   NAME: JamfComposer
+  DMG_APP_PATH: Composer.app
 
 Process:
   - Processor: PackageRequired
@@ -19,9 +20,9 @@ Process:
 
   - Processor: CodeSignatureVerifier
     Arguments:
-      input_path: '%PKG%/Jamf Pro/Composer.app'
+      input_path: '%PKG%/%DMG_APP_PATH%'
       requirement: anchor apple generic and identifier "com.jamfsoftware.Composer" and (certificate leaf[field.1.2.840.113635.100.6.1.9] /* exists */ or certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "483DWKW443")
 
   - Processor: AppPkgCreator
     Arguments:
-      app_path: '%PKG%/Jamf Pro/Composer.app'
+      app_path: '%PKG%/%DMG_APP_PATH%'
