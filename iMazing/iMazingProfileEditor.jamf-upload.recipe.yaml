@@ -8,7 +8,7 @@ Description: |
   in your AutoPkg preferences, override Input variables, or by
   command-line keys.
 
-Identifier: com.github.davidbpirie.jamf-upload.iMazing
+Identifier: com.github.davidbpirie.jamf-upload.iMazingProfileEditor
 MinimumVersion: 2.3.0
 ParentRecipe: com.github.rtrouton.pkg.iMazingProfileEditor
 
