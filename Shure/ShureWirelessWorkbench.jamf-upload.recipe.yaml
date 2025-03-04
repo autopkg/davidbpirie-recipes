@@ -1,24 +1,26 @@
 Description: |
   Downloads the latest version of Shure Wireless Workbench as a pkg
-  and checks the signature, then uploads the pkg to Jamf Pro.
+  and checks the signature, extracts the version and copies the pkg,
+  then uploads the pkg to Jamf Pro and deletes the pkg copy.
 
   JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
   SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
   in your AutoPkg preferences, override Input variables, or by
   command-line keys.
+
 Identifier: com.github.davidbpirie.jamf-upload.ShureWirelessWorkbench
-ParentRecipe: com.github.davidbpirie.download.ShureWirelessWorkbench
+ParentRecipe: com.github.davidbpirie.pkg.ShureWirelessWorkbench
 MinimumVersion: 2.3.0
 
 Input:
   NAME: ShureWirelessWorkbench
   JAMF_CATEGORY: Music
   JAMF_PKG_NAME: '%NAME%'
-  JAMF_PKG_INFO:
+  JAMF_PKG_INFO: |
     Wireless Workbench is free software for audio professionals that
     puts a full suite of RF spectrum management tools in one place to
     give you full command of your compatible wireless devices.
-    Guarantee that you are prepared to succeed in any RF environment 
+    Guarantee that you are prepared to succeed in any RF environment
     - no matter the location.
   JAMF_PKG_NOTES: Uploaded by AutoPkg
   JAMF_PKG_PRIORITY: '10'
@@ -33,7 +35,6 @@ Process:
   - Processor: com.github.grahampugh.jamf-upload.processors/JamfPackageUploader
     Arguments:
       pkg_name: '%JAMF_PKG_NAME%-%version%.pkg'
-      pkg_path: '%pathname%'
       pkg_category: '%JAMF_CATEGORY%'
       pkg_info: '%JAMF_PKG_INFO%'
       pkg_notes: '%JAMF_PKG_NOTES%'
@@ -44,3 +45,8 @@ Process:
       send_notification: '%JAMF_PKG_SEND_NOTIFICATION%'
       replace_pkg: '%JAMF_PKG_REPLACE%'
       replace_pkg_metadata: '%JAMF_PKG_REPLACE_METADATA%'
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+      - '%pkg_path%'

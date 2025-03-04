@@ -1,6 +1,7 @@
 Description: |
   Downloads the latest version of Shure Wireless Workbench as a pkg
   and checks the signature.
+
 Identifier: com.github.davidbpirie.download.ShureWirelessWorkbench
 MinimumVersion: 2.3.0
 
@@ -9,16 +10,16 @@ Input:
   url: https://www.shure.com/en-US/sw/wwb-mac
 
 Process:
-- Processor: URLDownloader
-  Arguments:
-    prefetch_filename: True
+  - Processor: URLDownloader
+    Arguments:
+      prefetch_filename: True
 
-- Processor: EndOfCheckPhase
+  - Processor: EndOfCheckPhase
 
-- Processor: CodeSignatureVerifier
-  Arguments:
-    input_path: '%pathname%'
-    expected_authority_names:
-      - 'Developer ID Installer: Shure Incorporated (4K6323CXC4)'
-      - Developer ID Certification Authority
-      - Apple Root CA
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: '%pathname%'
+      expected_authority_names:
+        - 'Developer ID Installer: Shure Incorporated (4K6323CXC4)'
+        - Developer ID Certification Authority
+        - Apple Root CA

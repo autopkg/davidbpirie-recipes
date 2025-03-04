@@ -1,0 +1,42 @@
+Description: |
+  Downloads the latest version of Shure Wireless Workbench as a pkg
+  and checks the signature, extracts the version and copies the pkg.
+
+  JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
+  SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
+  in your AutoPkg preferences, override Input variables, or by
+  command-line keys.
+
+Identifier: com.github.davidbpirie.jamf-upload.ShureWirelessWorkbench
+ParentRecipe: com.github.davidbpirie.pkg.ShureWirelessWorkbench
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: ShureWirelessWorkbench
+
+Process:
+  - Processor: FlatPkgUnpacker
+    Arguments:
+      flat_pkg_path: '%pathname%'
+      destination_path: '%RECIPE_CACHE_DIR%/unpack'
+
+  - Processor: PkgPayloadUnpacker
+    Arguments:
+      pkg_payload_path: '%RECIPE_CACHE_DIR%/unpack/temp.pkg/Payload'
+      destination_path: '%RECIPE_CACHE_DIR%/payload'
+      purge_destination: True
+
+  - Processor: PlistReader
+    Arguments:
+      info_path: '%RECIPE_CACHE_DIR%/payload/Applications/Wireless Workbench.app'
+
+  - Processor: PkgCopier
+    Arguments:
+      source_pkg: '%pathname%'
+      pkg_path: '%RECIPE_CACHE_DIR%/%NAME%-%version%.pkg'
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+        - '%RECIPE_CACHE_DIR%/unpack'
+        - '%RECIPE_CACHE_DIR%/payload'
