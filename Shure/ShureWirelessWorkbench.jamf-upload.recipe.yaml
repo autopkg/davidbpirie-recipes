@@ -7,7 +7,7 @@ Description: |
   in your AutoPkg preferences, override Input variables, or by
   command-line keys.
 Identifier: com.github.davidbpirie.jamf-upload.ShureWirelessWorkbench
-ParentRecipe: com.github.davidbpirie.pkg.ShureWirelessWorkbench
+ParentRecipe: com.github.davidbpirie.download.ShureWirelessWorkbench
 MinimumVersion: 2.3.0
 
 Input:
