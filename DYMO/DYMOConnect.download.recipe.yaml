@@ -22,14 +22,14 @@ Process:
     re_pattern: '%RE_PATTERN%'
     request_headers:
       user-agent: '%USER_AGENT%'
-      accept: '%ACCEPT'
-      accept-language: '%ACCEPT_LANGUAGE'
-      connection: '%CONNECTION'
-      upgrade-insecure-requests: '%UPGRADE-INSECURE-REQUESTS'
-      sec-fetch-site: '%SEC_FETCH_SITE'
-      sec-fetch-mode: '%SEC_FETCH_MODE'
-      sec-fetch-user: '%SEC_FETCH_USER'
-      sec-fetch-dest: '%SEC_FETCH_DEST'
+      accept: '%ACCEPT%'
+      accept-language: '%ACCEPT_LANGUAGE%'
+      connection: '%CONNECTION%'
+      upgrade-insecure-requests: '%UPGRADE-INSECURE-REQUESTS%'
+      sec-fetch-site: '%SEC_FETCH_SITE%'
+      sec-fetch-mode: '%SEC_FETCH_MODE%'
+      sec-fetch-user: '%SEC_FETCH_USER%'
+      sec-fetch-dest: '%SEC_FETCH_DEST%'
     result_output_var_name: url
     url: '%BASE_URL%'
 
