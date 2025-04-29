@@ -5,31 +5,22 @@ MinimumVersion: 2.3.0
 Input:
   NAME: DYMOConnect
   BASE_URL: https://www.dymo.com/support?cfid=user-guide
+  request_headers:
+    user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82
+    accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8
+    accept-language: en-US,en;q=0.9
+    connection: keep-alive
+    upgrade-insecure-requests: 1
+    sec-fetch-site: none
+    sec-fetch-mode: navigate
+    sec-fetch-user: '?1'
+    sec-fetch-dest: document
   RE_PATTERN: href=\"([^\"]*DCDMac[0-9\.]*\.pkg)\">\s*Download
-  USER_AGENT: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82
-  ACCEPT: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8
-  ACCEPT_LANGUAGE: en-US,en;q=0.9
-  CONNECTION: keep-alive
-  UPGRADE-INSECURE-REQUESTS: 1
-  SEC_FETCH_SITE: none
-  SEC_FETCH_MODE: navigate
-  SEC_FETCH_USER: ?1
-  SEC-FETCH-DEST: document
 
 Process:
 - Processor: URLTextSearcher
   Arguments:
     re_pattern: '%RE_PATTERN%'
-    request_headers:
-      user-agent: '%USER_AGENT%'
-      accept: '%ACCEPT%'
-      accept-language: '%ACCEPT_LANGUAGE%'
-      connection: '%CONNECTION%'
-      upgrade-insecure-requests: '%UPGRADE-INSECURE-REQUESTS%'
-      sec-fetch-site: '%SEC_FETCH_SITE%'
-      sec-fetch-mode: '%SEC_FETCH_MODE%'
-      sec-fetch-user: '%SEC_FETCH_USER%'
-      sec-fetch-dest: '%SEC_FETCH_DEST%'
     result_output_var_name: url
     url: '%BASE_URL%'
 
