@@ -1,0 +1,53 @@
+Description: |
+  Verifies the signature and extracts the version from the source pkg,
+  then copies the pkg.
+
+  Source pkg must be manually downloaded, then provided either as
+  Input Variable PKG or via the -p parameter eg:
+  autopkg run JamfSelfService+.pkg -p "path/to/SelfService+2.0.0.pkg"
+
+Identifier: com.github.davidbpirie.pkg.JamfSelfService+
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: JamfSelfService+
+
+Process:
+  - Processor: PackageRequired
+
+  - Processor: EndOfCheckPhase
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: '%PKG%'
+      expected_authority_names:
+        - 'Developer ID Installer: JAMF Software (483DWKW443)'
+        - Developer ID Certification Authority
+        - Apple Root CA
+
+  - Processor: FlatPkgUnpacker
+    Arguments:
+      flat_pkg_path: '%PKG%'
+      destination_path: '%RECIPE_CACHE_DIR%/unpack'
+      purge_destination: True
+
+  - Processor: PkgPayloadUnpacker
+    Arguments:
+      pkg_payload_path: '%RECIPE_CACHE_DIR%/unpack/Self_Service_Plus.pkg/Payload'
+      destination_path: '%RECIPE_CACHE_DIR%/payload'
+      purge_destination: True
+
+  - Processor: PlistReader
+    Arguments:
+      info_path: '%RECIPE_CACHE_DIR%/payload/Applications/Self Service+.app'
+
+  - Processor: PkgCopier
+    Arguments:
+      source_pkg: '%PKG%'
+      pkg_path: '%RECIPE_CACHE_DIR%/%NAME%-%version%.pkg'
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+        - '%RECIPE_CACHE_DIR%/unpack'
+        - '%RECIPE_CACHE_DIR%/payload'
