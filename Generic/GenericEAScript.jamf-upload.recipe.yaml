@@ -8,18 +8,38 @@ Description: |
 
   When using the recipe, also provide the source via the -p parameter eg:
   autopkg run MyEAScript.jamf-upload -p MyEAScript.sh
+  or via the PKG Input variable.
 
-  JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
-  SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
-  in your AutoPkg preferences, override Input variables, or by
-  command-line keys.
+  JSS_URL, either API_USERNAME and API_PASSWORD or CLIENT_ID and CLIENT_SECRET,
+  and for non-cloud instances SMB_URL, SMB_USERNAME and SMB_PASSWORD, are
+  expected to be populated in your AutoPkg preferences, override Input
+  variables, or by command-line keys.
+
+  NAME: The name of the EA.
+  JAMF_EA_DATA_TYPE: One of String, Integer or Date.
+  JAMF_EA_DESCRIPTION: Description for the EA.
+  JAMF_EA_ENABLED: String-based EAs can be disabled.
+  JAMF_EA_INPUT_TYPE: One of: script, popup, text, or ldap.
+  JAMF_EA_INVENTORY_DISPLAY: One of: GENERAL, HARDWARE, OPERATING_SYSTEM,
+    USER_AND_LOCATION, PURCHASING, EXTENSION_ATTRIBUTES.
+  JAMF_EA_POPUP_CHOICES: A comma-separated list of choices for a popup EA.
+  JAMF_EA_REPLACE: True or False as str or bool. Replace an existing EA if found.
+  JAMF_EA_SKIP_SCRIPT_KEY_SUBSITUTION: Skip key substitution in processing the script.
+
+
 Identifier: com.github.davidbpirie.jamf-upload.genericeascript
 MinimumVersion: 2.3.0
 
 Input:
   NAME: GenericEAScript
-  JAMF_EA_REPLACE: 'False'
   JAMF_EA_DATA_TYPE: 'String'
+  JAMF_EA_DESCRIPTION: ''
+  JAMF_EA_ENABLED: 'True'
+  JAMF_EA_INPUT_TYPE: 'script'
+  JAMF_EA_INVENTORY_DISPLAY: 'EXTENSION_ATTRIBUTES'
+  JAMF_EA_POPUP_CHOICES: ''
+  JAMF_EA_REPLACE: 'False'
+  JAMF_EA_SKIP_SCRIPT_KEY_SUBSITUTION: 'False'
 
 Process:
 - Processor: PackageRequired
@@ -27,6 +47,13 @@ Process:
 - Processor: com.github.grahampugh.jamf-upload.processors/JamfExtensionAttributeUploader
   Arguments:
     ea_name: '%NAME%'
+    ea_input_type: '%JAMF_EA_INPUT_TYPE%'
     ea_script_path: '%PKG%'
-    replace_ea: '%JAMF_EA_REPLACE%'
+    ea_popup_choices: '%JAMF_EA_POPUP_CHOICES%'
+    ea_inventory_display: '%JAMF_EA_INVENTORY_DISPLAY%'
     ea_data_type: '%JAMF_EA_DATA_TYPE%'
+    ea_description: '%JAMF_EA_DESCRIPTION%'
+    ea_enabled: '%JAMF_EA_ENABLED%'
+    skip_script_key_substitution: '%JAMF_EA_SKIP_SCRIPT_KEY_SUBSITUTION%'
+    replace_ea: '%JAMF_EA_REPLACE%'
+
