@@ -1,0 +1,44 @@
+Description: |
+  Downloads the latest version of Jamf API Helper from GitHub as a
+  zip file, unarchives the app, verifies the signature, then
+  extracts the version.
+
+Identifier: com.github.davidbpirie.download.JamfAPIHelper
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: JamfAPIHelper
+  GITHUB_REPO: Jamf-Concepts/apiutil
+  INCLUDE_PRERELEASES: ''
+
+Process:
+  - Processor: GitHubReleasesInfoProvider
+    Arguments:
+      asset_regex: '.*\.zip'
+      github_repo: '%GITHUB_REPO%'
+      include_prereleases: '%INCLUDE_PRERELEASES%'
+
+  - Processor: URLDownloader
+
+  - Processor: EndOfCheckPhase
+
+  - Processor: Unarchiver
+    Arguments:
+      archive_path: '%pathname%'
+      destination_path: '%RECIPE_CACHE_DIR%/unzip'
+      purge_destination: True
+
+  - Processor: FileFinder
+    Arguments:
+      pattern: '%RECIPE_CACHE_DIR%/unzip/*.app'
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: '%found_filename%'
+      requirement: anchor apple generic and identifier "org.jamfie.jamfapi" and (certificate leaf[field.1.2.840.113635.100.6.1.9] /* exists */ or certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "483DWKW443")
+
+  - Processor: PlistReader
+    Arguments:
+      info_path: '%found_filename%'
+      plist_keys:
+        CFBundleShortVersionString: version

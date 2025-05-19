@@ -1,0 +1,21 @@
+Description: |
+  Downloads the latest version of Jamf API Helper from GitHub as a
+  zip file, unarchives the app, verifies the signature, extracts
+  the version, then builds a pkg.
+
+Identifier: com.github.davidbpirie.pkg.JamfAPIHelper
+ParentRecipe: com.github.davidbpirie.download.JamfAPIHelper
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: JamfAPIHelper
+
+Process:
+  - Processor: AppPkgCreator
+    Arguments:
+      app_path: '%found_filename%'
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+        - '%RECIPE_CACHE_DIR%/unzip'
