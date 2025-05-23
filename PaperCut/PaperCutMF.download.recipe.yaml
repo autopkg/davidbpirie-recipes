@@ -1,0 +1,17 @@
+Description: |
+  Downloads the latest version of PaperCut MF as a dmg.
+
+Identifier: com.github.davidbpirie.download.PaperCutMF
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: PaperCutMF
+  BASE_URL: https://www.papercut.com/api/product/mf/latest/mac/
+
+Process:
+  - Processor: URLDownloader
+    Arguments:
+      url: '%BASE_URL%'
+      prefetch_filename: True
+
+  - Processor: EndOfCheckPhase
