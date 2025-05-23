@@ -10,12 +10,12 @@ Description: |
   expected to be populated in your AutoPkg preferences, override Input
   variables, or by command-line keys.
 
-Identifier: com.github.davidbpirie.jamf-upload.PaperCutPCPrintDeployClient
-ParentRecipe: com.github.davidbpirie.pkg.PaperCutPCPrintDeployClient
+Identifier: com.github.davidbpirie.jamf-upload.PaperCutPrintDeployClient
+ParentRecipe: com.github.davidbpirie.pkg.PaperCutPrintDeployClient
 MinimumVersion: 2.3.0
 
 Input:
-  NAME: PaperCutPCPrintDeployClient
+  NAME: PaperCutPrintDeployClient
   JAMF_CATEGORY: Utilities
   JAMF_PKG_NAME: '%NAME%'
   JAMF_PKG_INFO: Print Deploy is a print queue deployment tool that gets the right printer drivers and print queues to the right person in the right location, automatically.

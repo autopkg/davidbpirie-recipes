@@ -4,12 +4,12 @@ Description: |
   the PC Print Deploy client dmg from inside, copies the enclosed
   PC Print Deploy Client pkg, then extracts the version.
 
-Identifier: com.github.davidbpirie.pkg.PaperCutPCPrintDeployClient
+Identifier: com.github.davidbpirie.pkg.PaperCutPrintDeployClient
 ParentRecipe: com.github.davidbpirie.download.PaperCutMF
 MinimumVersion: 2.3.0
 
 Input:
-  NAME: PaperCutPCPrintDeployClient
+  NAME: PaperCutPrintDeployClient
   SRC_PKG_NAME: PaperCut MF Standard Install.pkg
   CLIENT_SRC_DMG_NAME: pc-print-deploy-client.dmg
 
