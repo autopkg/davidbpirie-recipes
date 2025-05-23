@@ -1,0 +1,78 @@
+Description: |
+  Downloads the latest version of PaperCut MF as a dmg, verifies
+  the signature of the enclosed Standard Install pkg, extracts
+  the PC Print Deploy client dmg from inside, copies the enclosed
+  PC Print Deploy Client pkg, then extracts the version.
+
+Identifier: com.github.davidbpirie.pkg.PaperCutPCPrintDeployClient
+ParentRecipe: com.github.davidbpirie.download.PaperCutMF
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: PaperCutPCPrintDeployClient
+  SRC_PKG_NAME: PaperCut MF Standard Install.pkg
+  CLIENT_SRC_DMG_NAME: pc-print-deploy-client.dmg
+
+Process:
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: '%pathname%/%SRC_PKG_NAME%'
+      expected_authority_names:
+        - 'Developer ID Installer: PaperCut Software International Pty Ltd (B5N3YV5P2H)'
+        - Developer ID Certification Authority
+        - Apple Root CA
+
+  - Processor: FlatPkgUnpacker
+    Arguments:
+      flat_pkg_path: '%pathname%/%SRC_PKG_NAME%'
+      destination_path: '%RECIPE_CACHE_DIR%/unpack'
+      purge_destination: True
+
+  - Processor: FileFinder
+    Arguments:
+      pattern: '%RECIPE_CACHE_DIR%/unpack/*.pkg'
+
+  - Processor: PkgPayloadUnpacker
+    Arguments:
+      pkg_payload_path: '%found_filename%/Payload'
+      destination_path: '%RECIPE_CACHE_DIR%/payload'
+      purge_destination: True
+
+  - Processor: FileFinder
+    Arguments:
+      pattern: '%RECIPE_CACHE_DIR%/payload/PaperCut MF/providers/print-deploy/mac/v*/%CLIENT_SRC_DMG_NAME%'
+
+  - Processor: PkgCopier
+    Arguments:
+      source_pkg: '%found_filename%/*.pkg'
+      pkg_path: '%RECIPE_CACHE_DIR%/%NAME%.pkg'
+
+  - Processor: FlatPkgUnpacker
+    Arguments:
+      flat_pkg_path: '%RECIPE_CACHE_DIR%/%NAME%.pkg'
+      destination_path: '%RECIPE_CACHE_DIR%/client_unpack'
+      purge_destination: True
+
+  - Processor: FileFinder
+    Arguments:
+      pattern: '%RECIPE_CACHE_DIR%/client_unpack/*.pkg'
+
+  - Processor: PkgPayloadUnpacker
+    Arguments:
+      pkg_payload_path: '%found_filename%/Payload'
+      destination_path: '%RECIPE_CACHE_DIR%/client_payload'
+      purge_destination: True
+
+  - Processor: URLTextSearcher
+    Arguments:
+      re_pattern: .*
+      url: file://%RECIPE_CACHE_DIR%/client_payload/PaperCut%20Print%20Deploy%20Client/.version
+      result_output_var_name: version
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+        - '%RECIPE_CACHE_DIR%/unpack'
+        - '%RECIPE_CACHE_DIR%/payload'
+        - '%RECIPE_CACHE_DIR%/client_unpack'
+        - '%RECIPE_CACHE_DIR%/client_payload'

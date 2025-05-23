@@ -12,6 +12,6 @@ Process:
   - Processor: URLDownloader
     Arguments:
       url: '%BASE_URL%'
-      prefetch_filename: True
+      filename: '%NAME%.dmg'
 
   - Processor: EndOfCheckPhase
