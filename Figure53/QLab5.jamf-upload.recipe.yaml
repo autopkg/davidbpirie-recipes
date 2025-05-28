@@ -7,8 +7,8 @@ Description: |
   expected to be populated in your AutoPkg preferences, override Input
   variables, or by command-line keys.
 
-Identifier: com.github.davidbpirie.jamf-upload.JamfAPIUtility
-ParentRecipe: com.github.davidbpirie.pkg.JamfAPIUtility
+Identifier: com.github.davidbpirie.jamf-upload.QLab5
+ParentRecipe: com.github.jazzace.pkg.QLab5
 MinimumVersion: 2.3.0
 
 Input:
