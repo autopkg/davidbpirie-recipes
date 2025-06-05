@@ -8,10 +8,12 @@ Description: |
   command-line keys.
 Identifier: com.github.davidbpirie.jamf-upload.VMwareFusion13
 MinimumVersion: 2.3.0
-ParentRecipe: com.github.dataJAR-recipes.pkg.VMware Fusion 13
+ParentRecipe: com.justinrummel.pkg.VMwareFusion
 
 Input:
   NAME: VMwareFusion13
+  base_url: https://softwareupdate-prod.broadcom.com/cds/vmw-desktop/
+  major_version: '13'
   JAMF_CATEGORY: Business
   JAMF_PKG_NAME: '%NAME%'
   JAMF_PKG_INFO: 'VMware Fusion is the easiest, fastest, and most reliable way to run Windows and other x86 based operating systems on a Mac without rebooting.'
@@ -25,9 +27,6 @@ Input:
   JAMF_PKG_REPLACE_METADATA: 'False'
 
 Process:
-  - Processor: DeprecationWarning
-    Arguments:
-      warning_message: Due to the deprecation of a parent recipe, and VMware's licensing changes, this recipe has been deprecated and will be removed from this repo at a future date.
   - Processor: com.github.grahampugh.jamf-upload.processors/JamfPackageUploader
     Arguments:
       pkg_name: '%JAMF_PKG_NAME%-%version%.pkg'
