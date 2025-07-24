@@ -1,5 +1,5 @@
 Description: |
-  Downloads latest version of Blackmagic Videohub disk image, copies
+  Downloads latest version of Blackmagic Camera disk image, copies
   the package from the DMG, then uploads the package to Jamf Pro
   and deletes the package.
 
@@ -15,15 +15,15 @@ Description: |
   in your AutoPkg preferences, override Input variables, or by
   command-line keys.
 
-Identifier: com.github.davidbpirie.jamf-upload.BlackmagicVideohub
-ParentRecipe: com.github.davidbpirie.pkg.BlackmagicVideohub
+Identifier: com.github.davidbpirie.jamf-upload.BlackmagicCamera
+ParentRecipe: com.github.davidbpirie.pkg.BlackmagicCamera
 MinimumVersion: 2.3.0
 
 Input:
-  NAME: BlackmagicVideohub
+  NAME: BlackmagicCamera
   JAMF_CATEGORY: Photo and Video
   JAMF_PKG_NAME: '%NAME%'
-  JAMF_PKG_INFO: Blackmagic Videohub
+  JAMF_PKG_INFO: Blackmagic ATEM Switchers
   JAMF_PKG_NOTES: Uploaded by AutoPkg
   JAMF_PKG_OS_REQUIREMENTS: ''
   JAMF_PKG_PRIORITY: '10'
