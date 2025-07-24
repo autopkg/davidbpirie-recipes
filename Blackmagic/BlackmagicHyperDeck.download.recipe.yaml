@@ -1,0 +1,43 @@
+Description: |
+  Downloads latest version of Blackmagic HyperDeck.
+
+  This product requires registration in order to download, so
+  you _must_ override all input variables beginning with 'REG_'
+  and they must contain data.
+
+  Notably, REG_COUNTRY must contain sane values:
+  - REG_COUNTRY is of the form 'us', 'ca', etc.
+
+Identifier: com.github.davidbpirie.download.BlackmagicHyperDeck
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: BlackmagicHyperDeck
+  PRODUCT_NAME_PATTERN: '^HyperDeck (?P<version>[\.\d]*)$'
+  REG_CITY: ''
+  REG_COUNTRY: ''
+  REG_EMAIL: ''
+  REG_FIRSTNAME: ''
+  REG_LASTNAME: ''
+  REG_PHONE: ''
+  REG_STREET: ''
+
+Process:
+  - Processor: com.github.timsutton.download.davinciresolve18/BlackMagicURLProvider
+    Arguments:
+      product_name_pattern: '%PRODUCT_NAME_PATTERN%'
+      product_name: Blackmagic HyperDeck
+      registration_info:
+        firstname: '%REG_FIRSTNAME%'
+        lastname: '%REG_LASTNAME%'
+        email: '%REG_EMAIL%'
+        phone: '%REG_PHONE%'
+        city: '%REG_CITY%'
+        street: '%REG_STREET%'
+        country: '%REG_COUNTRY%'
+
+  - Processor: URLDownloader
+    Arguments:
+      filename: '%NAME%-%version%.zip'
+
+  - Processor: EndOfCheckPhase
