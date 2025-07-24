@@ -13,7 +13,7 @@ MinimumVersion: 2.3.0
 
 Input:
   NAME: BlackmagicHyperDeck
-  PRODUCT_NAME_PATTERN: '^HyperDeck (?P<version>[\.\d]*)$'
+  PRODUCT_NAME_PATTERN: '^HyperDeck (?P<version>[\.\d]*) Update$'
   REG_CITY: ''
   REG_COUNTRY: ''
   REG_EMAIL: ''
