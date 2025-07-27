@@ -1,0 +1,56 @@
+Description: |
+  Copies the EUCON Workstation Unified installer pkg from the source DMG,
+  verifying the signature, extracts the version of the WSControlApp from
+  the included WSControl.pkg, creates a package that installs the pkg via
+  a postinstall script, applying a custom set of choices, then uploads
+  the package to Jamf Pro and deletes the package.
+
+  Package source DMG must be manually downloaded from Avid, then provided
+  either as Input Variable PKG or via the -p parameter eg:
+  via the -p parameter eg:
+  autopkg run AvidProToolsWSControl.jamf-upload -p "path/to/EUCON_WorkstationUnifiedInstallMac_2025_6_0_60.dmg"
+
+  JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
+  SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
+  in your AutoPkg preferences, override Input variables, or by
+  command-line keys.
+
+Identifier: com.github.davidbpirie.jamf-upload.AvidProToolsWSControl
+ParentRecipe: com.github.davidbpirie.pkg.AvidProToolsWSControl
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: AvidProToolsWSControl
+  JAMF_CATEGORY: Music
+  JAMF_PKG_NAME: '%NAME%'
+  JAMF_PKG_INFO: WSControlApp for S4/S6 Workstation.
+  JAMF_PKG_NOTES: Created and uploaded by AutoPkg
+  JAMF_PKG_OS_REQUIREMENTS: ''
+  JAMF_PKG_PRIORITY: '10'
+  JAMF_PKG_REBOOT_REQUIRED: 'False'
+  JAMF_PKG_REPLACE: 'False'
+  JAMF_PKG_REPLACE_METADATA: 'False'
+  JAMF_PKG_REQUIRED_PROCESSOR: None
+  JAMF_PKG_SEND_NOTIFICATION: 'False'
+  JAMF_PKG_SUFFIX: 'pkg'
+
+Process:
+  - Processor: com.github.grahampugh.jamf-upload.processors/JamfPackageUploader
+    Arguments:
+      pkg_name: '%JAMF_PKG_NAME%-%version%.%JAMF_PKG_SUFFIX%'
+      pkg_path: '%pkg_path%'
+      pkg_category: '%JAMF_CATEGORY%'
+      pkg_info: '%JAMF_PKG_INFO%'
+      pkg_notes: '%JAMF_PKG_NOTES%'
+      pkg_priority: '%JAMF_PKG_PRIORITY%'
+      reboot_required: '%JAMF_PKG_REBOOT_REQUIRED%'
+      os_requirements: '%JAMF_PKG_OS_REQUIREMENTS%'
+      required_processor: '%JAMF_PKG_REQUIRED_PROCESSOR%'
+      send_notification: '%JAMF_PKG_SEND_NOTIFICATION%'
+      replace_pkg: '%JAMF_PKG_REPLACE%'
+      replace_pkg_metadata: '%JAMF_PKG_REPLACE_METADATA%'
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+        - '%pkg_path%'
