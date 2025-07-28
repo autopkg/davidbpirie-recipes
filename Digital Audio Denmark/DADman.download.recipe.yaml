@@ -14,8 +14,8 @@ Input:
   LOGIN_URL_SUFFIX: login-2/
   SEARCH_URL_SUFFIX: download-dadman-control-software/
   SEARCH_RE: href="([^"]*)"[^>]*>[^<]*DADman for macOS Ver
-  WEB_USERNAME: 'actgovsoedev'
-  WEB_PASSWORD: 'Sasaki-violent-dion1'
+  WEB_USERNAME: 'Put_Username_into_AutoPkg_recipe_override'
+  WEB_PASSWORD: 'Put_Password_into_AutoPkg_recipe_override'
   FORM_ID: '498'
   WP_NONCE: 'fc0a5a73e7'
 
