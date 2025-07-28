@@ -1,8 +1,11 @@
 Description: |
   Downloads the latest version of DADman as a zip archive, unpacks
   the pkg from the archive, verifies the signature, extracts the
-  version, copies the pkg, then uploads the package to Jamf Pro and
-  deletes the pkg.
+  version, copies the pkg, then uploads the package to Jamf Pro.
+
+  Access to Digital Audio DK downloads is behind a login, so first create an
+  account on their portal https://www.digitalaudiosupport.com/register-2/
+  and then provide the username (not email) and password in your override.
 
   JSS_URL, either API_USERNAME and API_PASSWORD or CLIENT_ID and CLIENT_SECRET,
   and for non-cloud instances SMB_URL, SMB_USERNAME and SMB_PASSWORD, are
