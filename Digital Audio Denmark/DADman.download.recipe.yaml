@@ -19,6 +19,7 @@ Process:
     Arguments:
       re_pattern: '%SEARCH_RE%'
       url: '%BASE_URL%%SEARCH_URL_SUFFIX%'
+      result_output_var_name: download_url
       curl_opts:
         - --cookie
         - '%RECIPE_CACHE_DIR%/cookie_jar.txt'
@@ -26,12 +27,12 @@ Process:
   - Processor: com.github.jazzace.processors/TextSearcher
     Arguments:
       re_pattern: .*/(.*)
-      text_in: '%match%'
+      text_in: '%download_url%'
       result_output_var_name: filename
 
   - Processor: URLDownloader
     Arguments:
-      url: '%match%'
+      url: '%download_url%'
       filename: '%NAME%.zip'
 
   - Processor: EndOfCheckPhase
