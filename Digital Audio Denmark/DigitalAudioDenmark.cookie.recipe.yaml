@@ -1,0 +1,45 @@
+Description: |
+  Parent recipe to handle the authentication part of accessing the
+  Digital Audio Denmark support site, generating the required
+  cookies.
+
+  Access to Digital Audio DK downloads is behind a login, so first create an
+  account on their portal https://www.digitalaudiosupport.com/register-2/
+  and then provide the username (not email) and password in your override.
+
+Identifier: com.github.davidbpirie.cookie.DigitalAudioDenmark
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: DigitalAudioDenmark
+  BASE_URL: https://www.digitalaudiosupport.com/
+  LOGIN_URL_SUFFIX: login-2/
+  SEARCH_URL_SUFFIX: download-dadman-control-software/
+  WEB_USERNAME: 'Put_Username_into_AutoPkg_recipe_override'
+  WEB_PASSWORD: 'Put_Password_into_AutoPkg_recipe_override'
+  FORM_ID: '498'
+
+Process:
+  - Processor: StopProcessingIf
+    Arguments:
+      predicate: WEB_USERNAME == 'Put_Username_into_AutoPkg_recipe_override'
+
+  - Processor: StopProcessingIf
+    Arguments:
+      predicate: WEB_PASSWORD == 'Put_Password_into_AutoPkg_recipe_override'
+
+  - Processor: URLTextSearcher
+    Arguments:
+      re_pattern: <input type="hidden" id="_wpnonce" name="_wpnonce" value="([^"]*)" />
+      url: '%BASE_URL%%LOGIN_URL_SUFFIX%'
+      result_output_var_name: wp_nonce
+
+  - Processor: URLDownloader
+    Arguments:
+      url: '%BASE_URL%%LOGIN_URL_SUFFIX%'
+      filename: 'ignore.txt'
+      curl_opts:
+        - --cookie-jar
+        - '%RECIPE_CACHE_DIR%/cookie_jar.txt'
+        - --data
+        - username-%FORM_ID%=%WEB_USERNAME%&user_password-%FORM_ID%=%WEB_PASSWORD%&form_id=%FORM_ID%&_wpnonce=%wp_nonce%
