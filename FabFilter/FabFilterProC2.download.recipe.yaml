@@ -14,7 +14,7 @@ Process:
   - Processor: URLTextSearcher
     Arguments:
       re_pattern: '%SEARCH_RE%'
-      url: '%SEARCH_URL%/download'
+      url: '%BASE_URL%/download'
       result_output_var_name: download_url
 
   - Processor: URLDownloader
