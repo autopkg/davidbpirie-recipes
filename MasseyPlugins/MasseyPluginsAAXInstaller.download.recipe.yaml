@@ -12,6 +12,5 @@ Process:
   - Processor: URLDownloader
     Arguments:
       url: '%DOWNLOAD_URL%'
-      filename: '%NAME%-%version%.zip'
 
   - Processor: EndOfCheckPhase
