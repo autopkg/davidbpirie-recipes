@@ -7,7 +7,7 @@ MinimumVersion: 2.3.0
 
 Input:
   NAME: FabFilterProC2
-  SEARCH_RE: href="([^"]*?/ffproc2\w*?\.dmg)"
+  SEARCH_RE: href="([^"]*?\/ffproc2\w*?\.dmg)"
   SEARCH_URL: https://www.fabfilter.com/download
 
 Process:
