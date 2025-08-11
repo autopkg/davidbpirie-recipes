@@ -16,7 +16,7 @@ Input:
   NAME: FabFilterProL2
   JAMF_CATEGORY: Music
   JAMF_PKG_NAME: '%NAME%'
-  JAMF_PKG_INFO: High-quality compressor plug-in.
+  JAMF_PKG_INFO: True peak limiter plug-in.
   JAMF_PKG_NOTES: 'Uploaded by AutoPkg'
   JAMF_PKG_PRIORITY: '10'
   JAMF_PKG_REBOOT_REQUIRED: 'False'
