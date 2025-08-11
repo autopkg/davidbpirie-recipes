@@ -7,14 +7,14 @@ MinimumVersion: 2.3.0
 
 Input:
   NAME: FabFilterProC2
-  BASE_URL: https://www.fabfilter.com
-  SEARCH_RE: href="([^"]*?ffproc2[^"]*?\.dmg)"
+  SEARCH_URL: https://www.fabfilter.com/download
+  SEARCH_RE: href="([^"]*?/ffproc2\w*?\.dmg)"
 
 Process:
   - Processor: URLTextSearcher
     Arguments:
       re_pattern: '%SEARCH_RE%'
-      url: '%BASE_URL%/download'
+      url: '%SEARCH_URL%'
       result_output_var_name: download_url
 
   - Processor: URLDownloader
