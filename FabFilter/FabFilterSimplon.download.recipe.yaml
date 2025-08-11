@@ -1,0 +1,32 @@
+Description: |
+  Downloads the latest version of FabFilter Simplon as a dmg,
+  then verifies the signature of the enclosed pkg.
+
+Identifier: com.github.davidbpirie.download.FabFilterSimplon
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: FabFilterSimplon
+  SEARCH_RE: href="([^"]*?\/ffsimplon\w*?\.dmg)"
+  SEARCH_URL: https://www.fabfilter.com/download
+
+Process:
+  - Processor: URLTextSearcher
+    Arguments:
+      re_pattern: '%SEARCH_RE%'
+      url: '%SEARCH_URL%'
+      result_output_var_name: download_url
+
+  - Processor: URLDownloader
+    Arguments:
+      url: '%download_url%'
+
+  - Processor: EndOfCheckPhase
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: '%pathname%/*.pkg'
+      expected_authority_names:
+        - 'Developer ID Installer: FabFilter (43SG2JNHFW)'
+        - Developer ID Certification Authority
+        - Apple Root CA
