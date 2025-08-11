@@ -1,0 +1,17 @@
+Description: |
+  Downloads the latest version of Massey Plugins AAX Installer.
+
+Identifier: com.github.davidbpirie.download.MasseyPluginsAAXInstaller
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: MasseyPluginsAAXInstaller
+  DOWNLOAD_URL: https://www.masseyplugins.com/downloads/Massey_Plugins_AAX_Installer.zip
+
+Process:
+  - Processor: URLDownloader
+    Arguments:
+      url: '%DOWNLOAD_URL%'
+      filename: '%NAME%-%version%.zip'
+
+  - Processor: EndOfCheckPhase
