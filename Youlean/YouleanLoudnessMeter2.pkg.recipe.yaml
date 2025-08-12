@@ -4,16 +4,24 @@ Description: |
   then copies the pkg.
 
 Identifier: com.github.davidbpirie.pkg.YouleanLoudnessMeter2
-ParentRecipe: com.github.dataJAR-recipes.download.Youlean Loudness Meter 2
+ParentRecipe: com.github.davidbpirie.download.YouleanLoudnessMeter2
 MinimumVersion: 2.3.0
 
 Input:
   NAME: YouleanLoudnessMeter2
 
 Process:
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: '%pathname%/*.pkg'
+      expected_authority_names:
+        - 'Developer ID Installer: Julijan Nikolic (S7KN6P3F95)'
+        - Developer ID Certification Authority
+        - Apple Root CA
+
   - Processor: FlatPkgUnpacker
     Arguments:
-      flat_pkg_path: '%found_filename%'
+      flat_pkg_path: '%pathname%/*.pkg'
       destination_path: '%RECIPE_CACHE_DIR%/unpack'
 
   - Processor: PkgPayloadUnpacker
@@ -28,12 +36,11 @@ Process:
 
   - Processor: PkgCopier
     Arguments:
-      source_pkg: '%RECIPE_CACHE_DIR%/unzip/*.pkg'
+      source_pkg: '%pathname%/*.pkg'
       pkg_path: '%RECIPE_CACHE_DIR%/%NAME%-%version%.pkg'
 
   - Processor: PathDeleter
     Arguments:
       path_list:
-        - '%RECIPE_CACHE_DIR%/unzip'
         - '%RECIPE_CACHE_DIR%/unpack'
         - '%RECIPE_CACHE_DIR%/payload'
