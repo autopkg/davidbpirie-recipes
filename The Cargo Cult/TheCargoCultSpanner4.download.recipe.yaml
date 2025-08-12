@@ -1,0 +1,23 @@
+Description: |
+  Downloads the latest version of The Cargo Cult Spanner 4.
+
+Identifier: com.github.davidbpirie.download.TheCargoCultSpanner4
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: TheCargoCultSpanner4
+  SEARCH_RE: href="([^"]*?\.zip)"[^>]*?>Spanner 4\.x MacOS
+  SEARCH_URL: https://www.thecargocult.nz/downloads
+
+Process:
+  - Processor: URLTextSearcher
+    Arguments:
+      re_pattern: '%SEARCH_RE%'
+      url: '%SEARCH_URL%'
+      result_output_var_name: download_url
+
+  - Processor: URLDownloader
+    Arguments:
+      url: '%download_url%'
+
+  - Processor: EndOfCheckPhase
