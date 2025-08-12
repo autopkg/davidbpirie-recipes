@@ -17,9 +17,13 @@ Process:
       destination_path: '%RECIPE_CACHE_DIR%/unzip'
       purge_destination: True
 
+  - Processor: FileFinder
+    Arguments:
+      pattern: '%RECIPE_CACHE_DIR%/unzip/*.pkg'
+
   - Processor: CodeSignatureVerifier
     Arguments:
-      input_path: '%RECIPE_CACHE_DIR%/unzip/*.pkg'
+      input_path: '%found_filename%'
       expected_authority_names:
         - 'Developer ID Installer: maggot software (5D56NUSPPZ)'
         - Developer ID Certification Authority
@@ -27,7 +31,7 @@ Process:
 
   - Processor: FlatPkgUnpacker
     Arguments:
-      flat_pkg_path: '%RECIPE_CACHE_DIR%/unzip/*.pkg'
+      flat_pkg_path: '%found_filename%'
       destination_path: '%RECIPE_CACHE_DIR%/unpack'
 
   - Processor: PkgPayloadUnpacker
