@@ -13,6 +13,8 @@ Input:
   NAME: AllenAndHeathSQMixPad
 
 Process:
+  - Processor: PackageRequired
+
   - Processor: Unarchiver
     Arguments:
       archive_path: '%PKG%'
