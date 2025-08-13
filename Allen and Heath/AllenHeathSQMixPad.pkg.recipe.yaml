@@ -6,11 +6,11 @@ Description: |
   then provided either as Input Variable PKG or via the -p parameter eg:
   autopkg run AllenHeathSQMixPad.pkg -p "path/to/SQ-MixPad-1.6-Mac-Installer.zip"
 
-Identifier: com.github.davidbpirie.pkg.AllenAndHeathSQMixPad
+Identifier: com.github.davidbpirie.pkg.AllenHeathSQMixPad
 MinimumVersion: 2.3.0
 
 Input:
-  NAME: AllenAndHeathSQMixPad
+  NAME: AllenHeathSQMixPad
 
 Process:
   - Processor: PackageRequired

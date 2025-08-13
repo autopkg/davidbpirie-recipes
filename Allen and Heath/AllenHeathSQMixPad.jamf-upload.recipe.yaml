@@ -12,12 +12,12 @@ Description: |
   in your AutoPkg preferences, override Input variables, or by
   command-line keys.
 
-Identifier: com.github.davidbpirie.jamf-upload.AllenAndHeathSQMixPad
-ParentRecipe: com.github.davidbpirie.pkg.AllenAndHeathSQMixPad
+Identifier: com.github.davidbpirie.jamf-upload.AllenHeathSQMixPad
+ParentRecipe: com.github.davidbpirie.pkg.AllenHeathSQMixPad
 MinimumVersion: 2.3.0
 
 Input:
-  NAME: AllenAndHeathSQMixPad
+  NAME: AllenHeathSQMixPad
   JAMF_CATEGORY: Music
   JAMF_PKG_NAME: '%NAME%'
   JAMF_PKG_INFO: SQ MixPad gives you the freedom to mix from anywhere in the venue, even if that's not physically close to the mixer's location.
