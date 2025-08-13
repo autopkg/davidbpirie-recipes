@@ -1,0 +1,46 @@
+Description: |
+  Downloads latest version of Blackmagic Streaming disk image, then
+  copies the package from the DMG.
+
+  This product requires registration in order to download, so
+  you _must_ override all input variables beginning with 'REG_'
+  and they must contain data.
+
+  Notably, REG_COUNTRY must contain sane values:
+  - REG_COUNTRY is of the form 'us', 'ca', etc.
+
+Identifier: com.github.davidbpirie.pkg.BlackmagicStreaming
+ParentRecipe: com.github.davidbpirie.download.BlackmagicStreaming
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: BlackmagicStreaming
+
+Process:
+  - Processor: Unarchiver
+    Arguments:
+      archive_path: '%pathname%'
+      destination_path: '%RECIPE_CACHE_DIR%/unzip'
+      purge_destination: True
+
+  - Processor: FileFinder
+    Arguments:
+      pattern: '%RECIPE_CACHE_DIR%/unzip/*.dmg'
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: '%found_filename%/*.pkg'
+      expected_authority_names:
+        - 'Developer ID Installer: Blackmagic Design Inc (9ZGFBWLSYP)'
+        - Developer ID Certification Authority
+        - Apple Root CA
+
+  - Processor: PkgCopier
+    Arguments:
+      source_pkg: '%found_filename%/*.pkg'
+      pkg_path: '%RECIPE_CACHE_DIR%/%NAME%-%version%.pkg'
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+        - '%RECIPE_CACHE_DIR%/unzip'
