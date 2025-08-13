@@ -1,16 +1,37 @@
 Description: |
-  Downloads the latest version of Allen & Heath SQ MixPad as a
-  zip archive, extracts the dmg and verifies the code signature,
-  then creates a pkg.
+  Creates a pkg for Allen & Heath SQ MixPad from a source zipped dmg,
+  extracting the version and verifying the signature.
+
+  Package source zip file must be manually downloaded from Allen and Heath,
+  then provided either as Input Variable PKG or via the -p parameter eg:
+  autopkg run AllenHeathSQMixPad.pkg -p "path/to/SQ-MixPad-1.6-Mac-Installer.zip"
 
 Identifier: com.github.davidbpirie.pkg.AllenAndHeathSQMixPad
-ParentRecipe: com.github.davidbpirie.download.AllenAndHeathSQMixPad
 MinimumVersion: 2.3.0
 
 Input:
   NAME: AllenAndHeathSQMixPad
 
 Process:
+  - Processor: Unarchiver
+    Arguments:
+      archive_path: '%PKG%'
+      destination_path: '%RECIPE_CACHE_DIR%/unzip'
+      purge_destination: True
+
+  - Processor: FileFinder
+    Arguments:
+      pattern: '%RECIPE_CACHE_DIR%/unzip/*.dmg'
+
+  - Processor: AppDmgVersioner
+    Arguments:
+      dmg_path: '%found_filename%'
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: '%found_filename%/%app_name%'
+      requirement: identifier "com.allenheath.SQU.MixPad" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "7SGLXZYF29"
+
   - Processor: AppPkgCreator
     Arguments:
       app_path: '%found_filename%/%app_name%'

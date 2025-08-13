@@ -1,7 +1,11 @@
 Description: |
-  Downloads the latest version of Allen & Heath SQ MixPad as a
-  zip archive, extracts the dmg and verifies the code signature,
-  creates a pkg, then uploads the package to Jamf Pro.
+  Creates a pkg for Allen & Heath SQ MixPad from a source zipped dmg,
+  extracting the version and verifying the signature, then uploads the
+  package to Jamf Pro.
+
+  Package source zip file must be manually downloaded from Allen and Heath,
+  then provided either as Input Variable PKG or via the -p parameter eg:
+  autopkg run AllenHeathSQMixPad.jamf-upload -p "path/to/SQ-MixPad-1.6-Mac-Installer.zip"
 
   JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
   SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
