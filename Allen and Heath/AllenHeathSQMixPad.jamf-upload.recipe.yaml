@@ -1,0 +1,44 @@
+Description: |
+  Downloads the latest version of Allen & Heath SQ MixPad as a
+  zip archive, extracts the dmg and verifies the code signature,
+  creates a pkg, then uploads the package to Jamf Pro.
+
+  JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
+  SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
+  in your AutoPkg preferences, override Input variables, or by
+  command-line keys.
+
+Identifier: com.github.davidbpirie.jamf-upload.AllenAndHeathSQMixPad
+ParentRecipe: com.github.davidbpirie.pkg.AllenAndHeathSQMixPad
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: AllenAndHeathSQMixPad
+  JAMF_CATEGORY: Music
+  JAMF_PKG_NAME: '%NAME%'
+  JAMF_PKG_INFO: SQ MixPad gives you the freedom to mix from anywhere in the venue, even if that's not physically close to the mixer's location.
+  JAMF_PKG_NOTES: Uploaded by AutoPkg
+  JAMF_PKG_OS_REQUIREMENTS: ''
+  JAMF_PKG_PRIORITY: '10'
+  JAMF_PKG_REBOOT_REQUIRED: 'False'
+  JAMF_PKG_REPLACE: 'False'
+  JAMF_PKG_REPLACE_METADATA: 'False'
+  JAMF_PKG_REQUIRED_PROCESSOR: None
+  JAMF_PKG_SEND_NOTIFICATION: 'False'
+  JAMF_PKG_SUFFIX: 'pkg'
+
+Process:
+  - Processor: com.github.grahampugh.jamf-upload.processors/JamfPackageUploader
+    Arguments:
+      pkg_name: '%JAMF_PKG_NAME%-%version%.%JAMF_PKG_SUFFIX%'
+      pkg_path: '%pkg_path%'
+      pkg_category: '%JAMF_CATEGORY%'
+      pkg_info: '%JAMF_PKG_INFO%'
+      pkg_notes: '%JAMF_PKG_NOTES%'
+      pkg_priority: '%JAMF_PKG_PRIORITY%'
+      reboot_required: '%JAMF_PKG_REBOOT_REQUIRED%'
+      os_requirements: '%JAMF_PKG_OS_REQUIREMENTS%'
+      required_processor: '%JAMF_PKG_REQUIRED_PROCESSOR%'
+      send_notification: '%JAMF_PKG_SEND_NOTIFICATION%'
+      replace_pkg: '%JAMF_PKG_REPLACE%'
+      replace_pkg_metadata: '%JAMF_PKG_REPLACE_METADATA%'
