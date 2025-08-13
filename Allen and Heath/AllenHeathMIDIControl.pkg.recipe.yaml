@@ -1,0 +1,73 @@
+Description: |
+  Creates a pkg for Allen & Heath MIDI Control from a source zipped dmg,
+  extracting the version and verifying the signature.
+
+  Package source zip file must be manually downloaded from Allen and Heath,
+  then provided either as Input Variable PKG or via the -p parameter eg:
+  autopkg run AllenHeathMIDIControl.pkg -p "path/to/Allen-and-Heath-MIDI-Control-V2.2-Mac.zip"
+
+  Note the vendor has made a mistake with v2.2 in that the CFBundleShortVersionString
+  has the value "2.2.", which causes normal workflows to fail. To work around
+  this, this recipe uses the CFBundleVersion (which also has en error, with
+  a value of "2.2..89757"), which is then altered to remove the duplicate
+  period. Hopefully the vendor corrects this with a future release, and
+  this recipe can be updated and simplified to use an unmodified
+  CFBundleShortVersionString value for the version.
+
+Identifier: com.github.davidbpirie.pkg.AllenHeathMIDIControl
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: AllenHeathMIDIControl
+
+Process:
+  - Processor: PackageRequired
+
+  - Processor: Unarchiver
+    Arguments:
+      archive_path: '%PKG%'
+      destination_path: '%RECIPE_CACHE_DIR%/unzip'
+      purge_destination: True
+
+  - Processor: FileFinder
+    Arguments:
+      pattern: '%RECIPE_CACHE_DIR%/unzip/*.dmg'
+
+  - Processor: FileMover
+    Arguments:
+      source: '%found_filename%'
+      target: '%RECIPE_CACHE_DIR%/%NAME%.dmg'
+
+  - Processor: FileFinder
+    Arguments:
+      pattern: '%RECIPE_CACHE_DIR%/%NAME%.dmg/*.app'
+
+  - Processor: PlistReader
+    Arguments:
+      info_path: '%RECIPE_CACHE_DIR%/%NAME%.dmg/%dmg_found_filename%'
+      plist_keys:
+        CFBundleVersion: version
+        CFBundleIdentifier: bundleid
+
+  - Processor: com.github.homebysix.FindAndReplace/FindAndReplace
+    Arguments:
+      find: '..'
+      input_string: '%version%'
+      replace: '.'
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      version: '%output_string%'
+      input_path: '%RECIPE_CACHE_DIR%/%NAME%.dmg/%dmg_found_filename%'
+      requirement: identifier "com.allenheath.midicontrol" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "7SGLXZYF29"
+
+  - Processor: AppPkgCreator
+    Arguments:
+      app_path: '%RECIPE_CACHE_DIR%/%NAME%.dmg/%dmg_found_filename%'
+      pkg_path: '%RECIPE_CACHE_DIR%/%NAME%-%version%.pkg'
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+        - '%RECIPE_CACHE_DIR%/unzip'
+        - '%RECIPE_CACHE_DIR%/%NAME%.dmg'
