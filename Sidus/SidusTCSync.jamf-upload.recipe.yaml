@@ -3,6 +3,8 @@ Description: |
   verifies the signature, extracts the version and copies
   the pkg, then uploads the package to Jamf Pro.
 
+  See the parent download recipe for architecture options.
+
   JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
   SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
   in your AutoPkg preferences, override Input variables, or by

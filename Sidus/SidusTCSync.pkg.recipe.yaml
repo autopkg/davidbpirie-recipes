@@ -3,6 +3,8 @@ Description: |
   verifies the signature, extracts the version and copies
   the pkg.
 
+  See the parent download recipe for architecture options.
+
 Identifier: com.github.davidbpirie.pkg.SidusTCSync
 MinimumVersion: 2.3.0
 ParentRecipe: com.github.davidbpirie.download.SidusTCSync
