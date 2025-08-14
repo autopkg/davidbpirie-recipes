@@ -1,0 +1,43 @@
+Description: |
+  Downloads the latest version of Sidus TC Sync as a pkg,
+  then verifies the signature.
+
+  At the time of writing, the vendor web site isn't particularly
+  well-coded and has some unclosed html tags, and the source
+  files are actually hosted on Google Drive, so I haven't
+  provided a simple method for selecting architecture. Instead,
+  here are the 2 SEARCH_RE values that work currently:
+
+  x86: Intel x86<br />\s*<a href="https://drive\.google\.com/file/d/([^/]*)/view\?usp=sharing">
+  ARM: Apple M[^<]*<br />\s*<a href="https://drive\.google\.com/file/d/([^/]*)/view\?usp=sharing">
+
+
+Identifier: com.github.davidbpirie.download.SidusTCSync
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: SidusTCSync
+  SEARCH_RE: Apple M[^<]*<br />\s*<a href="https://drive\.google\.com/file/d/([^/]*)/view\?usp=sharing">
+  SEARCH_URL: https://deitymic.com/products/sidus-tc-sync
+
+Process:
+  - Processor: URLTextSearcher
+    Arguments:
+      re_pattern: '%SEARCH_RE%'
+      url: '%SEARCH_URL%'
+      result_output_var_name: download_id
+
+  - Processor: URLDownloader
+    Arguments:
+      url: https://drive.usercontent.google.com/download?id=%download_id%&export=download&confirm=t
+      filename: '%NAME%.pkg'
+
+  - Processor: EndOfCheckPhase
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: '%pathname%'
+      expected_authority_names:
+        - 'Developer ID Installer: Sidus Link Ltd. (XP3H66JF79)'
+        - Developer ID Certification Authority
+        - Apple Root CA
