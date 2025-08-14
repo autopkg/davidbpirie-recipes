@@ -1,0 +1,46 @@
+
+Description: |
+  Downloads the latest version of Voxengo Correlometer AU AAX VST3
+  as a dmg, and verifies the signatures of the .component, .vst,
+  .vst3, and .aaxplugin files.
+
+Identifier: com.github.davidbpirie.download.VoxengoCorrelometer
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: VoxengoCorrelometer
+  SEARCH_RE: <a [^>]*href="([^"]*)"[^>]*>Download[^<]*for Mac</a>
+  SEARCH_URL: https://www.voxengo.com/product/correlometer
+
+Process:
+  - Processor: URLTextSearcher
+    Arguments:
+      re_pattern: '%SEARCH_RE%'
+      url: '%SEARCH_URL%'
+      result_output_var_name: download_url
+
+  - Processor: URLDownloader
+    Arguments:
+      url: '%download_url%'
+
+  - Processor: EndOfCheckPhase
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: '%pathname%/Correlometer.component'
+      requirement: identifier "Voxengo Correlometer 1.9 AudioUnit" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "9JJ336Q7KG"
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: '%pathname%/Correlometer.vst'
+      requirement: identifier "Voxengo Correlometer 1.9 VST" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "9JJ336Q7KG"
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: '%pathname%/Correlometer.vst3'
+      requirement: identifier "Voxengo Correlometer 1.9 VST3" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "9JJ336Q7KG"
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: '%pathname%/ProTools AAX/Correlometer.aaxplugin'
+      requirement: identifier "com.voxengo.audio-plugins.AAX.Correlometer" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "9JJ336Q7KG"
