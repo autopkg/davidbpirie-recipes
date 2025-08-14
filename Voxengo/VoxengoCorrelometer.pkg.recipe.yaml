@@ -112,9 +112,9 @@ Process:
           mode: '0775'
         id: '%bundle_id%.pkg'
         options: purge_ds_store
-        pkgname: '%NAME%-%VERSION%'
+        pkgname: '%NAME%-%version%'
         pkgroot: '%RECIPE_CACHE_DIR%/%NAME%/payload'
-        version: '%VERSION%'
+        version: '%version%'
 
   - Processor: PathDeleter
     Arguments:
