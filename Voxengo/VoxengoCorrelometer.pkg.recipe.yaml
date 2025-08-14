@@ -55,7 +55,7 @@ Process:
 
   - Processor: PlistReader
     Arguments:
-      info_path: '%RECIPE_CACHE_DIR%/payload/Library/Audio/Plug-Ins/Components/Correlometer.component/Contents/Info.plist'
+      info_path: '%pkgroot%/payload/Library/Audio/Plug-Ins/Components/Correlometer.component/Contents/Info.plist'
       plist_keys:
         CFBundleShortVersionString: version
         CFBundleIdentifier: bundle_id
