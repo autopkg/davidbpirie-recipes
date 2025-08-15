@@ -5,7 +5,7 @@ Description: |
 
 Identifier: com.github.davidbpirie.pkg.RODESoundField
 MinimumVersion: 2.3.0
-ParentRecipe: com.github.dataJAR-recipes.download.SoundField By RODE
+ParentRecipe: com.github.dataJAR-recipes.download.SoundField By RØDE
 
 Input:
   NAME: RODESoundField
