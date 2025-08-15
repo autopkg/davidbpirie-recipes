@@ -1,0 +1,64 @@
+
+Description: |
+  Downloads the latest version of Voxengo SPAN AU AAX VST3 as a
+  dmg, and verifies the signatures of the .component, .vst,
+  .vst3, and .aaxplugin files.
+
+Identifier: com.github.davidbpirie.download.VoxengoSPAN
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: VoxengoSPAN
+  SEARCH_RE: <a [^>]*href="([^"]*)"[^>]*>Download[^<]*for Mac</a>
+  SEARCH_URL: https://www.voxengo.com/product/span
+
+Process:
+  - Processor: URLTextSearcher
+    Arguments:
+      re_pattern: '%SEARCH_RE%'
+      url: '%SEARCH_URL%'
+      result_output_var_name: download_url
+
+  - Processor: URLDownloader
+    Arguments:
+      url: '%download_url%'
+
+  - Processor: EndOfCheckPhase
+
+  - Processor: PlistReader
+    Arguments:
+      info_path: '%pathname%/SPAN.component/Contents/Info.plist'
+      plist_keys:
+        CFBundleShortVersionString: component_version
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: '%pathname%/SPAN.component'
+      requirement: identifier "Voxengo SPAN %component_version% AudioUnit" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "9JJ336Q7KG"
+
+  - Processor: PlistReader
+    Arguments:
+      info_path: '%pathname%/SPAN.vst/Contents/Info.plist'
+      plist_keys:
+        CFBundleShortVersionString: vst_version
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: '%pathname%/SPAN.vst'
+      requirement: identifier "Voxengo SPAN %vst_version% VST" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "9JJ336Q7KG"
+
+  - Processor: PlistReader
+    Arguments:
+      info_path: '%pathname%/SPAN.vst3/Contents/Info.plist'
+      plist_keys:
+        CFBundleShortVersionString: vst3_version
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: '%pathname%/SPAN.vst3'
+      requirement: identifier "Voxengo SPAN %vst3_version% VST3" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "9JJ336Q7KG"
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: '%pathname%/ProTools AAX/SPAN.aaxplugin'
+      requirement: identifier "com.voxengo.audio-plugins.AAX.SPAN" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "9JJ336Q7KG"

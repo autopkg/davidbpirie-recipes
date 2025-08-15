@@ -1,0 +1,122 @@
+Description: |
+  Downloads the latest version of Voxengo SPAN AU AAX VST3 as a
+  dmg, and verifies the signatures of the .component, .vst,
+  .vst3, and .aaxplugin files, then builds a package to install the
+  components to the respective paths, extracting the version and
+  bundle ID from the .component file.
+
+Identifier: com.github.davidbpirie.pkg.VoxengoSPAN
+ParentRecipe: com.github.davidbpirie.download.VoxengoSPAN
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: VoxengoSPAN
+
+Process:
+  - Processor: PkgRootCreator
+    Arguments:
+      pkgdirs:
+        payload: '0775'
+        payload/Library: '0755'
+        payload/Library/Application Support: '0755'
+        payload/Library/Application Support/Avid: '0755'
+        payload/Library/Application Support/Avid/Audio: '0755'
+        payload/Library/Application Support/Avid/Audio/Plug-Ins: '0755'
+        payload/Library/Audio: '0755'
+        payload/Library/Audio/Plug-Ins: '0755'
+        payload/Library/Audio/Plug-Ins/Components: '0755'
+        payload/Library/Audio/Plug-Ins/VST: '0755'
+        payload/Library/Audio/Plug-Ins/VST3: '0755'
+      pkgroot: '%RECIPE_CACHE_DIR%/%NAME%'
+
+  - Processor: Copier
+    Arguments:
+      source_path: '%pathname%/SPAN.component'
+      destination_path: '%pkgroot%/payload/Library/Audio/Plug-Ins/Components/SPAN.component'
+      overwrite: true
+
+  - Processor: Copier
+    Arguments:
+      source_path: '%pathname%/SPAN.vst'
+      destination_path: '%pkgroot%/payload/Library/Audio/Plug-Ins/VST/SPAN.vst'
+      overwrite: true
+
+  - Processor: Copier
+    Arguments:
+      source_path: '%pathname%/SPAN.vst3'
+      destination_path: '%pkgroot%/payload/Library/Audio/Plug-Ins/VST3/SPAN.vst3'
+      overwrite: true
+
+  - Processor: Copier
+    Arguments:
+      source_path: '%pathname%/ProTools AAX/SPAN.aaxplugin'
+      destination_path: '%pkgroot%/payload/Library/Application Support/Avid/Audio/Plug-Ins/SPAN.aaxplugin'
+      overwrite: true
+
+  - Processor: PlistReader
+    Arguments:
+      info_path: '%pkgroot%/payload/Library/Audio/Plug-Ins/Components/SPAN.component/Contents/Info.plist'
+      plist_keys:
+        CFBundleShortVersionString: version
+        CFBundleIdentifier: bundle_id
+
+  - Processor: PkgCreator
+    Arguments:
+      pkg_request:
+        chown:
+        - path: Library
+          user: root
+          group: wheel
+        - path: Library/Application Support
+          user: root
+          group: admin
+        - path: Library/Application Support/Avid
+          user: root
+          group: admin
+        - path: Library/Application Support/Avid/Audio
+          user: root
+          group: admin
+        - path: Library/Application Support/Avid/Audio/Plug-Ins
+          user: root
+          group: admin
+        - path: Library/Audio
+          user: root
+          group: wheel
+        - path: Library/Audio/Plug-Ins
+          user: root
+          group: wheel
+        - path: Library/Audio/Plug-Ins/Components
+          user: root
+          group: wheel
+        - path: Library/Audio/Plug-Ins/VST
+          user: root
+          group: wheel
+        - path: Library/Audio/Plug-Ins/VST3
+          user: root
+          group: wheel
+        - path: Library/Audio/Plug-Ins/Components/SPAN.component
+          user: root
+          group: wheel
+          mode: '0775'
+        - path: Library/Audio/Plug-Ins/VST/SPAN.vst
+          user: root
+          group: wheel
+          mode: '0775'
+        - path: Library/Audio/Plug-Ins/VST3/SPAN.vst3
+          user: root
+          group: wheel
+          mode: '0775'
+        - path: Library/Application Support/Avid/Audio/Plug-Ins/SPAN.aaxplugin
+          user: root
+          group: wheel
+          mode: '0775'
+        id: '%bundle_id%.pkg'
+        options: purge_ds_store
+        pkgname: '%NAME%-%version%'
+        pkgroot: '%RECIPE_CACHE_DIR%/%NAME%/payload'
+        version: '%version%'
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+        - '%RECIPE_CACHE_DIR%/%NAME%'
