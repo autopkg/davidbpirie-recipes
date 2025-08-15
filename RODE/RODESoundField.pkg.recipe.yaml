@@ -28,7 +28,7 @@ Process:
 
   - Processor: PlistReader
     Arguments:
-      info_path: '%RECIPE_CACHE_DIR%/payload/Application Support/Avid/Audio/Plug-ins/SoundField By RODE.aaxplugin/Contents/Info.plist'
+      info_path: '%RECIPE_CACHE_DIR%/payload/Library/Application Support/Avid/Audio/Plug-ins/SoundField By RODE.aaxplugin/Contents/Info.plist'
 
   - Processor: PkgCopier
     Arguments:
