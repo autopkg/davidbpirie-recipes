@@ -1,9 +1,9 @@
 Description: |
-  Downloads the latest version of Voxengo Boogex AU AAX VST3
-  as a dmg, and verifies the signatures of the .component, .vst,
-  .vst3, and .aaxplugin files, then builds a package to install the
-  components to the respective paths, extracting the version and
-  bundle ID from the .component file.
+  Downloads the latest version of Voxengo Boogex AU AAX as a dmg,
+  the latest version of Voxengo Boogex VST VST3 as a dmg, and verifies
+  the signatures of the .component, .vst, .vst3, and .aaxplugin files,
+  then builds a package to install the components to the respective
+  paths, extracting the version and bundle ID from the .component file.
 
 Identifier: com.github.davidbpirie.pkg.VoxengoBoogex
 ParentRecipe: com.github.davidbpirie.download.VoxengoBoogex
