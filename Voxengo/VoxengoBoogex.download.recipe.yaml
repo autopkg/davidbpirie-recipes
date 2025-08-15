@@ -1,0 +1,77 @@
+
+Description: |
+  Downloads the latest version of Voxengo Boogex AU AAX as a dmg,
+  the latest version of Voxengo Boogex VST VST3 as a dmg, and verifies
+  the signatures of the .component, .vst, .vst3, and .aaxplugin files.
+
+Identifier: com.github.davidbpirie.download.VoxengoBoogex
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: VoxengoBoogex
+  SEARCH_RE_AAX: <a [^>]*href="([^"]*)"[^>]*>Download AU, AAX for Mac</a>
+  SEARCH_RE_VST: <a [^>]*href="([^"]*)"[^>]*>Download VST, VST3 for Mac</a>
+  SEARCH_URL: https://www.voxengo.com/product/boogex
+
+Process:
+  - Processor: URLTextSearcher
+    Arguments:
+      re_pattern: '%SEARCH_RE_AAX%'
+      url: '%SEARCH_URL%'
+      result_output_var_name: download_url
+
+  - Processor: URLDownloader
+    Arguments:
+      url: '%download_url%'
+
+  - Processor: URLTextSearcher
+    Arguments:
+      pathname_aax: '%pathname%'
+      re_pattern: '%SEARCH_RE_VST%'
+      url: '%SEARCH_URL%'
+      result_output_var_name: download_url
+
+  - Processor: URLDownloader
+    Arguments:
+      url: '%download_url%'
+
+  - Processor: EndOfCheckPhase
+
+  - Processor: PlistReader
+    Arguments:
+      pathname_vst: '%pathname%'
+      info_path: '%pathname_aax%/Boogex.component/Contents/Info.plist'
+      plist_keys:
+        CFBundleShortVersionString: component_version
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: '%pathname_aax%/Boogex.component'
+      requirement: identifier "Voxengo Boogex %component_version% AudioUnit" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "9JJ336Q7KG"
+
+  - Processor: PlistReader
+    Arguments:
+      info_path: '%pathname_vst%/Boogex.vst/Contents/Info.plist'
+      plist_keys:
+        CFBundleShortVersionString: vst_version
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: '%pathname_vst%/Boogex.vst'
+      requirement: identifier "Voxengo Boogex %vst_version% VST" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "9JJ336Q7KG"
+
+  - Processor: PlistReader
+    Arguments:
+      info_path: '%pathname_vst%/Boogex.vst3/Contents/Info.plist'
+      plist_keys:
+        CFBundleShortVersionString: vst3_version
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: '%pathname_vst%/Boogex.vst3'
+      requirement: identifier "Voxengo Boogex %vst3_version% VST3" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "9JJ336Q7KG"
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: '%pathname_aax%/ProTools AAX/Boogex.aaxplugin'
+      requirement: identifier "com.voxengo.audio-plugins.AAX.Boogex" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "9JJ336Q7KG"
