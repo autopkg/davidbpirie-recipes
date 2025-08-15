@@ -1,7 +1,7 @@
 Description: |
-  Downloads the latest version of RODE SoundField as a pkg,
-  verifies the signature, extracts the version, and copies
-  the pkg, then uploads the package to Jamf Pro.
+  Downloads the latest version of RODE SoundField as a zip archive,
+  unpacks the pkg from the archive, verifies the signature, extracts
+  the version, copies the pkg, then uploads the package to Jamf Pro.
 
   JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
   SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
@@ -40,3 +40,8 @@ Process:
       send_notification: '%JAMF_PKG_SEND_NOTIFICATION%'
       replace_pkg: '%JAMF_PKG_REPLACE%'
       replace_pkg_metadata: '%JAMF_PKG_REPLACE_METADATA%'
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+        - '%pkg_path%'

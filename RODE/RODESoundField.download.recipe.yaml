@@ -1,0 +1,24 @@
+Description: |
+  Downloads the latest version of RODE SoundField as a zip archive.
+
+Identifier: com.github.davidbpirie.download.RODESoundField
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: RODESoundField
+  SEARCH_RE: href="([^"]*SoundFieldByRODE_MAC_[^"]*\.pkg\.zip)"
+  SEARCH_URL: https://rode.com/en/apps/soundfield-by-rode
+
+Process:
+  - Processor: URLTextSearcher
+    Arguments:
+      re_pattern: '%SEARCH_RE%'
+      url: '%SEARCH_URL%'
+      result_output_var_name: download_url
+
+  - Processor: URLDownloader
+    Arguments:
+      url: '%download_url%'
+      filename: '%NAME%.zip'
+
+  - Processor: EndOfCheckPhase
