@@ -25,20 +25,38 @@ Process:
 
   - Processor: EndOfCheckPhase
 
+  - Processor: PlistReader
+    Arguments:
+      info_path: '%pathname%/Correlometer.component/Contents/Info.plist'
+      plist_keys:
+        CFBundleShortVersionString: component_version
+
   - Processor: CodeSignatureVerifier
     Arguments:
       input_path: '%pathname%/Correlometer.component'
-      requirement: identifier "Voxengo Correlometer 1.9 AudioUnit" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "9JJ336Q7KG"
+      requirement: identifier "Voxengo Correlometer %component_version% AudioUnit" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "9JJ336Q7KG"
+
+  - Processor: PlistReader
+    Arguments:
+      info_path: '%pathname%/Correlometer.vst/Contents/Info.plist'
+      plist_keys:
+        CFBundleShortVersionString: vst_version
 
   - Processor: CodeSignatureVerifier
     Arguments:
       input_path: '%pathname%/Correlometer.vst'
-      requirement: identifier "Voxengo Correlometer 1.9 VST" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "9JJ336Q7KG"
+      requirement: identifier "Voxengo Correlometer %vst_version% VST" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "9JJ336Q7KG"
+
+  - Processor: PlistReader
+    Arguments:
+      info_path: '%pathname%/Correlometer.vst3/Contents/Info.plist'
+      plist_keys:
+        CFBundleShortVersionString: vst3_version
 
   - Processor: CodeSignatureVerifier
     Arguments:
       input_path: '%pathname%/Correlometer.vst3'
-      requirement: identifier "Voxengo Correlometer 1.9 VST3" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "9JJ336Q7KG"
+      requirement: identifier "Voxengo Correlometer %vst3_version% VST3" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "9JJ336Q7KG"
 
   - Processor: CodeSignatureVerifier
     Arguments:
