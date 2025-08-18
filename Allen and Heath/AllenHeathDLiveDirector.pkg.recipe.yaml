@@ -1,0 +1,40 @@
+Description: |
+  Creates a pkg for Allen & Heath dLive Director from a source dmg,
+  extracting the version and verifying the signature.
+
+  Package source dmg file must be manually downloaded from Allen and Heath,
+  then provided either as Input Variable PKG or via the -p parameter eg:
+  autopkg run AllenHeathDLiveDirector.pkg -p "path/to/dLive-Director-V2.11.dmg"
+
+Identifier: com.github.davidbpirie.pkg.AllenHeathDLiveDirector
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: AllenHeathDLiveDirector
+
+Process:
+  - Processor: PackageRequired
+
+  - Processor: Unarchiver
+    Arguments:
+      archive_path: '%PKG%'
+      destination_path: '%RECIPE_CACHE_DIR%/unzip'
+      purge_destination: True
+
+  - Processor: FileFinder
+    Arguments:
+      pattern: '%PKG%/unzip/*.dmg'
+
+  - Processor: AppDmgVersioner
+    Arguments:
+      dmg_path: '%PKG%'
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: '%PKG%/%app_name%'
+      requirement: identifier "com.allen-heath.dLive.Director" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "7SGLXZYF29"
+
+  - Processor: AppPkgCreator
+    Arguments:
+      app_path: '%PKG%/%app_name%'
+      pkg_path: '%RECIPE_CACHE_DIR%/%NAME%-%version%.pkg'
