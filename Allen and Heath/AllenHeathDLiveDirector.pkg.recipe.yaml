@@ -15,16 +15,6 @@ Input:
 Process:
   - Processor: PackageRequired
 
-  - Processor: Unarchiver
-    Arguments:
-      archive_path: '%PKG%'
-      destination_path: '%RECIPE_CACHE_DIR%/unzip'
-      purge_destination: True
-
-  - Processor: FileFinder
-    Arguments:
-      pattern: '%PKG%/unzip/*.dmg'
-
   - Processor: AppDmgVersioner
     Arguments:
       dmg_path: '%PKG%'
