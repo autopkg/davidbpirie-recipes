@@ -1,0 +1,50 @@
+Description: |
+  Extracts the pkg for Allen & Heath DT Preamp Contrll from a source zip archive,
+  extracting the version and verifying the signature.
+
+  Package source zip file must be manually downloaded from Allen and Heath,
+  then provided either as Input Variable PKG or via the -p parameter eg:
+  autopkg run AllenHeathDTPreampControl.pkg -p "path/to/DT-Preamp-Control-V1.12.zip"
+
+Identifier: com.github.davidbpirie.pkg.AllenHeathDTPreampControl
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: AllenHeathDTPreampControl
+
+Process:
+  - Processor: PackageRequired
+
+  - Processor: Unarchiver
+    Arguments:
+      archive_path: '%PKG%'
+      destination_path: '%RECIPE_CACHE_DIR%/unzip'
+      purge_destination: True
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: '%RECIPE_CACHE_DIR%/unzip/*.pkg'
+      expected_authority_names:
+        - 'Developer ID Installer: Allen & Heath Ltd (7SGLXZYF29)'
+        - Developer ID Certification Authority
+        - Apple Root CA
+
+  - Processor: FlatPkgUnpacker
+    Arguments:
+      flat_pkg_path: '%RECIPE_CACHE_DIR%/unzip/*.pkg'
+      destination_path: '%RECIPE_CACHE_DIR%/unpack'
+  
+  - Processor: com.github.nmcspadden.shared/PackageInfoVersioner
+    Arguments:
+      package_info_path: '%RECIPE_CACHE_DIR%/unpack/DTPreampControl.pkg/PackageInfo'
+
+  - Processor: PkgCopier
+    Arguments:
+      source_pkg: '%RECIPE_CACHE_DIR%/unzip/*.pkg'
+      pkg_path: '%RECIPE_CACHE_DIR%/%NAME%-%version%.pkg'
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+        - '%RECIPE_CACHE_DIR%/unzip'
+        - '%RECIPE_CACHE_DIR%/unpack'
