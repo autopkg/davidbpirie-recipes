@@ -1,5 +1,5 @@
 Description: |
-  Extracts the pkg for Allen & Heath DT Preamp Contrll from a source zip archive,
+  Extracts the pkg for Allen & Heath DT Preamp Contrll from a source zipped dmg,
   extracting the version and verifying the signature, then uploads the
   package to Jamf Pro.
 
