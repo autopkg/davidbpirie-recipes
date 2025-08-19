@@ -1,0 +1,28 @@
+Description: |
+  Downloads latest version of Audinate Dante Controller as a dmg,
+  then verifies the signature and copies the package from the dmg.
+
+  For Apple Silicon, set SPAEKLE_FEED_URL in your override to:
+  https://software-updates.audinate.com/DanteController/appcast/DanteController-apple_silicon.xml
+
+Identifier: com.github.davidbpirie.pkg.AudinateDanteController
+ParentRecipe: com.github.davidbpirie.download.AudinateDanteController
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: BlackmagicATEMSwitchers
+  SPARKLE_FEED_URL: https://software-updates.audinate.com/DanteController/appcast/DanteController-apple_intel.xml
+
+Process:
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: '%pathname%/*.pkg'
+      expected_authority_names:
+        - 'Developer ID Installer: Audinate Pty Ltd (P4WCR6Y822)'
+        - Developer ID Certification Authority
+        - Apple Root CA
+
+  - Processor: PkgCopier
+    Arguments:
+      source_pkg: '%pathname%/*.pkg'
+      pkg_path: '%RECIPE_CACHE_DIR%/%NAME%-%version%.pkg'

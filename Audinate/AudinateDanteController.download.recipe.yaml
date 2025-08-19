@@ -1,0 +1,23 @@
+Description: |
+  Downloads latest version of Audinate Dante Controller as a dmg.
+
+  For Apple Silicon, set SPAEKLE_FEED_URL in your override to:
+  https://software-updates.audinate.com/DanteController/appcast/DanteController-apple_silicon.xml
+
+Identifier: com.github.davidbpirie.download.AudinateDanteController
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: BlackmagicATEMSwitchers
+  SPARKLE_FEED_URL: https://software-updates.audinate.com/DanteController/appcast/DanteController-apple_intel.xml
+
+Process:
+  - Processor: SparkleUpdateInfoProvider
+    Arguments:
+      appcast_url: '%SPARKLE_FEED_URL%'
+
+  - Processor: URLDownloader
+    Arguments:
+      filename: '%NAME%-%version%.dmg'
+
+  - Processor: EndOfCheckPhase
