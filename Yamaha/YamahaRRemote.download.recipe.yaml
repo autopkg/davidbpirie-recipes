@@ -1,0 +1,24 @@
+Description: |
+  Downloads the latest version of Yamaha R Remote as a zipped dmg.
+
+Identifier: com.github.davidbpirie.download.YamahaRRemote
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: YamahaRRemote
+  BASE_URL: https://au.yamaha.com
+  SEARCH_RE: href="(\/files\/download\/software\/[^"]*_mac\.zip)"
+  SEARCH_URL_SUFFIX: /en/support/updates/r_remote_mac.html
+
+Process:
+  - Processor: URLTextSearcher
+    Arguments:
+      re_pattern: '%SEARCH_RE%'
+      url: '%BASE_URL%%SEARCH_URL_SUFFIX%'
+      result_output_var_name: download_url_suffix
+
+  - Processor: URLDownloader
+    Arguments:
+      url: '%BASE_URL%%download_url_suffix%'
+
+  - Processor: EndOfCheckPhase
