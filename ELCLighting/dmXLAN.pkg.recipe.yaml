@@ -15,28 +15,33 @@ Input:
   NAME: dmXLAN
 
 Process:
+  - Processor: Unarchiver
+    Arguments:
+      archive_path: '%pathname%'
+      destination_path: '%RECIPE_CACHE_DIR%/%NAME%.dmg'
+
   - Processor: FileFinder
     Arguments:
-      pattern: '%pathname%/unpack/dmXLAN *'
+      pattern: '%RECIPE_CACHE_DIR%/%NAME%.dmg/dmXLAN *'
 
   - Processor: CodeSignatureVerifier
     Arguments:
-      input_path: '%pathname%/%dmg_found_filename%/dmXLAN.app'
+      input_path: '%RECIPE_CACHE_DIR%/%NAME%.dmg/%dmg_found_filename%/dmXLAN.app'
       requirement: identifier "elclighting.dmXLAN" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "898W4JZK2V"
 
   - Processor: CodeSignatureVerifier
     Arguments:
-      input_path: '%pathname%/%dmg_found_filename%/dmXLAN Firmware Updater.app'
+      input_path: '%RECIPE_CACHE_DIR%/%NAME%.dmg/%dmg_found_filename%/dmXLAN Firmware Updater.app'
       requirement: anchor apple generic and identifier "ELClighting.dmXLAN-Firmware-Updater" and (certificate leaf[field.1.2.840.113635.100.6.1.9] /* exists */ or certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "898W4JZK2V")
 
   - Processor: CodeSignatureVerifier
     Arguments:
-      input_path: '%pathname%/%dmg_found_filename%/Fixture Library Editor.app'
+      input_path: '%RECIPE_CACHE_DIR%/%NAME%.dmg/%dmg_found_filename%/Fixture Library Editor.app'
       requirement: anchor apple generic and identifier "elclighting.Fixture-Library-Editor" and (certificate leaf[field.1.2.840.113635.100.6.1.9] /* exists */ or certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "898W4JZK2V")
 
   - Processor: PlistReader
     Arguments:
-      info_path: '%pathname%/%dmg_found_filename%/dmXLAN.app'
+      info_path: '%RECIPE_CACHE_DIR%/%NAME%.dmg/%dmg_found_filename%/dmXLAN.app'
       plist_keys:
         CFBundleShortVersionString: version
         CFBundleIdentifier: pkg_id
@@ -51,19 +56,19 @@ Process:
 
   - Processor: Copier
     Arguments:
-      source_path: '%pathname%/%dmg_found_filename%/dmXLAN.app'
+      source_path: '%RECIPE_CACHE_DIR%/%NAME%.dmg/%dmg_found_filename%/dmXLAN.app'
       destination_path: '%RECIPE_CACHE_DIR%/%NAME%/payload/Applications/dmXLAN/dmXLAN.app'
       overwrite: True
 
   - Processor: Copier
     Arguments:
-      source_path: '%pathname%/%dmg_found_filename%/dmXLAN Firmware Updater.app'
+      source_path: '%RECIPE_CACHE_DIR%/%NAME%.dmg/%dmg_found_filename%/dmXLAN Firmware Updater.app'
       destination_path: '%RECIPE_CACHE_DIR%/%NAME%/payload/Applications/dmXLAN/dmXLAN Firmware Updater.app'
       overwrite: True
 
   - Processor: Copier
     Arguments:
-      source_path: '%pathname%/%dmg_found_filename%/Fixture Library Editor.app'
+      source_path: '%RECIPE_CACHE_DIR%/%NAME%.dmg/%dmg_found_filename%/Fixture Library Editor.app'
       destination_path: '%RECIPE_CACHE_DIR%/%NAME%/payload/Applications/dmXLAN/Fixture Library Editor.app'
       overwrite: True
 
@@ -83,4 +88,5 @@ Process:
   - Processor: PathDeleter
     Arguments:
       path_list:
+        - '%RECIPE_CACHE_DIR%/%NAME%.dmg'
         - '%RECIPE_CACHE_DIR%/%NAME%'
