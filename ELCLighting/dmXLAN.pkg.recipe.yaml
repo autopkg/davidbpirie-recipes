@@ -18,7 +18,17 @@ Process:
   - Processor: Unarchiver
     Arguments:
       archive_path: '%pathname%'
-      destination_path: '%RECIPE_CACHE_DIR%/%NAME%.dmg'
+      destination_path: '%RECIPE_CACHE_DIR%/unzip'
+      purge_destination: True
+
+  - Processor: FileFinder
+    Arguments:
+      pattern: '%RECIPE_CACHE_DIR%/unzip/*.dmg'
+
+  - Processor: FileMover
+    Arguments:
+      source: '%found_filename%'
+      target: '%RECIPE_CACHE_DIR%/%NAME%.dmg'
 
   - Processor: FileFinder
     Arguments:
@@ -88,5 +98,6 @@ Process:
   - Processor: PathDeleter
     Arguments:
       path_list:
+        - '%RECIPE_CACHE_DIR%/unzip'
         - '%RECIPE_CACHE_DIR%/%NAME%.dmg'
         - '%RECIPE_CACHE_DIR%/%NAME%'
