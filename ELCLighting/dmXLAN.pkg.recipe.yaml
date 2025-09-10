@@ -1,0 +1,86 @@
+Description: |
+  Downloads the latest version of ELC Lighting dmXLAN as a
+  zipped dmg, expands the zip archive, verifies the signature
+  of the 3 enclosed apps, extracts the version from the main
+  app, and builds a package to install all enclosed apps in
+  /Applications/dmXLAN.
+  Note that manual installation would include the version in
+  the parent folder, which this removes.
+
+Identifier: com.github.davidbpirie.pkg.dmXLAN
+MinimumVersion: 2.3.0
+ParentRecipe: com.github.davidbpirie.download.dmXLAN
+
+Input:
+  NAME: dmXLAN
+
+Process:
+  - Processor: FileFinder
+    Arguments:
+      pattern: '%pathname%/unpack/dmXLAN *'
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: '%pathname%/%dmg_found_filename%/dmXLAN.app'
+      requirement: identifier "elclighting.dmXLAN" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "898W4JZK2V"
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: '%pathname%/%dmg_found_filename%/dmXLAN Firmware Updater.app'
+      requirement: anchor apple generic and identifier "ELClighting.dmXLAN-Firmware-Updater" and (certificate leaf[field.1.2.840.113635.100.6.1.9] /* exists */ or certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "898W4JZK2V")
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: '%pathname%/%dmg_found_filename%/Fixture Library Editor.app'
+      requirement: anchor apple generic and identifier "elclighting.Fixture-Library-Editor" and (certificate leaf[field.1.2.840.113635.100.6.1.9] /* exists */ or certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "898W4JZK2V")
+
+  - Processor: PlistReader
+    Arguments:
+      info_path: '%pathname%/%dmg_found_filename%/dmXLAN.app'
+      plist_keys:
+        CFBundleShortVersionString: version
+        CFBundleIdentifier: pkg_id
+
+  - Processor: PkgRootCreator
+    Arguments:
+      pkgdirs:
+        payload: '0775'
+        payload/Applications: '0775'
+        payload/Applications/dmXLAN: '0775'
+      pkgroot: '%RECIPE_CACHE_DIR%/%NAME%'
+
+  - Processor: Copier
+    Arguments:
+      source_path: '%pathname%/%dmg_found_filename%/dmXLAN.app'
+      destination_path: '%RECIPE_CACHE_DIR%/%NAME%/payload/Applications/dmXLAN/dmXLAN.app'
+      overwrite: True
+
+  - Processor: Copier
+    Arguments:
+      source_path: '%pathname%/%dmg_found_filename%/dmXLAN Firmware Updater.app'
+      destination_path: '%RECIPE_CACHE_DIR%/%NAME%/payload/Applications/dmXLAN/dmXLAN Firmware Updater.app'
+      overwrite: True
+
+  - Processor: Copier
+    Arguments:
+      source_path: '%pathname%/%dmg_found_filename%/Fixture Library Editor.app'
+      destination_path: '%RECIPE_CACHE_DIR%/%NAME%/payload/Applications/dmXLAN/Fixture Library Editor.app'
+      overwrite: True
+
+  - Processor: PkgCreator
+    Arguments:
+      pkg_request:
+        chown:
+          - path: Applications
+            user: root
+            group: admin
+        id: '%pkg_id%'
+        options: purge_ds_store
+        pkgname: '%NAME%-%version%'
+        pkgroot: '%RECIPE_CACHE_DIR%/%NAME%/payload'
+        version: '%version%'
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+        - '%RECIPE_CACHE_DIR%/%NAME%'

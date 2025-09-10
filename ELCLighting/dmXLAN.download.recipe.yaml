@@ -1,0 +1,24 @@
+Description: |
+  Downloads the latest version of ELC Lighting dmXLAN as a
+  zipped dmg.
+
+Identifier: com.github.davidbpirie.download.dmXLAN
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: dmXLAN
+  SEARCH_RE: <a href="(https://www\.elclighting\.com/wp-content/uploads/\d+/\d+/dmXLAN-[\d.]+\.dmg\.zip)" target="_blank">
+  SEARCH_URL: https://www.elclighting.com/download/dmxlan-software-osx/
+
+Process:
+  - Processor: URLTextSearcher
+    Arguments:
+      re_pattern: '%SEARCH_RE%'
+      url: '%SEARCH_URL%'
+      result_output_var_name: download_url
+
+  - Processor: URLDownloader
+    Arguments:
+      url: '%download_url%'
+
+  - Processor: EndOfCheckPhase
