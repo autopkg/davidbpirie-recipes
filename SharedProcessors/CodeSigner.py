@@ -23,43 +23,34 @@ import shutil
 from autopkglib import Processor, ProcessorError
 
 
-__all__ = ["OSACompiler"]
+__all__ = ["CodeSigner"]
 
 
-class OSACompiler(Processor):
-    description = ( "Compile AppleScripts and other OSA language scripts using osacompile." )
+class CodeSigner(Processor):
+    description = ( "Run codesign on a target." )
     input_variables = {
-        "script_source": {
+        "target_path": {
             "required": True,
-            "description": "Path to the source file to be compiled."
+            "description": "Path to the target to be signed."
         },
-        "compiled_script": {
-            "required": True,
-            "description": "Path to the compiled result. Will be deleted first if already exists."
-        }
     }
     output_variables = {}
 
     __doc__ = description
 
     def main(self):
-        script_source: str = self.env["script_source"]
-        compiled_script: str = self.env["compiled_script"]
+        target_path: str = self.env["target_path"]
 
-        if os.path.exists(compiled_script):
-            try:
-                if os.path.isdir(compiled_script) and not os.path.islink(compiled_script):
-                    shutil.rmtree(compiled_script)
-                else:
-                    os.unlink(compiled_script)
-            except OSError as err:
-                raise ProcessorError(f"Can't remove existing {compiled_script}: {err.strerror}")
+        if not os.path.exists(target_path):
+            raise ProcessorError(f"Target path {target_path} not found.")
 
         command_line_list = [
-            "/usr/bin/osacompile",
-            "-o",
-            compiled_script,
-            script_source
+            "/usr/bin/codesign",
+            "--force",
+            "--sign",
+            "-",
+            "--timestamp=none",
+            target_path
         ]
 
         self.output(f'Running command: {" ".join(command_line_list)}')
@@ -67,5 +58,5 @@ class OSACompiler(Processor):
 
 
 if __name__ == '__main__':
-    processor = OSACompiler()
+    processor = CodeSigner()
     processor.execute_shell()
