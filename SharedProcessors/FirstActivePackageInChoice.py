@@ -44,7 +44,9 @@ class FirstActivePackageInChoice(Processor):
         },
     }
     output_variables = {
-        "first_active_pkg": {"description": "The name of the first pkg in pathsOfActivePackagesInChoice."}
+        "first_active_pkg": {
+            "description": "The name of the first pkg in pathsOfActivePackagesInChoice."
+        }
     }
 
     def output_showchoicesxml(self, choices_pkg_path: str):
@@ -75,7 +77,9 @@ class FirstActivePackageInChoice(Processor):
     def get_child_with_identifier(self, child_items: list, desired_choice: str):
         for child_item in child_items:
             if child_item["childItems"]:
-                result = self.get_child_with_identifier(child_items=child_item["childItems"], desired_choice=desired_choice)
+                result = self.get_child_with_identifier(
+                    child_items=child_item["childItems"], desired_choice=desired_choice
+                )
                 if result:
                     return result
             if child_item["choiceIdentifier"] == desired_choice:
@@ -87,10 +91,15 @@ class FirstActivePackageInChoice(Processor):
         desired_choice = self.env.get("desired_choice")
 
         child_items = self.output_showchoicesxml(choices_pkg_path)
-        desired_child_item = self.get_child_with_identifier(child_items=child_items, desired_choice=desired_choice)
-        first_active_pkg = urllib.parse.unquote(desired_child_item["pathsOfActivePackagesInChoice"][0].split("#",1)[1])
+        desired_child_item = self.get_child_with_identifier(
+            child_items=child_items, desired_choice=desired_choice
+        )
+        first_active_pkg = urllib.parse.unquote(
+            desired_child_item["pathsOfActivePackagesInChoice"][0].split("#", 1)[1]
+        )
         self.env["first_active_pkg"] = first_active_pkg
         self.output(f"first_active_pkg: {self.env['first_active_pkg']}")
+
 
 if __name__ == "__main__":
     PROCESSOR = FirstActivePackageInChoice()

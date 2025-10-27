@@ -53,7 +53,7 @@ class StringJoiner(Processor):
     input_variables = {
         "string_joiner_dict": {
             "required": False,
-            "description": "Dictionary of inputs, with the key as the resulting output variable name. See Processor Description for more details."
+            "description": "Dictionary of inputs, with the key as the resulting output variable name. See Processor Description for more details.",
         }
     }
     output_variables = {
@@ -64,18 +64,21 @@ class StringJoiner(Processor):
 
     description = __doc__
 
-
     def main(self):
         string_joiner_dict = self.env.get("string_joiner_dict")
 
         if not string_joiner_dict:
             return
         if type(string_joiner_dict) != dict:
-            raise ProcessorError(f"string_joiner_dict must be a dictionary - {type(string_joiner_dict)} provided.")
+            raise ProcessorError(
+                f"string_joiner_dict must be a dictionary - {type(string_joiner_dict)} provided."
+            )
 
         for result_output_var_name, string_joiner_input in string_joiner_dict.items():
             if type(string_joiner_input) != dict:
-                raise ProcessorError(f"string_joiner_dict values must all be dictionaries - {type(string_joiner_input)} provided for key {result_output_var_name}.")
+                raise ProcessorError(
+                    f"string_joiner_dict values must all be dictionaries - {type(string_joiner_input)} provided for key {result_output_var_name}."
+                )
 
             input_strings = string_joiner_input.get("input_strings")
             prefix = string_joiner_input.get("prefix")
@@ -93,7 +96,9 @@ class StringJoiner(Processor):
                     result_output += f"{str(value_prefix or '')}{input_string}{str(value_suffix or '')}"
 
                 if result_output:
-                    result_output = f"{str(prefix or '')}{result_output}{str(suffix or '')}"
+                    result_output = (
+                        f"{str(prefix or '')}{result_output}{str(suffix or '')}"
+                    )
 
             self.env[result_output_var_name] = result_output
             self.output(f"{result_output_var_name}: {self.env[result_output_var_name]}")

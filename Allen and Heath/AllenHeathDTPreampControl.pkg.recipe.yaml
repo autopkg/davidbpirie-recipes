@@ -42,7 +42,7 @@ Process:
     Arguments:
       flat_pkg_path: '%RECIPE_CACHE_DIR%/%NAME%.dmg/*.pkg'
       destination_path: '%RECIPE_CACHE_DIR%/unpack'
-  
+
   - Processor: com.github.nmcspadden.shared/PackageInfoVersioner
     Arguments:
       package_info_path: '%RECIPE_CACHE_DIR%/unpack/DTPreampControl.pkg/PackageInfo'

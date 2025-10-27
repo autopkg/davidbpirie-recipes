@@ -1,5 +1,5 @@
 Description: |
-  Downloads the latest iLok License Manager disk image, then copies 
+  Downloads the latest iLok License Manager disk image, then copies
   the package from the DMG, extracting the version.
 
 Identifier: com.github.davidbpirie.pkg.iLokLicenseManager

@@ -7,7 +7,7 @@ Description: |
 
   For use where Avid has *helpfully* included content
   on the dmg outside of the pkg (e.g. AIR Instruments Bundle, Xpand2).
-  
+
   All Pro Tools plug-ins include a <plugin> AppMan.pkg component,
   so version information is read from there.
 

@@ -52,14 +52,14 @@ Process:
   Arguments:
     file_content: |
       #!/bin/sh
-          
+
       INSTALLATION_PACKAGE="$1"
       INSTALLATION_DESTINATION="$2"
       INSTALLATION_VOLUME="$3"
       INSTALLATION_SYSTEM_ROOT="$4"
-      
+
       USERTEMPLATEDOCK="${INSTALLATION_VOLUME}%USER_TEMPLATE_PATH%/Library/Preferences/com.apple.dock.plist"
-      
+
       /usr/bin/touch "${USERTEMPLATEDOCK}"
       /usr/local/bin/dockutil --add "%DOCKUTIL_ITEM%" --label "%DOCKUTIL_LABEL%" %DOCKUTIL_FOLDEROPTIONS% --replacing "%DOCKUTIL_REPLACING%" %DOCKUTIL_POSITIONOPTONS% --no-restart "${USERTEMPLATEDOCK}" || /usr/bin/true
       /usr/local/bin/dockutil --add "%DOCKUTIL_ITEM%" --label "%DOCKUTIL_LABEL%" %DOCKUTIL_FOLDEROPTIONS% --replacing "%DOCKUTIL_REPLACING%" %DOCKUTIL_POSITIONOPTONS% --allhomes || /usr/bin/true
@@ -70,9 +70,9 @@ Process:
   Arguments:
     file_content: |
       #!/bin/sh
-      
+
       USERTEMPLATEDOCK="%USER_TEMPLATE_PATH%/Library/Preferences/com.apple.dock.plist"
-      
+
       /usr/local/bin/dockutil --remove "%DOCKUTIL_LABEL%" --no-restart "${USERTEMPLATEDOCK}"
       /usr/local/bin/dockutil --remove "%DOCKUTIL_LABEL%" --allhomes
       /usr/sbin/pkgutil --forget "%PKG_ID%"

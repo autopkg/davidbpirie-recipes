@@ -19,7 +19,7 @@ from autopkglib import ProcessorError
 from autopkglib.URLGetter import URLGetter
 
 import urllib.request
-import json 
+import json
 
 __all__ = ["AzulZuluJavaInfoProvider"]
 
@@ -33,10 +33,8 @@ SUPPORTED_ARCHS = ["x86", "arm"]
 SUPPORTED_EXTENSIONS = ["zip", "tar.gz", "dmg"]
 SUPPORTED_BUNDLE_TYPES = ["jre", "jdk", "jre_fx", "jdk_fx"]
 
-MUNKI_ARCHS = {
-    "x86": "x86_64",
-    "arm": "arm64"
-}
+MUNKI_ARCHS = {"x86": "x86_64", "arm": "arm64"}
+
 
 class AzulZuluJavaInfoProvider(URLGetter):
     """Provides URL to the latest Azul Zulu Java release."""
@@ -70,43 +68,53 @@ class AzulZuluJavaInfoProvider(URLGetter):
         "java_version": {"description": "Java version."},
         "openjdk_build_number": {"description": "OpenJDK build number."},
         "sha256_hash": {"description": "SHA256 hash for the download."},
-        "munki_arch": {"description": "Architecture appropriate for the munki pkginfo key supported_architectures"},
+        "munki_arch": {
+            "description": "Architecture appropriate for the munki pkginfo key supported_architectures"
+        },
     }
-
 
     def main(self):
         api_url = self.env.get("api_url", DEFAULT_API_URL)
-        java_major_version = self.env.get("java_major_version", DEFAULT_JAVA_MAJOR_VERSION)
+        java_major_version = self.env.get(
+            "java_major_version", DEFAULT_JAVA_MAJOR_VERSION
+        )
         arch = self.env.get("arch", DEFAULT_ARCH)
         if arch not in SUPPORTED_ARCHS:
-            raise ProcessorError(f"arch {arch} not one of those supported: {', '.join(SUPPORTED_ARCHS)}.")
+            raise ProcessorError(
+                f"arch {arch} not one of those supported: {', '.join(SUPPORTED_ARCHS)}."
+            )
         extension = self.env.get("extension", DEFAULT_EXTENSION)
         if extension not in SUPPORTED_EXTENSIONS:
-            raise ProcessorError(f"extension {extension} not one of those supported: {', '.join(SUPPORTED_EXTENSIONS)}.")
+            raise ProcessorError(
+                f"extension {extension} not one of those supported: {', '.join(SUPPORTED_EXTENSIONS)}."
+            )
         javafx = False
         bundle_type = self.env.get("bundle_type", DEFAULT_BUNDLE_TYPE)
         if bundle_type not in SUPPORTED_BUNDLE_TYPES:
-            raise ProcessorError(f"bundle_type {bundle_type} not one of those supported: {', '.join(SUPPORTED_BUNDLE_TYPES)}.")
+            raise ProcessorError(
+                f"bundle_type {bundle_type} not one of those supported: {', '.join(SUPPORTED_BUNDLE_TYPES)}."
+            )
         if bundle_type.endswith("_fx"):
             bundle_type = bundle_type[:-3]
             javafx = True
 
-
         source_files = json.loads(self.download(api_url, text=True))
         for source_file in source_files:
             if (
-                source_file["latest"] and
-                source_file["os"] == "macos" and
-                str(source_file["java_version"][0]) == java_major_version and
-                source_file["arch"] == arch and
-                source_file["ext"] == extension and
-                source_file["bundle_type"] == bundle_type and
-                source_file["javafx"] == javafx
+                source_file["latest"]
+                and source_file["os"] == "macos"
+                and str(source_file["java_version"][0]) == java_major_version
+                and source_file["arch"] == arch
+                and source_file["ext"] == extension
+                and source_file["bundle_type"] == bundle_type
+                and source_file["javafx"] == javafx
             ):
                 data = source_file
                 break
         else:
-            raise ProcessorError(f"No source file found matching the requested criteria of java_major_version={java_major_version}, arch={arch}, extension={extension}, bundle_type={bundle_type}, javafx={javafx}")
+            raise ProcessorError(
+                f"No source file found matching the requested criteria of java_major_version={java_major_version}, arch={arch}, extension={extension}, bundle_type={bundle_type}, javafx={javafx}"
+            )
         self.env["url"] = data["url"]
         self.env["version"] = ".".join([str(x) for x in data["zulu_version"]])
         self.env["java_version"] = ".".join([str(x) for x in data["java_version"]])

@@ -27,11 +27,11 @@ __all__ = ["CodeSigner"]
 
 
 class CodeSigner(Processor):
-    description = ( "Run codesign on a target." )
+    description = "Run codesign on a target."
     input_variables = {
         "target_path": {
             "required": True,
-            "description": "Path to the target to be signed."
+            "description": "Path to the target to be signed.",
         },
     }
     output_variables = {}
@@ -50,13 +50,13 @@ class CodeSigner(Processor):
             "--sign",
             "-",
             "--timestamp=none",
-            target_path
+            target_path,
         ]
 
         self.output(f'Running command: {" ".join(command_line_list)}')
         subprocess.call(command_line_list)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     processor = CodeSigner()
     processor.execute_shell()

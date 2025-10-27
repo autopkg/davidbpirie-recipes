@@ -16,7 +16,7 @@ Description: |
     WebGL
     Windows-Mono
     Windows-Server
-  
+
   View the source at UNITY3D_SEARCH_URL to check for changes to available Components.
 
   Create separate overrides for each required component, giving each a unique Identifier.
@@ -61,7 +61,7 @@ Process:
             RECEIPT="%RECEIPT_PATH%/Unity3D_%UNITY3D_COMPONENT_NAME%_version.txt"
             INSTALLED_VERSION=$(cat "$RECEIPT")
             VERSION="%version%"
-        
+
             if [ ! -f "$RECEIPT" ] || [ "$INSTALLED_VERSION" != "$VERSION" ] && [[ "$INSTALLED_VERSION" < "$VERSION" ]]; then
                 exit 0
             else
@@ -72,13 +72,13 @@ Process:
             # Write version receipt to reference in installcheck_script as pkg receipt has no version
             RECEIPT="%RECEIPT_PATH%/Unity3D_%UNITY3D_COMPONENT_NAME%_version.txt"
             VERSION="%version%"
-        
+
             echo "$VERSION" > "$RECEIPT""
       postuninstall_script: |
         #!/bin/bash
             # Remove receipt
             RECEIPT="%RECEIPT_PATH%/Unity3D_%UNITY3D_COMPONENT_NAME%_version.txt"
-        
+
             if [ -f "$RECEIPT" ]; then
                 rm "$RECEIPT"
             fi"

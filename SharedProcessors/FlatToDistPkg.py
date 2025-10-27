@@ -26,43 +26,44 @@ __all__ = ["FlatToDistPkg"]
 
 
 class FlatToDistPkg(Processor):
-    description = ( "Converts a flat package to a distribution-style package." )
+    description = "Converts a flat package to a distribution-style package."
     input_variables = {
         "pkg_path": {
             "required": True,
-            "description": "Path to the flat package to be converted."
+            "description": "Path to the flat package to be converted.",
         }
     }
     output_variables = {
-        "pkg_path": {
-             "description": "Path to the distribution-style pacakge."
-        }
-   }
+        "pkg_path": {"description": "Path to the distribution-style pacakge."}
+    }
 
     __doc__ = description
 
     def main(self):
 
-    	# rename flat package so that we can slot the distribution-style package into place
-        pkg_dir = os.path.dirname( self.env[ "pkg_path" ] )
-        pkg_base_name = os.path.basename( self.env[ "pkg_path" ] )
-        ( pkg_name_no_extension, pkg_extension ) = os.path.splitext( pkg_base_name )
+        # rename flat package so that we can slot the distribution-style package into place
+        pkg_dir = os.path.dirname(self.env["pkg_path"])
+        pkg_base_name = os.path.basename(self.env["pkg_path"])
+        (pkg_name_no_extension, pkg_extension) = os.path.splitext(pkg_base_name)
 
-        flat_pkg_path = os.path.join( pkg_dir, pkg_name_no_extension + "-flat" + pkg_extension )
-        os.rename( self.env[ "pkg_path" ], flat_pkg_path )
+        flat_pkg_path = os.path.join(
+            pkg_dir, pkg_name_no_extension + "-flat" + pkg_extension
+        )
+        os.rename(self.env["pkg_path"], flat_pkg_path)
 
-        command_line_list = [ "/usr/bin/productbuild", \
-                              "--package", \
-                              flat_pkg_path, \
-                              self.env[ "pkg_path" ] ]
+        command_line_list = [
+            "/usr/bin/productbuild",
+            "--package",
+            flat_pkg_path,
+            self.env["pkg_path"],
+        ]
 
         print(command_line_list)
 
         # print command_line_list
-        subprocess.call( command_line_list )
+        subprocess.call(command_line_list)
 
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     processor = FlatToDistPkg()
     processor.execute_shell()
