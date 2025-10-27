@@ -20,6 +20,8 @@ Process:
     filename: '%NAME%.zip'
     url: '%DOWNLOAD_URL%'
 
+- Processor: EndOfCheckPhase
+
 - Processor: Unarchiver
   Arguments:
     destination_path: '%RECIPE_CACHE_DIR%/expand'

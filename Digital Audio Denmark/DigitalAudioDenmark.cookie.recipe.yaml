@@ -43,3 +43,5 @@ Process:
         - '%RECIPE_CACHE_DIR%/cookie_jar.txt'
         - --data
         - username-%FORM_ID%=%WEB_USERNAME%&user_password-%FORM_ID%=%WEB_PASSWORD%&form_id=%FORM_ID%&_wpnonce=%wp_nonce%
+
+  - Processor: EndOfCheckPhase
