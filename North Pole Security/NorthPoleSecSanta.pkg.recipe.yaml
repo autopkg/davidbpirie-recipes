@@ -4,7 +4,7 @@ Description: |
   version.
 
 Identifier: com.github.davidbpirie.pkg.NorthPoleSecSanta
-ParentRecipe: com.github.davidbpirie.download.NorthPoleSecSanta
+ParentRecipe: com.github.autopkg.zentral.download.santa
 MinimumVersion: 2.3.0
 
 Input:
