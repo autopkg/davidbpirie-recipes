@@ -6,7 +6,7 @@ Description: |
   and then provide the username (not email) and password in your override.
 
 Identifier: com.github.davidbpirie.download.DADman
-ParentRecipe: com.github.davidbpirie.cookie.DigitalAudioDenmark
+ParentRecipe: com.github.davidbpirie.download.cookie.DigitalAudioDenmark
 MinimumVersion: 2.3.0
 
 Input:
