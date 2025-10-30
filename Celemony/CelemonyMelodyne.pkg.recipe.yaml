@@ -15,8 +15,6 @@ Input:
 Process:
   - Processor: PackageRequired
 
-  - Processor: EndOfCheckPhase
-
   - Processor: CodeSignatureVerifier
     Arguments:
       input_path: '%PKG%/*.pkg'
