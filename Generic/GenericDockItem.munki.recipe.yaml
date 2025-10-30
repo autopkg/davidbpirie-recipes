@@ -4,6 +4,7 @@ Description: |
   Intended use is to generate an override from this recipe, then give the
   override an unique Identifier and populate all the Input variables.
 Identifier: com.github.davidbpirie.munki.genericdockitem
+ParentRecipe: com.github.davidbpirie.pkg.genericdockitem
 MinimumVersion: 2.3.0
 
 Input:
@@ -41,55 +42,6 @@ Input:
     - '%MUNKI_UPDATE_FOR%'
 
 Process:
-- Processor: PkgRootCreator
-  Arguments:
-    pkgdirs:
-      payload: '0775'
-      scripts: '0775'
-    pkgroot: '%RECIPE_CACHE_DIR%/%NAME%'
-
-- Processor: FileCreator
-  Arguments:
-    file_content: |
-      #!/bin/sh
-
-      INSTALLATION_PACKAGE="$1"
-      INSTALLATION_DESTINATION="$2"
-      INSTALLATION_VOLUME="$3"
-      INSTALLATION_SYSTEM_ROOT="$4"
-
-      USERTEMPLATEDOCK="${INSTALLATION_VOLUME}%USER_TEMPLATE_PATH%/Library/Preferences/com.apple.dock.plist"
-
-      /usr/bin/touch "${USERTEMPLATEDOCK}"
-      /usr/local/bin/dockutil --add "%DOCKUTIL_ITEM%" --label "%DOCKUTIL_LABEL%" %DOCKUTIL_FOLDEROPTIONS% --replacing "%DOCKUTIL_REPLACING%" %DOCKUTIL_POSITIONOPTONS% --no-restart "${USERTEMPLATEDOCK}" || /usr/bin/true
-      /usr/local/bin/dockutil --add "%DOCKUTIL_ITEM%" --label "%DOCKUTIL_LABEL%" %DOCKUTIL_FOLDEROPTIONS% --replacing "%DOCKUTIL_REPLACING%" %DOCKUTIL_POSITIONOPTONS% --allhomes || /usr/bin/true
-    file_mode: '0777'
-    file_path: '%RECIPE_CACHE_DIR%/%NAME%/scripts/postinstall'
-
-- Processor: FileCreator
-  Arguments:
-    file_content: |
-      #!/bin/sh
-
-      USERTEMPLATEDOCK="%USER_TEMPLATE_PATH%/Library/Preferences/com.apple.dock.plist"
-
-      /usr/local/bin/dockutil --remove "%DOCKUTIL_LABEL%" --no-restart "${USERTEMPLATEDOCK}"
-      /usr/local/bin/dockutil --remove "%DOCKUTIL_LABEL%" --allhomes
-      /usr/sbin/pkgutil --forget "%PKG_ID%"
-    file_mode: '0777'
-    file_path: '%RECIPE_CACHE_DIR%/%NAME%/uninstall'
-
-- Processor: PkgCreator
-  Arguments:
-    pkg_request:
-      chown: []
-      id: '%PKG_ID%'
-      options: purge_ds_store
-      pkgname: '%NAME%-%VERSION%'
-      pkgroot: '%RECIPE_CACHE_DIR%/%NAME%/payload'
-      scripts: '%RECIPE_CACHE_DIR%/%NAME%/scripts'
-      version: '%VERSION%'
-
 - Processor: MunkiImporter
   Arguments:
     additional_makepkginfo_options:
