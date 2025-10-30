@@ -10,4 +10,3 @@ Process:
 - Processor: AppPkgCreator
   Arguments:
     app_path: '%RECIPE_CACHE_DIR%/%NAME%/*.app'
-

@@ -56,4 +56,3 @@ Process:
     ea_enabled: '%JAMF_EA_ENABLED%'
     skip_script_key_substitution: '%JAMF_EA_SKIP_SCRIPT_KEY_SUBSITUTION%'
     replace_ea: '%JAMF_EA_REPLACE%'
-

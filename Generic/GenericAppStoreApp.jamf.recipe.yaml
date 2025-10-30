@@ -35,4 +35,3 @@ Process:
       selfservice_icon_uri: '%JAMF_APP_ICON_URI%'
       macapp_template: '%JAMF_APP_POLICY_TEMPLATE%'
       replace_macapp: '%JAMF_APP_REPLACE%'
-
