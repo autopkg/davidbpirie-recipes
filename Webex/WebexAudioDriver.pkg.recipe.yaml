@@ -29,6 +29,11 @@ Process:
       plist_keys:
         CFBundleShortVersionString: version
 
+  - Processor: PkgCopier
+    Arguments:
+      source_pkg: '%pathname%'
+      pkg_path: '%RECIPE_CACHE_DIR%/%NAME%-%version%.pkg'
+
   - Processor: PathDeleter
     Arguments:
       path_list:
