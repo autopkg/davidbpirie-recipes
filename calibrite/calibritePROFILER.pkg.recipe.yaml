@@ -2,7 +2,7 @@ Description: |
   Downloads the latest release of calibrite PROFILER as a dmg,
   verifies the signature and extracts the version, then generates a pkg.
 Identifier: com.github.davidbpirie.pkg.calibritePROFILER
-ParentRecipe: com.github.davidbpirie.download.calibritePROFILER
+ParentRecipe: com.github.TekTekkers.download.calibritePROFILER
 MinimumVersion: 2.3.0
 
 Input:

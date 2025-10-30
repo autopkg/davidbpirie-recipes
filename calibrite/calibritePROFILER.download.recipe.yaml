@@ -8,6 +8,10 @@ Input:
   NAME: calibritePROFILER
 
 Process:
+- Processor: DeprecationWarning
+  Arguments:
+    warning_message: Consider switching to the calibritePROFILER recipes in the TekTekkers-recipes repo. This recipe is deprecated and will be removed in the future.
+
 - Processor: GitHubReleasesInfoProvider
   Arguments:
     github_repo: LUMESCA/calibrite-profiler-releases
