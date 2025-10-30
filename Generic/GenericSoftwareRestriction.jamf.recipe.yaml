@@ -17,7 +17,7 @@ Description: |
   only performs substitutions on a specific set of key names, so the
   provided template GenericSoftwareRestrictionTemplate.xml should be
   used as a base - in most cases with no modification.
-  
+
   It is recommended to store your customised template in your
   RecipeOverrides directory and can be shared across multiple recipe
   overrides.

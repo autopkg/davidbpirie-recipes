@@ -15,7 +15,7 @@ Input:
   NAME: AzureDataStudio
   JAMF_CATEGORY: Developer Tools
   JAMF_PKG_NAME: '%NAME%'
-  JAMF_PKG_INFO: 
+  JAMF_PKG_INFO:
     Azure Data Studio is a cross-platform database tool for data professionals
     using on-premises and cloud data platforms on Windows, macOS, and Linux.
   JAMF_PKG_NOTES: 'Generated and uploaded by AutoPkg'

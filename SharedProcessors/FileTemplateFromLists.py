@@ -20,6 +20,7 @@ from autopkglib import Processor, ProcessorError
 
 __all__ = ["FileTemplateFromLists"]
 
+
 class MyTemplate(Template):
     pattern = r"""
     %(?:
@@ -29,6 +30,7 @@ class MyTemplate(Template):
       (?P<invalid>)                        # Other ill-formed delimiter exprs
     )%
     """
+
 
 class FileTemplateFromLists(Processor):
     """This processor uses Python's string.Template() class to substitute
@@ -75,14 +77,12 @@ class FileTemplateFromLists(Processor):
         },
         "substitution_dict": {
             "required": False,
-            "description": "Dictionary of inputs, with the key as the placeholder to be substituted. See Processor Description for more details."
+            "description": "Dictionary of inputs, with the key as the placeholder to be substituted. See Processor Description for more details.",
         },
     }
-    output_variables = {
-    }
+    output_variables = {}
 
     description = __doc__
-
 
     def main(self):
         template_path = self.env["template_path"]
@@ -93,14 +93,18 @@ class FileTemplateFromLists(Processor):
         if not substitution_dict:
             substitution_dict = {}
         if type(substitution_dict) != dict:
-            raise ProcessorError(f"substitution_dict must be a dictionary - {type(substitution_dict)} provided.")
+            raise ProcessorError(
+                f"substitution_dict must be a dictionary - {type(substitution_dict)} provided."
+            )
 
         # Generate substitutions
         substitutions = {}
         for substitution_name, substitution_input in substitution_dict.items():
             # Validate key value
             if type(substitution_input) != dict:
-                raise ProcessorError(f"substitution_dict values must all be dictionaries - {type(substitution_input)} provided for key {substitution_name}.")
+                raise ProcessorError(
+                    f"substitution_dict values must all be dictionaries - {type(substitution_input)} provided for key {substitution_name}."
+                )
 
             input_strings = substitution_input.get("input_strings")
             prefix = substitution_input.get("prefix")
@@ -117,23 +121,29 @@ class FileTemplateFromLists(Processor):
 
                 # Concatenate each value, with value prefix/suffix
                 for input_string in input_strings:
-                    substitutions[substitution_name] += f"{str(value_prefix or '')}{input_string}{str(value_suffix or '')}"
+                    substitutions[
+                        substitution_name
+                    ] += f"{str(value_prefix or '')}{input_string}{str(value_suffix or '')}"
 
                 # Add prefix/suffix if not empty
                 if substitutions[substitution_name]:
-                    substitutions[substitution_name] = f"{str(prefix or '')}{substitutions[substitution_name]}{str(suffix or '')}"
+                    substitutions[substitution_name] = (
+                        f"{str(prefix or '')}{substitutions[substitution_name]}{str(suffix or '')}"
+                    )
 
-            self.output(f"Substituting {substitution_name} with '{substitutions[substitution_name]}' if found.")
+            self.output(
+                f"Substituting {substitution_name} with '{substitutions[substitution_name]}' if found."
+            )
 
         # Read source template
-        with open(template_path, 'r') as template_file:
+        with open(template_path, "r") as template_file:
             template_string = template_file.read()
 
         # Perform substitution
         substituted_string = MyTemplate(template_string).safe_substitute(substitutions)
 
         # Write the substituted text to the destination file
-        with open(destination_path, 'w') as destination_file:
+        with open(destination_path, "w") as destination_file:
             destination_file.write(substituted_string)
 
         self.output(f"Templated {template_path} to {destination_path}.")

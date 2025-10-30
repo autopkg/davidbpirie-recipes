@@ -7,7 +7,7 @@ MinimumVersion: 2.3.0
 Input:
   NAME: YouleanLoudnessMeter2
   SEARCH_RE: <a [^>]*href="([^"]*)"[^>]*>Download for macOS</a>
-  SEARCH_URL: https://youlean.co/download-youlean-loudness-meter  
+  SEARCH_URL: https://youlean.co/download-youlean-loudness-meter
 
 Process:
   - Processor: URLTextSearcher

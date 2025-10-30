@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/homebysix/pre-commit-macadmin
-    rev: v1.10.1
+    rev: v1.21.1
     hooks:
       - id: check-autopkg-recipes
         args:
@@ -13,28 +13,27 @@ repos:
       - id: forbid-autopkg-overrides
       - id: forbid-autopkg-trust-info
   - repo: https://github.com/ambv/black
-    rev: 20.8b1
+    rev: 25.9.0
     hooks:
       - id: black
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v3.4.0
+    rev: v6.0.0
     hooks:
       - id: check-added-large-files
         args: ["--maxkb=100"]
       - id: check-ast
-      - id: check-byte-order-marker
       - id: check-case-conflict
       - id: check-docstring-first
       - id: check-executables-have-shebangs
       - id: check-merge-conflict
       - id: check-yaml
       - id: detect-private-key
-      - id: fix-encoding-pragma
+      - id: fix-byte-order-marker
       - id: mixed-line-ending
       - id: no-commit-to-branch
       - id: trailing-whitespace
         args: ["--markdown-linebreak-ext=md"]
   - repo: https://github.com/pycqa/flake8
-    rev: 3.9.0
+    rev: 7.3.0
     hooks:
       - id: flake8

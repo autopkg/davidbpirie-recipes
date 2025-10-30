@@ -29,12 +29,12 @@ Process:
     Arguments:
       flat_pkg_path: '%pathname%'
       destination_path: '%RECIPE_CACHE_DIR%/unpack'
-  
+
   - Processor: PkgPayloadUnpacker
     Arguments:
       pkg_payload_path: '%RECIPE_CACHE_DIR%/unpack/com.microsoft.rdc.macos.pkg/Payload'
       destination_path: '%RECIPE_CACHE_DIR%/payload'
-  
+
   - Processor: PlistReader
     Arguments:
       info_path: '%RECIPE_CACHE_DIR%/payload/Microsoft Remote Desktop.app'

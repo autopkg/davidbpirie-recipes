@@ -12,7 +12,7 @@ Description: |
   CSC_LAUNCHATLOGIN_DISABLE if non-empty will disable Cisco Secure Client
   from automatically launching at login by running:
     acinstallhelper -launchAtLogin -disable
-  
+
   CSC_DISABLEAUTOSTART if non-empty will disable Cisco Secure Client from
   automatically launching at login by running:
     /Applications/Cisco/Cisco\ Secure\ Client.app/Contents/MacOS/Cisco\ Secure\ Client disableAutoStart

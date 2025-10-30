@@ -19,7 +19,7 @@ Process:
     expected_authority_names:
       - "Developer ID Installer: Wireshark Foundation (7Z6EMTD2C6)"
       - "Developer ID Certification Authority"
-      - "Apple Root CA"    
+      - "Apple Root CA"
 
 - Processor: FlatPkgUnpacker
   Arguments:

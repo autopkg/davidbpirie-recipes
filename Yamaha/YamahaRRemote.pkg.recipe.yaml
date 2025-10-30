@@ -20,7 +20,7 @@ Process:
   - Processor: FileFinder
     Arguments:
       pattern: '%RECIPE_CACHE_DIR%/unzip/*/*.pkg'
-      
+
 
   - Processor: CodeSignatureVerifier
     Arguments:

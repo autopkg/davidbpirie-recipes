@@ -10,7 +10,7 @@ Description: |
   installed in i.e. one of:
     login-once
     login-privileged-once
-  
+
   Uses StringReplacer processor from com.github.grahampugh.recipes.commonprocessors.
 
   When using the recipe, also provide the source_path and version via the -k parameter eg:
@@ -68,12 +68,12 @@ Process:
   Arguments:
     file_content: |
       #!/bin/sh
-          
+
       INSTALLATION_PACKAGE="$1"
       INSTALLATION_DESTINATION="$2"
       INSTALLATION_VOLUME="$3"
       INSTALLATION_SYSTEM_ROOT="$4"
-      
+
       if [ "${INSTALLATION_VOLUME}" != "/" ]; then
         exit 0
       fi
