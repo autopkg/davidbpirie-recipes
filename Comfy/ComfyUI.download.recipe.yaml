@@ -1,0 +1,21 @@
+Description: |
+  Downloads the latest version of ComfyUI and verifies the signature.
+Identifier: com.github.davidbpirie.download.ComfyUI
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: ComfyUI
+  URL: https://download.comfy.org/mac/dmg/arm64
+
+Process:
+- Processor: URLDownloader
+  Arguments:
+    url: '%URL%'
+    filename: '%NAME%.dmg'
+
+- Processor: EndOfCheckPhase
+
+- Processor: CodeSignatureVerifier
+  Arguments:
+    input_path: '%pathname%/ComfyUI.app'
+    requirement: identifier "com.todesktop.241012ess7yxs0e" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "6FXBT88W8J"
