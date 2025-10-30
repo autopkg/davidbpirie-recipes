@@ -4,7 +4,7 @@ Description: |
   the version, then copies the pkg.
 
 Identifier: com.github.davidbpirie.pkg.PaperCutMFStandardInstall
-ParentRecipe: com.github.davidbpirie.download.PaperCutMF
+ParentRecipe: com.github.dataJAR-recipes.download.PaperCut Print Deploy Client
 MinimumVersion: 2.3.0
 
 Input:
