@@ -13,6 +13,10 @@ Input:
   GITHUB_ASSET_REGEX: '.*\.%DOWNLOAD_SUFFIX%'
 
 Process:
+  - Processor: DeprecationWarning
+    Arguments:
+      warning_message: Consider switching to the Santa recipes in the zentral-recipes repo. This recipe is deprecated and will be removed in the future.
+
   - Processor: GitHubReleasesInfoProvider
     Arguments:
       github_repo: '%GITHUB_REPO%'
