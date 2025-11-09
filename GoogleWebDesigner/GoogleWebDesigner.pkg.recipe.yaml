@@ -2,7 +2,7 @@ Description: |
   Downloads the latest version of Google Web Designer, extracts the
   version, verifies the signature, then generates a pkg.
 Identifier: com.github.davidbpirie.pkg.GoogleWebDesigner
-ParentRecipe: com.github.davidbpirie.download.GoogleWebDesigner
+ParentRecipe: com.github.peshay.download.GoogleWebDesigner
 MinimumVersion: 2.3.0
 
 Input:
