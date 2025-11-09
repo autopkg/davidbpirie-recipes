@@ -1,7 +1,7 @@
 Description: |
   Downloads the latest version of North Pole Security Santa
-  from GitHub as a pkg, verifies the signature and finds the
-  version.
+  from GitHub as a pkg in a dmg, verifies the signature and
+  finds the version.
 
 Identifier: com.github.davidbpirie.pkg.NorthPoleSecSanta
 ParentRecipe: com.github.autopkg.zentral.download.santa
@@ -9,21 +9,11 @@ MinimumVersion: 2.3.0
 
 Input:
   NAME: NorthPoleSecSanta
-  DOWNLOAD_SUFFIX: pkg
-  GITHUB_ASSET_REGEX: '.*\.%DOWNLOAD_SUFFIX%'
 
 Process:
-  - Processor: CodeSignatureVerifier
-    Arguments:
-      input_path: '%pathname%'
-      expected_authority_names:
-        - 'Developer ID Installer: North Pole Security, Inc. (ZMCG7MLDV9)'
-        - 'Developer ID Certification Authority'
-        - 'Apple Root CA'
-
   - Processor: FlatPkgUnpacker
     Arguments:
-      flat_pkg_path: '%pathname%'
+      flat_pkg_path: '%pathname%/*anta*pkg'
       destination_path: '%RECIPE_CACHE_DIR%/unpack'
 
   - Processor: PkgPayloadUnpacker
@@ -38,7 +28,7 @@ Process:
 
   - Processor: PkgCopier
     Arguments:
-      source_pkg: '%pathname%'
+      source_pkg: '%pathname%/*anta*pkg'
       pkg_path: '%RECIPE_CACHE_DIR%/%NAME%-%version%.pkg'
 
   - Processor: PathDeleter
