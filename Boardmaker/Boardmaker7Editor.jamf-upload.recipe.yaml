@@ -14,7 +14,7 @@ ParentRecipe: com.github.nstrauss.pkg.Boardmaker7Editor
 
 Input:
   NAME: Boardmaker 7 Editor
-  JAMF_CATEGORY: Utilities
+  JAMF_CATEGORY: Productivity
   JAMF_PKG_NAME: '%NAME%'
   JAMF_PKG_INFO: Boardmaker 7 Editor is the premier tool to help educators, therapists, and parents create, edit, and share Boardmaker activities. Support learning and communication in your classroom, therapy room, or home with a trove of customizable material.
   JAMF_PKG_NOTES: Uploaded by AutoPkg
