@@ -26,12 +26,6 @@ Input:
   JAMF_PKG_SUFFIX: 'pkg'
 
 Process:
-  - Processor: PlistReader
-    Arguments:
-      info_path: '%RECIPE_CACHE_DIR%/%NAME%/Applications/zoom.us.app/Contents/Info.plist'
-      plist_keys:
-        CFBundleShortVersionString: version
-
   - Processor: com.github.grahampugh.jamf-upload.processors/JamfPackageUploader
     Arguments:
       pkg_name: '%JAMF_PKG_NAME%-%version%.%JAMF_PKG_SUFFIX%'
