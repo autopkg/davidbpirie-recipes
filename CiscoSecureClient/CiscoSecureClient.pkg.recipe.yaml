@@ -21,8 +21,8 @@ Description: |
   CSC_TE_AGENT_CONNECTIONSTRING if non-empty will be registered by running:
     /Applications/Cisco/Cisco\ Secure\ Client\ -\ ThousandEyes\ Endpoint\ Agent.app/Contents/MacOS/csc_te_agent --register '%CSC_TE_AGENT_CONNECTIONSTRING%'
 
-  SRC_PKG_NAME is the name of the pkg inside the DMG, which is usually
-  the default value Cisco Secure Client.pkg
+  APP_PKG is the sub-package to expand that contains the GUI app, which is
+  used to determine the version. Use vpn_module.pkg for versions before 5.1.13.
 
   PKG_ID is the ID of the generated package.
 
@@ -41,18 +41,18 @@ Description: |
   %PROFILES%/vpn/MgmtTun/VpnMgmtTunProfile.xml is found
 
 Identifier: com.github.davidbpirie.pkg.CiscoSecureClient
-MinimumVersion: "2.3"
+MinimumVersion: '2.3'
 
 Input:
   NAME: Cisco Secure Client
-  CSC_LAUNCHATLOGIN_DISABLE: ""
-  CSC_DISABLEAUTOSTART: ""
-  CSC_TE_AGENT_CONNECTIONSTRING: ""
-  SRC_PKG_NAME: Cisco Secure Client.pkg
+  CSC_LAUNCHATLOGIN_DISABLE: ''
+  CSC_DISABLEAUTOSTART: ''
+  CSC_TE_AGENT_CONNECTIONSTRING: ''
+  APP_PKG: gui_module.pkg
   PKG_ID: com.github.davidbpirie.CiscoSecureClient
   desired_choices:
     - choice_anyconnect_vpn
-  PROFILES: "%RECIPE_DIR%/CiscoSecureClientProfiles"
+  PROFILES: '%RECIPE_DIR%/CiscoSecureClientProfiles'
 
 Process:
   - Processor: PackageRequired
@@ -60,44 +60,44 @@ Process:
   - Processor: PkgRootCreator
     Arguments:
       pkgdirs:
-        payload: "0775"
-        scripts: "0775"
-      pkgroot: "%RECIPE_CACHE_DIR%/%NAME%"
+        payload: '0775'
+        scripts: '0775'
+      pkgroot: '%RECIPE_CACHE_DIR%/%NAME%'
 
   - Processor: Copier
     Arguments:
-      source_path: "%PROFILES%"
-      destination_path: "%RECIPE_CACHE_DIR%/%NAME%/scripts/Profiles"
+      source_path: '%PROFILES%'
+      destination_path: '%RECIPE_CACHE_DIR%/%NAME%/scripts/Profiles'
       overwrite: True
 
   - Processor: PkgCopier
     Arguments:
-      source_pkg: "%PKG%/%SRC_PKG_NAME%"
-      pkg_path: "%RECIPE_CACHE_DIR%/%NAME%/scripts/%NAME%.pkg"
+      source_pkg: '%PKG%/*.pkg'
+      pkg_path: '%RECIPE_CACHE_DIR%/%NAME%/scripts/%NAME%.pkg'
 
   - Processor: FlatPkgUnpacker
     Arguments:
-      flat_pkg_path: "%pkg_path%"
+      flat_pkg_path: '%pkg_path%'
       skip_payload: False
-      destination_path: "%RECIPE_CACHE_DIR%/unpack"
+      destination_path: '%RECIPE_CACHE_DIR%/unpack'
       purge_destination: True
 
   - Processor: PkgPayloadUnpacker
     Arguments:
-      pkg_payload_path: "%RECIPE_CACHE_DIR%/unpack/vpn_module.pkg/Payload"
-      destination_path: "%RECIPE_CACHE_DIR%/unpack-payload"
+      pkg_payload_path: '%RECIPE_CACHE_DIR%/unpack/%APP_PKG%/Payload'
+      destination_path: '%RECIPE_CACHE_DIR%/unpack-payload'
       purge_destination: True
 
   - Processor: PlistReader
     Arguments:
-      info_path: "%RECIPE_CACHE_DIR%/unpack-payload/Applications/Cisco/Cisco Secure Client.app"
+      info_path: '%RECIPE_CACHE_DIR%/unpack-payload/Applications/Cisco/Cisco Secure Client.app'
       plist_keys:
         CFBundleShortVersionString: version
 
   - Processor: com.github.grahampugh.recipes.commonprocessors/ChoicesXMLGenerator
     Arguments:
-      choices_pkg_path: "%pkg_path%"
-      choices_xml_dest: "%RECIPE_CACHE_DIR%/%NAME%/scripts/choices.xml"
+      choices_pkg_path: '%pkg_path%'
+      choices_xml_dest: '%RECIPE_CACHE_DIR%/%NAME%/scripts/choices.xml'
 
   - Processor: FileCreator
     Arguments:
@@ -114,8 +114,8 @@ Process:
           /opt/cisco/secureclient/bin/cisco_secure_client_uninstall.sh
         fi
         exit 0
-      file_mode: "0755"
-      file_path: "%RECIPE_CACHE_DIR%/%NAME%/scripts/preinstall"
+      file_mode: '0755'
+      file_path: '%RECIPE_CACHE_DIR%/%NAME%/scripts/preinstall'
 
   - Processor: FileCreator
     Arguments:
@@ -164,23 +164,23 @@ Process:
         fi
 
         exit ${EXIT_RESULT}
-      file_mode: "0755"
-      file_path: "%RECIPE_CACHE_DIR%/%NAME%/scripts/postinstall"
+      file_mode: '0755'
+      file_path: '%RECIPE_CACHE_DIR%/%NAME%/scripts/postinstall'
 
   - Processor: PkgCreator
     Arguments:
       pkg_request:
         chown: []
-        id: "%PKG_ID%"
+        id: '%PKG_ID%'
         options: purge_ds_store
-        pkgname: "%NAME%-%version%"
-        pkgroot: "%RECIPE_CACHE_DIR%/%NAME%/payload"
-        scripts: "%RECIPE_CACHE_DIR%/%NAME%/scripts"
-        version: "%version%"
+        pkgname: '%NAME%-%version%'
+        pkgroot: '%RECIPE_CACHE_DIR%/%NAME%/payload'
+        scripts: '%RECIPE_CACHE_DIR%/%NAME%/scripts'
+        version: '%version%'
 
   - Processor: PathDeleter
     Arguments:
       path_list:
-        - "%RECIPE_CACHE_DIR%/%NAME%"
-        - "%RECIPE_CACHE_DIR%/unpack"
-        - "%RECIPE_CACHE_DIR%/unpack-payload"
+        - '%RECIPE_CACHE_DIR%/%NAME%'
+        - '%RECIPE_CACHE_DIR%/unpack'
+        - '%RECIPE_CACHE_DIR%/unpack-payload'
