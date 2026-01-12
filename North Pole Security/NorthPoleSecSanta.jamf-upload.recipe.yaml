@@ -9,7 +9,7 @@ Description: |
   command-line keys.
 
 Identifier: com.github.davidbpirie.jamf-upload.NorthPoleSecSanta
-ParentRecipe: com.github.davidbpirie.pkg.NorthPoleSecSanta
+ParentRecipe: com.github.autopkg.zentral.download.santa
 MinimumVersion: 2.3.0
 
 Input:

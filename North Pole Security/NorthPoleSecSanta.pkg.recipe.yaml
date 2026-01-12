@@ -11,6 +11,10 @@ Input:
   NAME: NorthPoleSecSanta
 
 Process:
+  - Processor: DeprecationWarning
+    Arguments:
+      warning_message: Consider switching to the Santa recipes in the zentral-recipes repo. This recipe is deprecated and will be removed in the future.
+
   - Processor: FlatPkgUnpacker
     Arguments:
       flat_pkg_path: '%pathname%/*anta*pkg'
