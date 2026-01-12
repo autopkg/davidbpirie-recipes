@@ -3,9 +3,8 @@ Description: |
   Install ChmodBPF pkg from the downloaded dmg, verifying the code
   signature and extracting the version.
 
-  ARCH should be one of Intel or Arm, but should not affect the result.
 Identifier: com.github.davidbpirie.pkg.wiresharkchmodbpf
-ParentRecipe: com.github.davidbpirie.download.wireshark
+ParentRecipe: com.github.nstrauss.download.Wireshark
 MinimumVersion: 2.3.0
 
 Input:

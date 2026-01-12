@@ -3,15 +3,13 @@ Description: |
   verifies the signature, generates a pkg, then uploads the package
   to Jamf Pro.
 
-  ARCH should be one of Intel or Arm.
-
   JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
   SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
   in your AutoPkg preferences, override Input variables, or by
   command-line keys.
 Identifier: com.github.davidbpirie.jamf-upload.wireshark
 MinimumVersion: 2.3.0
-ParentRecipe: com.github.davidbpirie.pkg.wireshark
+ParentRecipe: com.github.nstrauss.pkg.Wireshark
 
 Input:
   NAME: Wireshark

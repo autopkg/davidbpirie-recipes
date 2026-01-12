@@ -11,6 +11,10 @@ Input:
   NAME: Wireshark
 
 Process:
+- Processor: DeprecationWarning
+  Arguments:
+    warning_message: Consider switching to the Wireshark.pkg recipe in the nstrauss-recipes repo. This recipe is deprecated and will be removed in the future.
+
 - Processor: AppPkgCreator
   Arguments:
     app_path: '%pathname%/%app_name%'

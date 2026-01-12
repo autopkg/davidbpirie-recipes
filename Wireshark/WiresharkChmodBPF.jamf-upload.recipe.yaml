@@ -4,8 +4,6 @@ Description: |
   signature and extracting the version, then uploads the package
   to Jamf Pro.
 
-  ARCH should be one of Intel or Arm, but should not affect the result.
-
   JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
   SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
   in your AutoPkg preferences, override Input variables, or by
