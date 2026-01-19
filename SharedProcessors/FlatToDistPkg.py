@@ -21,7 +21,6 @@ import os
 
 from autopkglib import Processor, ProcessorError
 
-
 __all__ = ["FlatToDistPkg"]
 
 
@@ -44,7 +43,7 @@ class FlatToDistPkg(Processor):
         # rename flat package so that we can slot the distribution-style package into place
         pkg_dir = os.path.dirname(self.env["pkg_path"])
         pkg_base_name = os.path.basename(self.env["pkg_path"])
-        (pkg_name_no_extension, pkg_extension) = os.path.splitext(pkg_base_name)
+        pkg_name_no_extension, pkg_extension = os.path.splitext(pkg_base_name)
 
         flat_pkg_path = os.path.join(
             pkg_dir, pkg_name_no_extension + "-flat" + pkg_extension

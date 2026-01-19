@@ -52,7 +52,7 @@ class FirstActivePackageInChoice(Processor):
     def output_showchoicesxml(self, choices_pkg_path: str):
         """Invoke the installer showChoicesXML command and return
         the contents"""
-        (choices_result, error) = subprocess.Popen(
+        choices_result, error = subprocess.Popen(
             ["/usr/sbin/installer", "-showChoicesXML", "-pkg", choices_pkg_path],
             stdout=subprocess.PIPE,
         ).communicate()
