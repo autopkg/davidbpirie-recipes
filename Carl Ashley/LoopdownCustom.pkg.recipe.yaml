@@ -31,8 +31,8 @@ Process:
 
   - Processor: URLTextSearcher
     Arguments:
-      re_pattern: '_version: [^\"]*\"([^\"]*)\"'
-      url: file://%RECIPE_CACHE_DIR%/git_repo/src/ldilib/__init__.py
+      re_pattern: 'VERSION\s*=\s*"(.+)"'
+      url: file://%RECIPE_CACHE_DIR%/git_repo/src/loopdown/consts/version_enums.py
       result_output_var_name: version
 
   - Processor: PkgRootCreator
@@ -46,7 +46,7 @@ Process:
 
   - Processor: Copier
     Arguments:
-      source_path: '%RECIPE_CACHE_DIR%/git_repo/dist/zipapp/usr/local/bin/custom/loopdown-%version%'
+      source_path: '%RECIPE_CACHE_DIR%/git_repo/dist/loopdown'
       destination_path: '%RECIPE_CACHE_DIR%/%NAME%/payload/usr/local/bin/loopdown'
       overwrite: True
 
