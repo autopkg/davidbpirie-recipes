@@ -1,14 +1,18 @@
 Description: |
   Clones the Loopdown git repo, builds a custom zipapp version,
-  optionally including a custom python interpreter shebang, then
-  builds a package installing it to /usr/local/bin.
+  then builds a package installing it to /usr/local/bin.
+
+  BUILD_PYTHON: Python to use for building (pip + zipapp).
+  PYTHON_INTERPRETER: Interpreter string embedded in the zipapp shebang.
+
 Identifier: com.github.davidbpirie.pkg.LoopdownCustom
 MinimumVersion: 2.3.0
 
 Input:
   NAME: Loopdown
   REPO_URL: https://github.com/carlashley/loopdown.git
-  PYTHON_INTERPRETER: /usr/local/bin/python3
+  BUILD_PYTHON: python3
+  PYTHON_INTERPRETER: /usr/bin/env python3
   PKG_ID: com.github.davidbpirie.pkg.loopdowncustom
 
 Process:
@@ -21,7 +25,7 @@ Process:
   - Processor: com.github.davidbpirie.SharedProcessors/RunShellCommand
     Arguments:
       subprocess_args:
-        - './build.sh "%PYTHON_INTERPRETER%"'
+        - './build.sh --build-python="%BUILD_PYTHON%" --interpreter="%PYTHON_INTERPRETER%"'
       subprocess_fail_on_error: True
       subprocess_cwd: '%RECIPE_CACHE_DIR%/git_repo'
 
