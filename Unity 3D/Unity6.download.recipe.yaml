@@ -13,7 +13,7 @@ Input:
   NAME: Unity6
   ARCH: Arm64
   BASE_URL: https://unity.com/releases/editor/whats-new
-  re_pattern: '"(http[^"]*%ARCH%[^"]*\.pkg)"'
+  re_pattern: '"(http[^"]*/MacEditorInstaller%ARCH%/[^"]*\.pkg)"'
 
 Process:
 - Processor: URLTextSearcher
