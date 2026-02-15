@@ -1,0 +1,15 @@
+Description: |
+  Downloads the latest version of VS Code and makes a pkg of it.
+
+  ARCH: Intel = "x86_64", Apple Silicon = "arm64", Universal = "universal"
+
+Identifier: com.github.davidbpirie.pkg.VisualStudioCode
+ParentRecipe: com.github.jc0b.download.VisualStudioCode
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: VisualStudioCode
+  ARCH: "universal"
+
+Process:
+  - Processor: AppPkgCreator
