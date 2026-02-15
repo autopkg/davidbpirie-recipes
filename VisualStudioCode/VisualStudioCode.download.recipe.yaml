@@ -1,0 +1,23 @@
+Description: |
+  Downloads the latest version of VS Code.
+
+  ARCH: One of "universal", "arm64", or "x64"
+
+Identifier: com.github.davidbpirie.download.VisualStudioCode
+MinimumVersion: 2.3.0
+Input:
+  ARCH: universal
+  NAME: VisualStudioCode
+
+Process:
+  - Processor: URLDownloader
+    Arguments:
+      url: "https://code.visualstudio.com/sha/download?build=stable&os=darwin-%ARCH%-dmg"
+      filename: "%NAME%-%ARCH%.dmg"
+
+  - Processor: EndOfCheckPhase
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: "%pathname%/*.app"
+      requirement: identifier "com.microsoft.VSCode" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = UBF8T346G9

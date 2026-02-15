@@ -4,12 +4,12 @@ Description: |
   ARCH: Intel = "x86_64", Apple Silicon = "arm64", Universal = "universal"
 
 Identifier: com.github.davidbpirie.pkg.VisualStudioCode
-ParentRecipe: com.github.jc0b.download.VisualStudioCode
+ParentRecipe: com.github.davidbpirie.download.VisualStudioCode
 MinimumVersion: 2.3.0
 
 Input:
   NAME: VisualStudioCode
-  ARCH: "universal"
+  ARCH: universal
 
 Process:
   - Processor: AppPkgCreator
