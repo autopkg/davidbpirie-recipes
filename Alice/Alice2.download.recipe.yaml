@@ -4,7 +4,7 @@ MinimumVersion: 2.3.0
 
 Input:
   NAME: Alice2
-  BASE_URL: http://www.alice.org/get-alice/alice-2/
+  BASE_URL: https://www.alice.org/get-alice/alice-2/
 
 Process:
 - Processor: URLTextSearcher

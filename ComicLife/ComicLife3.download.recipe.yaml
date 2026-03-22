@@ -4,7 +4,7 @@ MinimumVersion: 2.3.0
 
 Input:
   NAME: ComicLife3
-  DOWNLOAD_URL: http://downloads.plasq.com/comiclife3.zip
+  DOWNLOAD_URL: https://downloads.plasq.com/comiclife3.zip
 
 Process:
 - Processor: URLDownloader
