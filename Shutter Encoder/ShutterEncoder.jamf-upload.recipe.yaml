@@ -45,6 +45,7 @@ Input:
 Process:
   - Processor: com.github.grahampugh.jamf-upload.processors/JamfPackageUploader
     Arguments:
+      pkg_path: '%RECIPE_CACHE_DIR%/%NAME%-%version%.pkg'
       pkg_name: '%JAMF_PKG_NAME%-%version%.pkg'
       pkg_category: '%JAMF_CATEGORY%'
       pkg_info: '%JAMF_PKG_INFO%'
