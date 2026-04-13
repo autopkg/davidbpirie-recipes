@@ -15,6 +15,10 @@ Input:
   ARCH: Apple Silicon
 
 Process:
+  - Processor: DeprecationWarning
+    Arguments:
+      warning_message: Consider switching to the ShutterEncoder.pkg recipe in the moofit-recipes repo. This recipe is deprecated and will be removed in the future.
+
   - Processor: FlatPkgUnpacker
     Arguments:
       flat_pkg_path: '%pathname%'
@@ -55,9 +59,9 @@ Process:
     Arguments:
       pkg_request:
         chown:
-        - path: Applications
-          user: root
-          group: admin
+          - path: Applications
+            user: root
+            group: admin
         id: '%pkg_id%'
         options: purge_ds_store
         pkgname: '%NAME%-%version%'

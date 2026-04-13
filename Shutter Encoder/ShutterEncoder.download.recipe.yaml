@@ -15,19 +15,23 @@ Input:
   re_pattern: <a href=\"([^\"]*)\">%ARCH%</a>
 
 Process:
-- Processor: URLTextSearcher
-  Arguments:
-    result_output_var_name: url
-    url: '%BASE_URL%'
+  - Processor: DeprecationWarning
+    Arguments:
+      warning_message: Consider switching to the ShutterEncoder.download recipe in the moofit-recipes repo. This recipe is deprecated and will be removed in the future.
 
-- Processor: URLDownloader
+  - Processor: URLTextSearcher
+    Arguments:
+      result_output_var_name: url
+      url: '%BASE_URL%'
 
-- Processor: EndOfCheckPhase
+  - Processor: URLDownloader
 
-- Processor: CodeSignatureVerifier
-  Arguments:
-    input_path: '%pathname%'
-    expected_authority_names:
-      - 'Developer ID Installer: Codebase Media UG (haftungsbeschrankt) (LZ28YRG3Q4)'
-      - Developer ID Certification Authority
-      - Apple Root CA
+  - Processor: EndOfCheckPhase
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: '%pathname%'
+      expected_authority_names:
+        - 'Developer ID Installer: Codebase Media UG (haftungsbeschrankt) (LZ28YRG3Q4)'
+        - Developer ID Certification Authority
+        - Apple Root CA
