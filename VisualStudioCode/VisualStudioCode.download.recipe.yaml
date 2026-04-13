@@ -10,6 +10,10 @@ Input:
   NAME: VisualStudioCode
 
 Process:
+  - Processor: DeprecationWarning
+    Arguments:
+      warning_message: Consider switching to the VisualStudioCode.download recipe in the jc0b-recipes repo. This recipe is deprecated and will be removed in the future.
+
   - Processor: URLDownloader
     Arguments:
       url: "https://code.visualstudio.com/sha/download?build=stable&os=darwin-%ARCH%-dmg"
