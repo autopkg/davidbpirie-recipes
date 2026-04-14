@@ -8,10 +8,10 @@ Description: |
   command-line keys.
 Identifier: com.github.davidbpirie.jamf-upload.PyCharm
 MinimumVersion: 2.3.0
-ParentRecipe: com.github.hansen-m.pkg.pycharm
+ParentRecipe: com.github.davidbpirie.pkg.PyCharm
 
 Input:
-  NAME: PyCharmCE
+  NAME: PyCharm
   JAMF_CATEGORY: Developer Tools
   JAMF_PKG_NAME: '%NAME%'
   JAMF_PKG_INFO: |

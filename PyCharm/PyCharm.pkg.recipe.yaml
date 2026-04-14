@@ -1,0 +1,15 @@
+Description: |
+  Downloads the current release version of PyCharm, then builds a package.
+
+  For the ARCH_TYPE variable use "mac" for Intel, use "macM1" for Apple Silicon.
+Identifier: com.github.davidbpirie.pkg.PyCharm
+ParentRecipe: com.github.bnpl.autopkg.download.pycharm
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: PyCharm
+
+Process:
+- Processor: AppPkgCreator
+  Arguments:
+    app_path: '%pathname%/*.app'
