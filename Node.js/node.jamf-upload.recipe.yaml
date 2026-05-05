@@ -2,6 +2,9 @@ Description: |
   Downloads the latest version of Node.js, then uploads the package
   to Jamf Pro.
 
+  To lock to a specific Major version, modify SEARCH_URL
+  e.g. for 25 use: https://nodejs.org/dist/latest-v25.x/
+
   JSS_URL, API_USERNAME, and API_PASSWORD, and for non-cloud instances
   SMB_URL, SMB_USERNAME and SMB_PASSWORD, are expected to be populated
   in your AutoPkg preferences, override Input variables, or by

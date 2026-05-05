@@ -1,4 +1,7 @@
-Description: Downloads the latest version of NodeJS.
+Description: |
+  Downloads the latest version of NodeJS.
+  To lock to a specific Major version, modify SEARCH_URL
+  e.g. for 25 use: https://nodejs.org/dist/latest-v25.x/
 Identifier: com.github.davidbpirie.download.node
 MinimumVersion: 2.3.0
 
