@@ -1,0 +1,30 @@
+Description: Downloads the latest version of NodeJS.
+Identifier: com.github.davidbpirie.download.node
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: node
+  SEARCH_RE: node-v([0-9\.]+).pkg
+  SEARCH_URL: https://nodejs.org/dist/latest/
+
+Process:
+  - Processor: URLTextSearcher
+    Arguments:
+      re_pattern: '%SEARCH_RE%'
+      url: '%SEARCH_URL%'
+      result_output_var_name: version
+
+  - Processor: URLDownloader
+    Arguments:
+      filename: '%NAME%.pkg'
+      url: '%SEARCH_URL%node-v%version%.pkg'
+
+  - Processor: EndOfCheckPhase
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: '%pathname%'
+      expected_authority_names:
+        - 'Developer ID Installer: Node.js Foundation (HX7739G8FX)'
+        - 'Developer ID Certification Authority'
+        - 'Apple Root CA'

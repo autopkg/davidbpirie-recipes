@@ -8,7 +8,7 @@ Description: |
   command-line keys.
 Identifier: com.github.davidbpirie.jamf-upload.node
 MinimumVersion: 2.3.0
-ParentRecipe: com.github.gerardkok.download.node
+ParentRecipe: com.github.davidbpirie.download.node
 
 Input:
   NAME: node
