@@ -103,7 +103,7 @@ class AzulZuluJavaInfoProvider(URLGetter):
             if (
                 source_file["latest"]
                 and source_file["os"] == "macos"
-                and str(source_file["java_version"][0]) == java_major_version
+                and str(source_file["java_version"][0]) == str(java_major_version)
                 and source_file["arch"] == arch
                 and source_file["ext"] == extension
                 and source_file["bundle_type"] == bundle_type
