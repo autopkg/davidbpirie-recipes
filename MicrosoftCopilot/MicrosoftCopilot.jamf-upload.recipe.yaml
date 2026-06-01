@@ -13,6 +13,7 @@ ParentRecipe: com.github.rtrouton.pkg.microsoftcopilot
 
 Input:
   NAME: MicrosoftCopilot
+  VERSIONTYPE: CFBundleVersion
   JAMF_CATEGORY: Productivity
   JAMF_PKG_NAME: '%NAME%'
   JAMF_PKG_INFO: Supercharge productivity, streamline tasks, and uncover insights in seconds with secure AI chat grounded in your work and web data. It works across Microsoft apps and gives everyone access to agents—all in the flow of work.
