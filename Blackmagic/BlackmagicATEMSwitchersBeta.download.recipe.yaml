@@ -13,7 +13,7 @@ MinimumVersion: 2.3.0
 
 Input:
   NAME: BlackmagicATEMSwitchersBeta
-  PRODUCT_NAME_PATTERN: '^ATEM Switchers (?P<version_str>[\.\d]* Beta \d)$'
+  PRODUCT_NAME_PATTERN: '^ATEM Switchers (?P<version>[\.\d]* Beta \d)$'
   REG_CITY: ''
   REG_COUNTRY: ''
   REG_EMAIL: ''
@@ -38,7 +38,7 @@ Process:
 
   - Processor: com.github.grahampugh.recipes.commonprocessors/StringReplacer
     Arguments:
-      input_string: '%version_str%'
+      input_string: '%version%'
       string_to_replace: ' Beta '
       replacement_string: 'b'
 
