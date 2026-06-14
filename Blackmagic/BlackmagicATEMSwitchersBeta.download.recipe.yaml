@@ -36,7 +36,7 @@ Process:
         street: '%REG_STREET%'
         country: '%REG_COUNTRY%'
 
-  - Processor: com.github.grahampugh.recipes.commonprocessors/VersionStringProcessor
+  - Processor: com.github.grahampugh.recipes.commonprocessors/StringReplacer
     Arguments:
       input_string: '%version_str%'
       string_to_replace: ' Beta '
