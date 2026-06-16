@@ -1,0 +1,68 @@
+Description: |
+  Downloads latest version of ATEM Switcher Beta.
+
+  This product requires registration in order to download, so
+  you _must_ override all input variables beginning with 'REG_'
+  and they must contain data.
+
+  Notably, REG_COUNTRY must contain sane values:
+  - REG_COUNTRY is of the form 'us', 'ca', etc.
+
+Identifier: com.github.davidbpirie.download.BlackmagicATEMSwitchersBeta
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: BlackmagicATEMSwitchersBeta
+  PRODUCT_NAME_PATTERN: '^ATEM Switchers (?P<version>[\.\d]* Beta \d)$'
+  REG_CITY: ''
+  REG_COUNTRY: ''
+  REG_EMAIL: ''
+  REG_FIRSTNAME: ''
+  REG_LASTNAME: ''
+  REG_PHONE: ''
+  REG_STREET: ''
+
+Process:
+  - Processor: com.github.timsutton.download.davinciresolve18/BlackMagicURLProvider
+    Arguments:
+      product_name_pattern: '%PRODUCT_NAME_PATTERN%'
+      product_name: ATEM Switchers
+      registration_info:
+        firstname: '%REG_FIRSTNAME%'
+        lastname: '%REG_LASTNAME%'
+        email: '%REG_EMAIL%'
+        phone: '%REG_PHONE%'
+        city: '%REG_CITY%'
+        street: '%REG_STREET%'
+        country: '%REG_COUNTRY%'
+
+  - Processor: com.github.grahampugh.recipes.commonprocessors/StringReplacer
+    Arguments:
+      input_string: '%version%'
+      string_to_replace: ' Beta '
+      replacement_string: 'b'
+
+  - Processor: URLDownloader
+    Arguments:
+      version: '%output_string%'
+      filename: '%NAME%-%output_string%.zip'
+
+  - Processor: EndOfCheckPhase
+
+  - Processor: Unarchiver
+    Arguments:
+      archive_path: '%pathname%'
+      destination_path: '%RECIPE_CACHE_DIR%/unzip'
+      purge_destination: True
+
+  - Processor: FileFinder
+    Arguments:
+      pattern: '%RECIPE_CACHE_DIR%/unzip/*.dmg'
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: '%found_filename%/*.pkg'
+      expected_authority_names:
+        - 'Developer ID Installer: Blackmagic Design Inc (9ZGFBWLSYP)'
+        - Developer ID Certification Authority
+        - Apple Root CA
