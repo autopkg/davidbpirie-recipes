@@ -1,0 +1,38 @@
+Description: Downloads the latest Citrix Workspace disk image.
+Identifier: com.github.davidbpirie.download.CitrixWorkspace
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: CitrixWorkspace
+  SEARCH_URL: https://www.citrix.com/downloads/workspace-app/mac/workspace-app-for-mac-latest.html
+  SEARCH_PATTERN: 'rel="(//.*/CitrixWorkspaceApp\.dmg\?.*?)"'
+  USER_AGENT: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82
+
+Process:
+  - Processor: URLTextSearcher
+    Arguments:
+      re_pattern: '%SEARCH_PATTERN%'
+      url: '%SEARCH_URL%'
+      request_headers:
+        user-agent: '%USER_AGENT%'
+
+  - Processor: URLDownloader
+    Arguments:
+      url: 'https:%match%'
+      request_headers:
+        user-agent: '%USER_AGENT%'
+      prefetch_filename: True
+
+  - Processor: EndOfCheckPhase
+
+  - Processor: FileFinder
+    Arguments:
+      pattern: '%pathname%/*.pkg'
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: '%pathname%/%dmg_found_filename%'
+      expected_authority_names:
+        - 'Developer ID Installer: Citrix Systems, Inc. (S272Y5R93J)'
+        - Developer ID Certification Authority
+        - Apple Root CA
