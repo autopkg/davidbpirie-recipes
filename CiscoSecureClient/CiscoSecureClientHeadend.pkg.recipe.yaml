@@ -84,7 +84,11 @@ Process:
 
   - Processor: FileFinder
     Arguments:
-      pattern: '%RECIPE_CACHE_DIR%/webdeploy/binaries/cisco-secure-client-macos-*-core-vpn-webdeploy-k9.dmg/*.pkg'
+      pattern: '%RECIPE_CACHE_DIR%/webdeploy/binaries/cisco-secure-client-macos-*-core-vpn-webdeploy-k9.dmg'
+
+  - Processor: FileFinder
+    Arguments:
+      pattern: '%found_filename%/*.pkg'
 
   - Processor: CodeSignatureVerifier
     Arguments:
