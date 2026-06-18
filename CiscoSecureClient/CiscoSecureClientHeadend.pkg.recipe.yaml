@@ -1,0 +1,137 @@
+Description: |
+  Creates a package that installs all required Cisco Secure Client pkgs
+  taken from inside the Cisco Secure Client headend deployment package.
+
+  As of CSC v5.1.16, Cisco now recommends using the headend deployment
+  package, rather than the pre-deployment package, when deploying
+  Cisco Secure Client to macOS devices via MDM.
+  See https://community.cisco.com/t5/security-knowledge-base/deploying-cisco-secure-client-on-macos-via-mdm-emm/ta-p/5546310
+
+  Package source PKG must be provided either as Input Variable PKG or
+  via the -p parameter eg:
+  autopkg run CiscoSecureClientHeadend.pkg -p "path/to/cisco-secure-client-macos-5.1.17.3382-webdeploy-k9.pkg"
+
+  csc_modules is the list of modules you would like installed.
+  Default is just the core-vpn module, which is required.
+  At time of writing, the other modules available are:
+    core-vpn
+    dart
+    iseposture
+    nvm
+    posture
+    umprella
+    zta
+
+  csc_te_agent_connectstring if non-empty will be registered by running:
+    /Applications/Cisco/Cisco\ Secure\ Client\ -\ ThousandEyes\ Endpoint\ Agent.app/Contents/MacOS/csc_te_agent --register '%CSC_TE_AGENT_CONNECTIONSTRING%'
+
+  PKG_ID is the ID of the generated package.
+
+  PROFILES is a path to a folder containing profile xml files for the desired
+  services. An example is included with this recipe, with a single example.xml
+  file under vpn. See the administrator guide at
+  https://www.cisco.com/c/en/us/support/security/secure-client-5/model.html
+  for more details on generating profile xml files.
+
+  Additionally, support for installing a VPN management tunnel profile
+  (VpnMgmtTunProfile.xml) is handled if
+  %PROFILES%/vpn/MgmtTun/VpnMgmtTunProfile.xml is found
+
+  Note that the webdeploy source file, despite the pkg suffix, is not
+  a macOS package, but a zip archive. The only pkg that has the
+  signature checked is core-vpn. Ensure you trust the source of the
+  webdeploy "pkg", as there is potential for an attacker to modify
+  the contents of one of the other module pkgs.
+
+Identifier: com.github.davidbpirie.pkg.CiscoSecureClientHeadend
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: Cisco Secure Client
+  csc_modules:
+    - core-vpn
+  csc_te_agent_connectstring: ''
+  PKG_ID: com.github.davidbpirie.CiscoSecureClientHeadend
+  PROFILES: '%RECIPE_DIR%/CiscoSecureClientProfiles'
+
+Process:
+  - Processor: PackageRequired
+
+  - Processor: PkgRootCreator
+    Arguments:
+      pkgdirs:
+        payload: '0775'
+        scripts: '0775'
+      pkgroot: '%RECIPE_CACHE_DIR%/%NAME%'
+
+  - Processor: Copier
+    Arguments:
+      source_path: '%PROFILES%'
+      destination_path: '%RECIPE_CACHE_DIR%/%NAME%/scripts/Profiles'
+      overwrite: True
+
+  - Processor: Copier
+    Arguments:
+      source_path: '%PKG%'
+      destination_path: '%RECIPE_CACHE_DIR%/webdeploy.zip'
+      overwrite: True
+
+  - Processor: Unarchiver
+    Arguments:
+      archive_path: '%RECIPE_CACHE_DIR%/webdeploy.zip'
+      destination_path: '%RECIPE_CACHE_DIR%/webdeploy'
+      purge_destination: True
+
+  - Processor: FileFinder
+    Arguments:
+      pattern: '%RECIPE_CACHE_DIR%/webdeploy/binaries/cisco-secure-client-macos-*-core-vpn-webdeploy-k9.dmg/*.pkg'
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: '%found_filename%'
+      expected_authority_names:
+        - 'Developer ID Installer: Cisco (DE8Y96K9QP)'
+        - Developer ID Certification Authority
+        - Apple Root CA
+
+  - Processor: FlatPkgUnpacker
+    Arguments:
+      flat_pkg_path: '%found_filename%'
+      skip_payload: False
+      destination_path: '%RECIPE_CACHE_DIR%/unpack'
+      purge_destination: True
+
+  - Processor: PkgPayloadUnpacker
+    Arguments:
+      pkg_payload_path: '%RECIPE_CACHE_DIR%/unpack/gui_module.pkg/Payload'
+      destination_path: '%RECIPE_CACHE_DIR%/unpack-payload'
+      purge_destination: True
+
+  - Processor: PlistReader
+    Arguments:
+      info_path: '%RECIPE_CACHE_DIR%/unpack-payload/Applications/Cisco/Cisco Secure Client.app'
+      plist_keys:
+        CFBundleShortVersionString: version
+
+  - Processor: CiscoSecureClientHeadendPkgCollector
+    Arguments:
+      scripts_dir: '%RECIPE_CACHE_DIR%/%NAME%/scripts'
+      csc_webdeploy_binaries: '%RECIPE_CACHE_DIR%/webdeploy/binaries'
+
+  - Processor: PkgCreator
+    Arguments:
+      pkg_request:
+        chown: []
+        id: '%PKG_ID%'
+        options: purge_ds_store
+        pkgname: '%NAME%-%version%'
+        pkgroot: '%RECIPE_CACHE_DIR%/%NAME%/payload'
+        scripts: '%RECIPE_CACHE_DIR%/%NAME%/scripts'
+        version: '%version%'
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+        - '%RECIPE_CACHE_DIR%/%NAME%'
+        - '%RECIPE_CACHE_DIR%/unpack'
+        - '%RECIPE_CACHE_DIR%/unpack-payload'

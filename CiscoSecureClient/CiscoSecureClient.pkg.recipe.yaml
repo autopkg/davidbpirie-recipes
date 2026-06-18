@@ -41,7 +41,7 @@ Description: |
   %PROFILES%/vpn/MgmtTun/VpnMgmtTunProfile.xml is found
 
 Identifier: com.github.davidbpirie.pkg.CiscoSecureClient
-MinimumVersion: '2.3'
+MinimumVersion: 2.3.0
 
 Input:
   NAME: Cisco Secure Client
@@ -55,6 +55,17 @@ Input:
   PROFILES: '%RECIPE_DIR%/CiscoSecureClientProfiles'
 
 Process:
+  - Processor: DeprecationWarning
+    Arguments:
+      warning_message: |
+        As of CSC v5.1.16, Cisco now recommends using the headend deployment
+        package, rather than the pre-deployment package, when deploying
+        Cisco Secure Client to macOS devices via MDM.
+        See https://community.cisco.com/t5/security-knowledge-base/deploying-cisco-secure-client-on-macos-via-mdm-emm/ta-p/5546310
+
+        It is recommended that you swap to my alternative
+        CiscoSecureClientHeadend recipes.
+
   - Processor: PackageRequired
 
   - Processor: PkgRootCreator
