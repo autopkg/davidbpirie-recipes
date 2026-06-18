@@ -60,6 +60,12 @@ class CiscoSecureClientHeadendPkgCollector(Copier):
             "description": "If populated, the generated postinstall script will "
             + "attempt to use it to register the ThousandEyes Endpoint Agent.",
         },
+        "csc_disable_launchagent": {
+            "required": False,
+            "default": "false",
+            "description": "If set, the postinstall script will disable the "
+            + "launchagent for the currently logged-in user.",
+        },
     }
     output_variables = {}
 
@@ -102,6 +108,14 @@ class CiscoSecureClientHeadendPkgCollector(Copier):
             )
             self.output(
                 msg=f"csc_te_agent_connectstring = {csc_te_agent_connectstring}",
+                verbose_level=1,
+            )
+
+            csc_disable_launchagent: bool = str(
+                self.env.get("csc_disable_launchagent", "false")
+            ).lower() in ("1", "true", "yes")
+            self.output(
+                msg=f"csc_disable_launchagent = {csc_disable_launchagent}",
                 verbose_level=1,
             )
 
@@ -192,7 +206,12 @@ CSC_DIR=/opt/cisco/secureclient
 SRC_MGMT_PROFILE="${ROOT_DIR}/Profiles/vpn/MgmtTun/VpnMgmtTunProfile.xml"
 DST_MGMT_PROFILE="${CSC_DIR}/vpn/profile/mgmttun/VpnMgmtTunProfile.xml"
 
-CSC_TE_APP_DIR="/Applications/Cisco/Cisco Secure Client - ThousandEyes Endpoint Agent.app"
+CSC_APP_NAME="Cisco Secure Client"
+CSC_APP_DIR="/Applications/Cisco"
+CSC_GUI_APP_DIR="${CSC_APP_DIR}/${CSC_APP_NAME}.app"
+CSC_GUI_BINARY="${CSC_GUI_APP_DIR}/Contents/MacOS/${CSC_APP_NAME}"
+
+CSC_TE_APP_DIR="${CSC_APP_DIR}/Cisco Secure Client - ThousandEyes Endpoint Agent.app"
 CSC_TE_AGENT_BINARY="${CSC_TE_APP_DIR}/Contents/MacOS/csc_te_agent"
 CSC_TE_AGENT_CONNECTIONSTRING="''' + csc_te_agent_connectstring + '"'
             for pkg_name in all_pkg_names:
@@ -225,7 +244,19 @@ if [ ! -z "{CSC_TE_AGENT_CONNECTIONSTRING}" ]; then
         exit 2
     fi
     "${CSC_TE_AGENT_BINARY}" --register "${CSC_TE_AGENT_CONNECTIONSTRING}"
-fi
+fi"""
+            if csc_disable_launchagent:
+                postinstall_script += """
+
+CURRENTUSER_UID=$(echo "show State:/Users/ConsoleUser" | /usr/sbin/scutil | /usr/bin/awk '/ UID/ { print $3 }')
+if [ -z "${CURRENTUSER_UID}" ] || [ "${CURRENTUSER_UID}" -eq 0 ] ; then
+    echo "No user currently logged in"
+else
+    /bin/launchctl asuser ${CURRENTUSER_UID} /usr/bin/open -a "${CSC_GUI_APP_DIR}"
+    /bin/launchctl asuser ${CURRENTUSER_UID} "${CSC_GUI_BINARY}" disableAutoStart
+    /usr/bin/pkill -SIGTERM "${CSC_APP_NAME}"
+fi"""
+            postinstall_script += """
 
 exit 0
 """
