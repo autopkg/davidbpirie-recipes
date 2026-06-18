@@ -26,6 +26,10 @@ Description: |
   csc_te_agent_connectstring if non-empty will be registered by running:
     /Applications/Cisco/Cisco\ Secure\ Client\ -\ ThousandEyes\ Endpoint\ Agent.app/Contents/MacOS/csc_te_agent --register '%CSC_TE_AGENT_CONNECTIONSTRING%'
 
+  csc_disable_launchagent if set the launchagent will be disabled for the
+  logged-in user (if any) by running:
+    /Applications/Cisco/Cisco\ Secure\ Client.app/Contents/MacOS/Cisco\ Secure\ Client disableAutoStart
+
   PKG_ID is the ID of the generated package.
 
   PROFILES is a path to a folder containing profile xml files for the desired
@@ -81,6 +85,7 @@ Input:
   csc_modules:
     - core-vpn
   csc_te_agent_connectstring: ''
+  csc_disable_launchagent: 'false'
   PKG_ID: com.github.davidbpirie.CiscoSecureClientHeadend
   PROFILES: '%RECIPE_DIR%/CiscoSecureClientProfiles'
   JAMF_CATEGORY: Utilities
