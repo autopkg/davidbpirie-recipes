@@ -84,20 +84,11 @@ Process:
 
   - Processor: FileFinder
     Arguments:
-      pattern: '%RECIPE_CACHE_DIR%/webdeploy/binaries/cisco-secure-client-macos-*-core-vpn-webdeploy-k9.dmg'
-
-  - Processor: FileFinder
-    Arguments:
-      pattern: '%found_filename%/*.pkg'
-
-  - Processor: Copier
-    Arguments:
-      source_path: '%found_filename%'
-      destination_path: '%RECIPE_CACHE_DIR%/core-vpn.pkg'
+      pattern: '%RECIPE_CACHE_DIR%/webdeploy/binaries/cisco-secure-client-macos-*-core-vpn-webdeploy-k9.dmg/*.pkg'
 
   - Processor: CodeSignatureVerifier
     Arguments:
-      input_path: '%RECIPE_CACHE_DIR%/core-vpn.pkg'
+      input_path: '%RECIPE_CACHE_DIR%/webdeploy/binaries/cisco-secure-client-macos-*-core-vpn-webdeploy-k9.dmg/%dmg_found_filename%'
       expected_authority_names:
         - 'Developer ID Installer: Cisco (DE8Y96K9QP)'
         - Developer ID Certification Authority
