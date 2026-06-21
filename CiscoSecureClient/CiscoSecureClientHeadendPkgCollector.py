@@ -228,6 +228,7 @@ CSC_GUI_BINARY="${CSC_GUI_APP_DIR}/Contents/MacOS/${CSC_APP_NAME}"
 CSC_TE_APP_DIR="${CSC_APP_DIR}/Cisco Secure Client - ThousandEyes Endpoint Agent.app"
 CSC_TE_AGENT_BINARY="${CSC_TE_APP_DIR}/Contents/MacOS/csc_te_agent"
 CSC_TE_AGENT_CONNECTIONSTRING="''' + csc_te_agent_connectstring + '"'
+
             for pkg_name in all_pkg_names:
                 if csc_error_passthrough:
                     postinstall_script += (
@@ -256,7 +257,8 @@ echo Installing """
                         + pkg_name
                         + """" -target /"""
                     )
-                postinstall_script += """
+
+            postinstall_script += """
 
 if [ -e "${SRC_MGMT_PROFILE}" ]; then
     echo "Copying Cisco Secure Client management VPN profile from ${SRC_MGMT_PROFILE} to ${DST_MGMT_PROFILE}"
@@ -271,6 +273,7 @@ if [ ! -z "{CSC_TE_AGENT_CONNECTIONSTRING}" ]; then
     fi
     "${CSC_TE_AGENT_BINARY}" --register "${CSC_TE_AGENT_CONNECTIONSTRING}"
 fi"""
+
             if csc_disable_launchagent:
                 postinstall_script += """
 
@@ -282,6 +285,7 @@ else
     /bin/launchctl asuser ${CURRENTUSER_UID} "${CSC_GUI_BINARY}" disableAutoStart
     /usr/bin/pkill -SIGTERM "${CSC_APP_NAME}"
 fi"""
+
             postinstall_script += """
 
 exit 0
