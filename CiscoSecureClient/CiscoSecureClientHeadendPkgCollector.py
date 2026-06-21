@@ -233,26 +233,26 @@ CSC_TE_AGENT_CONNECTIONSTRING="''' + csc_te_agent_connectstring + '"'
                     postinstall_script += (
                         """
 
-    echo Installing """
+echo Installing """
                         + pkg_name
                         + """
-    if ! /usr/sbin/installer -pkg "${ROOT_DIR}/"""
+if ! /usr/sbin/installer -pkg "${ROOT_DIR}/"""
                         + pkg_name
                         + """" -target /; then
-        echo Error: Installer failed for """
+    echo Error: Installer failed for """
                         + pkg_name
                         + """
-        exit 1
-    fi"""
+    exit 1
+fi"""
                     )
                 else:
                     postinstall_script += (
                         """
 
-    echo Installing """
+echo Installing """
                         + pkg_name
                         + """
-    /usr/sbin/installer -pkg "${ROOT_DIR}/"""
+/usr/sbin/installer -pkg "${ROOT_DIR}/"""
                         + pkg_name
                         + """" -target /"""
                     )
