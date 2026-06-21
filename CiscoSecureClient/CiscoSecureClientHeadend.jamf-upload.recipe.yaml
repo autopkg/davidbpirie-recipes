@@ -86,6 +86,7 @@ Input:
     - core-vpn
   csc_te_agent_connectstring: ''
   csc_disable_launchagent: 'false'
+  csc_error_passthrough: 'true'
   PKG_ID: com.github.davidbpirie.CiscoSecureClientHeadend
   PROFILES: '%RECIPE_DIR%/CiscoSecureClientProfiles'
   JAMF_CATEGORY: Utilities

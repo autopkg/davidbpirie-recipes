@@ -66,6 +66,12 @@ class CiscoSecureClientHeadendPkgCollector(Copier):
             "description": "If set, the postinstall script will disable the "
             + "launchagent for the currently logged-in user.",
         },
+        "csc_error_passthrough": {
+            "required": False,
+            "default": "false",
+            "description": "If set, the postinstall script will return a non-0 "
+            + "exit code if installer does for any of the individual pkgs.",
+        },
     }
     output_variables = {}
 
@@ -116,6 +122,14 @@ class CiscoSecureClientHeadendPkgCollector(Copier):
             ).lower() in ("1", "true", "yes")
             self.output(
                 msg=f"csc_disable_launchagent = {csc_disable_launchagent}",
+                verbose_level=1,
+            )
+
+            csc_error_passthrough: bool = str(
+                self.env.get("csc_error_passthrough", "false")
+            ).lower() in ("1", "true", "yes")
+            self.output(
+                msg=f"csc_error_passthrough = {csc_error_passthrough}",
                 verbose_level=1,
             )
 
@@ -215,22 +229,34 @@ CSC_TE_APP_DIR="${CSC_APP_DIR}/Cisco Secure Client - ThousandEyes Endpoint Agent
 CSC_TE_AGENT_BINARY="${CSC_TE_APP_DIR}/Contents/MacOS/csc_te_agent"
 CSC_TE_AGENT_CONNECTIONSTRING="''' + csc_te_agent_connectstring + '"'
             for pkg_name in all_pkg_names:
-                postinstall_script += (
-                    """
+                if csc_error_passthrough:
+                    postinstall_script += (
+                        """
 
-echo Installing """
-                    + pkg_name
-                    + """
-if ! /usr/sbin/installer -pkg "${ROOT_DIR}/"""
-                    + pkg_name
-                    + """" -target /; then
-    echo Error: Installer failed for """
-                    + pkg_name
-                    + """
-    exit 1
-fi"""
-                )
-            postinstall_script += """
+    echo Installing """
+                        + pkg_name
+                        + """
+    if ! /usr/sbin/installer -pkg "${ROOT_DIR}/"""
+                        + pkg_name
+                        + """" -target /; then
+        echo Error: Installer failed for """
+                        + pkg_name
+                        + """
+        exit 1
+    fi"""
+                    )
+                else:
+                    postinstall_script += (
+                        """
+
+    echo Installing """
+                        + pkg_name
+                        + """
+    /usr/sbin/installer -pkg "${ROOT_DIR}/"""
+                        + pkg_name
+                        + """" -target /"""
+                    )
+                postinstall_script += """
 
 if [ -e "${SRC_MGMT_PROFILE}" ]; then
     echo "Copying Cisco Secure Client management VPN profile from ${SRC_MGMT_PROFILE} to ${DST_MGMT_PROFILE}"
