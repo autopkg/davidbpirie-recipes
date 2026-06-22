@@ -265,7 +265,7 @@ if [ -e "${SRC_MGMT_PROFILE}" ]; then
     /bin/cp "${SRC_MGMT_PROFILE}" "${DST_MGMT_PROFILE}"
 fi
 
-if [ ! -z "{CSC_TE_AGENT_CONNECTIONSTRING}" ]; then
+if [ -n "${CSC_TE_AGENT_CONNECTIONSTRING}" ]; then
     echo "Registering ThousandEyes Agent"
     if [ ! -e "${CSC_TE_AGENT_BINARY}" ]; then
         echo "Error: ThousandEyes agent binary ${CSC_TE_AGENT_BINARY} not found"
