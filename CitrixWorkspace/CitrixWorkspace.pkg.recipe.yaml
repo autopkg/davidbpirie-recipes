@@ -10,6 +10,10 @@ Input:
   SRC_PAYLOAD_PKG_NAME: com.citrix.ICAClient.pkg
 
 Process:
+  - Processor: DeprecationWarning
+    Arguments:
+      warning_message: Consider switching to the recipe in the rtrouton-recipes repo. This recipe is deprecated and will be removed in the future.
+
   - Processor: FlatPkgUnpacker
     Arguments:
       flat_pkg_path: '%pathname%/%dmg_found_filename%'

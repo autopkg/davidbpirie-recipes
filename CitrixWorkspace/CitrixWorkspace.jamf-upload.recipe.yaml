@@ -9,7 +9,7 @@ Description: |
 
 Identifier: com.github.davidbpirie.jamf-upload.CitrixWorkspace
 MinimumVersion: 2.3.0
-ParentRecipe: com.github.davidbpirie.pkg.CitrixWorkspace
+ParentRecipe: com.github.rtrouton.pkg.citrixworkspace
 
 Input:
   NAME: Citrix Workspace
