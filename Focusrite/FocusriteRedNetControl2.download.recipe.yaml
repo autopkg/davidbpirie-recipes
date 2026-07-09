@@ -25,8 +25,8 @@ Process:
   - Processor: Unarchiver
     Arguments:
       archive_path: '%pathname%'
-      destination_path: '%RECIPE_CACHE_DIR%/%NAME%.pkg'
-      purge_destination: YES
+      destination_path: '%RECIPE_CACHE_DIR%/unzip'
+      purge_destination: True
 
   - Processor: CodeSignatureVerifier
     Arguments:
@@ -34,11 +34,11 @@ Process:
         - 'Developer ID Installer: Focusrite Audio Engineering Ltd. (7VYBQV3T2Q)'
         - Developer ID Certification Authority
         - Apple Root CA
-      input_path: '%RECIPE_CACHE_DIR%/%NAME%.pkg'
+      input_path: '%RECIPE_CACHE_DIR%/unzip/*.pkg'
 
   - Processor: FlatPkgUnpacker
     Arguments:
-      flat_pkg_path: '%RECIPE_CACHE_DIR%/%NAME%.pkg'
+      flat_pkg_path: '%RECIPE_CACHE_DIR%/unzip/*.pkg'
       destination_path: '%RECIPE_CACHE_DIR%/unpack'
 
   - Processor: PkgPayloadUnpacker
@@ -59,6 +59,6 @@ Process:
   - Processor: PathDeleter
     Arguments:
       path_list:
-      - '%RECIPE_CACHE_DIR%/%NAME%.pkg'
+      - '%RECIPE_CACHE_DIR%/unzip'
       - '%RECIPE_CACHE_DIR%/unpack'
       - '%RECIPE_CACHE_DIR%/payload'
