@@ -1,0 +1,64 @@
+Description: |
+  Downloads the latest version of Focusrite RedNet Control 2, expands
+  the zip archive, verifies the signature on the pkg, and extracts
+  the version from the pkg payload.
+
+Identifier: com.github.davidbpirie.download.FocusriteRedNetControl2
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: FocusriteRedNetControl2
+  BASE_URL: 'https://downloads.focusrite.com/focusrite/red/red-16line'
+  SEARCH_RE: 'href="(https://[^"]+?\.focusrite\.com/[^"]+?/rednet_control-2\.[\d\.]+?\.pkg\.zip)"'
+
+Process:
+  - Processor: URLTextSearcher
+    Arguments:
+      re_pattern: '%SEARCH_RE%'
+      url: '%BASE_URL%'
+      result_output_var_name: url
+
+  - Processor: URLDownloader
+
+  - Processor: EndOfCheckPhase
+
+  - Processor: Unarchiver
+    Arguments:
+      archive_path: '%pathname%'
+      destination_path: '%RECIPE_CACHE_DIR%/%NAME%.pkg'
+      purge_destination: YES
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      expected_authority_names:
+        - 'Developer ID Installer: Focusrite Audio Engineering Ltd. (7VYBQV3T2Q)'
+        - Developer ID Certification Authority
+        - Apple Root CA
+      input_path: '%RECIPE_CACHE_DIR%/%NAME%.pkg'
+
+  - Processor: FlatPkgUnpacker
+    Arguments:
+      flat_pkg_path: '%RECIPE_CACHE_DIR%/%NAME%.pkg'
+      destination_path: '%RECIPE_CACHE_DIR%/unpack'
+
+  - Processor: PkgPayloadUnpacker
+    Arguments:
+      pkg_payload_path: '%RECIPE_CACHE_DIR%/unpack/RedNet_Control_2_App.pkg/Payload'
+      destination_path: '%RECIPE_CACHE_DIR%/payload'
+      purge_destination: True
+
+  - Processor: PlistReader
+    Arguments:
+      info_path: '%RECIPE_CACHE_DIR%/payload/Applications/RedNet Control 2.app'
+
+  - Processor: PkgCopier
+    Arguments:
+      source_pkg: '%RECIPE_CACHE_DIR%/%NAME%.pkg'
+      pkg_path: '%RECIPE_CACHE_DIR%/%NAME%-%version%.pkg'
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+      - '%RECIPE_CACHE_DIR%/%NAME%.pkg'
+      - '%RECIPE_CACHE_DIR%/unpack'
+      - '%RECIPE_CACHE_DIR%/payload'
