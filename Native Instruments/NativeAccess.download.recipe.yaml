@@ -11,7 +11,7 @@ MinimumVersion: 2.3.0
 Input:
   NAME: NativeAccess
   ARCH: M1
-  url: https://www.native-instruments.com/fileadmin/downloads/Native-Access_2_Mac_%ARCH%.dmg
+  url: https://storage.googleapis.com/ni-assets/downloads/Native-Access_2_Mac_%ARCH%.dmg
 
 Process:
 - Processor: URLDownloader
