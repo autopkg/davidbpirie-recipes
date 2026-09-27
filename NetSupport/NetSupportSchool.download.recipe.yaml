@@ -1,0 +1,25 @@
+Description: |
+  Downloads the latest version of the NetSupport School installer
+  application and verifies the signature.
+Identifier: com.github.davidbpirie.download.NetSupportSchool
+MinimumVersion: 2.9.1
+
+Input:
+  NAME: NetSupportSchool
+  DOWNLOAD_URL: https://products.netsupportsoftware.com/nss-mac-15/NetSupport%20School.dmg
+
+Process:
+  - Processor: URLDownloader
+    Arguments:
+      url: '%DOWNLOAD_URL%'
+
+  - Processor: EndOfCheckPhase
+
+  - Processor: FileFinder
+    Arguments:
+      pattern: '%pathname%/NetSupport School *.app'
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: '%pathname%'
+      requirement: 'identifier "com.netsupportsoftware.school.installer" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = SXFUXR3YQJ'
