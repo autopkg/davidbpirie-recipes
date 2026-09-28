@@ -21,6 +21,7 @@ Description: |
 
 Identifier: com.github.davidbpirie.pkg.NetSupportSchool
 MinimumVersion: 2.9.1
+ParentRecipe: com.github.davidbpirie.download.NetSupportSchool
 
 Input:
   NAME: NetSupportSchool
