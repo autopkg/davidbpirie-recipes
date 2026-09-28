@@ -1,0 +1,103 @@
+Description: |
+  Downloads the latest version of the NetSupport School installer
+  application and verifies the signature, then creates a payload-
+  free pkg with the installer application and license file copied
+  to the Scripts directory with a postinstall script to run the
+  installer application installbuilder.sh script.
+
+  INSTALLBUILDER_ENABLE_COMPONENTS: Comma-separated list of components
+    Allowed: ControlComponent ClientComponent ConfiguratorComponent
+
+  INSTALLBUILDER_DISABLE_COMPONENTS: Comma-separated list of components
+    Allowed: ControlComponent ClientComponent ConfiguratorComponent
+
+  INSTALLBUILDER_LANGUAGE: Language selection. One of:
+    en fr de es it ja
+
+  INSTALLBUILDER_ADD_TO_DOCK: Boolean int
+
+  INSTALLBUILDER_INSTALLATION_TYPE_SELECTION: One of:
+    typical control client
+
+Identifier: com.github.davidbpirie.pkg.NetSupportSchool
+MinimumVersion: 2.9.1
+
+Input:
+  NAME: NetSupportSchool
+  LICENSE_FILE: Put_License_File_path_into_AutoPkg_recipe_override
+  INSTALLBUILDER_ENABLE_COMPONENTS: ClientComponent,ConfiguratorComponent
+  INSTALLBUILDER_DISABLE_COMPONENTS: ControlComponent
+  INSTALLBUILDER_LANGUAGE: en
+  INSTALLBUILDER_ADD_TO_DOCK: 1
+  INSTALLBUILDER_INSTALLATION_TYPE_SELECTION: client
+
+Process:
+  - Processor: StopProcessingIf
+    Arguments:
+      predicate: LICENSE_FILE == 'Put_License_File_path_into_AutoPkg_recipe_override'
+
+  - Processor: PkgRootCreator
+    Arguments:
+      pkgdirs:
+        payload: '0775'
+        scripts: '0775'
+      pkgroot: '%RECIPE_CACHE_DIR%/%NAME%'
+
+  - Processor: Copier
+    Arguments:
+      source_path: '%pathname%/%app_name%'
+      destination_path: '%RECIPE_CACHE_DIR%/%NAME%/scripts/%app_name%'
+      overwrite: True
+
+  - Processor: Copier
+    Arguments:
+      source_path: '%LICENSE_FILE%'
+      destination_path: '%RECIPE_CACHE_DIR%/%NAME%/scripts/NSM.LIC'
+      overwrite: True
+
+  - Processor: FileCreator
+    Arguments:
+      file_content: |
+        #!/bin/zsh --norcs
+
+        ################################################################################
+        #
+        # Runs the NetSupport School installer installbuilder.sh script
+        #
+        ################################################################################
+
+        ROOT_DIR="$( cd -- "$(/usr/bin/dirname "$0")"; pwd -P )"
+
+        installbuilder_sh="${ROOT_DIR}/%app_name%/Contents/MacOS/installbuilder.sh"
+        license_file="${ROOT_DIR}/NSM.LIC"
+
+        "${installbuilder_sh}" \
+          --mode unattended \
+          --enable-components %INSTALLBUILDER_ENABLE_COMPONENTS% \
+          --disable-components %INSTALLBUILDER_DISABLE_COMPONENTS% \
+          --installer-language %INSTALLBUILDER_LANGUAGE% \
+          --addtodock %INSTALLBUILDER_ADD_TO_DOCK% \
+          --LicenseChoice register \
+          --LicenseChoiceLPath "${license_file}"
+          --InstallationTypeSelection %INSTALLBUILDER_INSTALLATION_TYPE_SELECTION%
+
+        exit $?
+      file_mode: '0755'
+      file_path: '%RECIPE_CACHE_DIR%/%NAME%/scripts/postinstall'
+
+  - Processor: PkgCreator
+    Arguments:
+      pkg_request:
+        chown: []
+        id: '%bundleid%.pkg'
+        options: purge_ds_store
+        pkgname: '%NAME%-%version%'
+        pkgroot: '%RECIPE_CACHE_DIR%/%NAME%/payload'
+        scripts: '%RECIPE_CACHE_DIR%/%NAME%/scripts'
+        version: '%version%'
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+        - '%RECIPE_CACHE_DIR%/%NAME%'
+        - '%RECIPE_CACHE_DIR%/unpack'
