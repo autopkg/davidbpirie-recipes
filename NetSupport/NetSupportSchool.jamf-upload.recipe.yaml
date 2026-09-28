@@ -35,36 +35,23 @@ Input:
   JAMF_PKG_NAME: '%NAME%'
   JAMF_PKG_INFO: Tried and trusted by schools worldwide, teachers can use NetSupport School to monitor, control and collaborate with students in any number of ways, as well as gauge understanding and provide instant feedback with its survey and assessment tools - and much more.
   JAMF_PKG_NOTES: 'Generated and uploaded by AutoPkg'
+  JAMF_PKG_OS_REQUIREMENTS: ''
   JAMF_PKG_PRIORITY: '10'
   JAMF_PKG_REBOOT_REQUIRED: 'False'
-  JAMF_PKG_OS_REQUIREMENTS: ''
-  JAMF_PKG_REQUIRED_PROCESSOR: None
-  JAMF_PKG_SEND_NOTIFICATION: 'False'
   JAMF_PKG_REPLACE: 'False'
   JAMF_PKG_REPLACE_METADATA: 'False'
+  JAMF_PKG_REQUIRED_PROCESSOR: None
+  JAMF_PKG_SEND_NOTIFICATION: 'False'
+  JAMF_PKG_SUFFIX: 'pkg'
 
 Process:
-  - Processor: FlatPkgUnpacker
-    Arguments:
-      flat_pkg_path: '%pathname%'
-      destination_path: '%RECIPE_CACHE_DIR%/unpack'
-
-  - Processor: PkgPayloadUnpacker
-    Arguments:
-      pkg_payload_path: '%RECIPE_CACHE_DIR%/unpack/com.microsoft.rdc.macos.pkg/Payload'
-      destination_path: '%RECIPE_CACHE_DIR%/payload'
-
-  - Processor: PlistReader
-    Arguments:
-      info_path: '%RECIPE_CACHE_DIR%/payload/Microsoft Remote Desktop.app'
-
   - Processor: com.github.grahampugh.jamf-upload.processors/JamfPackageUploader
     Arguments:
-      pkg_name: '%JAMF_PKG_NAME%-%version%.pkg'
+      pkg_name: '%JAMF_PKG_NAME%-%version%.%JAMF_PKG_SUFFIX%'
+      pkg_path: '%pkg_path%'
       pkg_category: '%JAMF_CATEGORY%'
       pkg_info: '%JAMF_PKG_INFO%'
       pkg_notes: '%JAMF_PKG_NOTES%'
-      pkg_path: '%pkg_path%'
       pkg_priority: '%JAMF_PKG_PRIORITY%'
       reboot_required: '%JAMF_PKG_REBOOT_REQUIRED%'
       os_requirements: '%JAMF_PKG_OS_REQUIREMENTS%'
