@@ -79,7 +79,7 @@ Process:
           --installer-language %INSTALLBUILDER_LANGUAGE% \
           --addtodock %INSTALLBUILDER_ADD_TO_DOCK% \
           --LicenseChoice register \
-          --LicenseChoiceLPath "${license_file}"
+          --LicenseChoiceLPath "${license_file}" \
           --InstallationTypeSelection %INSTALLBUILDER_INSTALLATION_TYPE_SELECTION%
 
         exit $?
