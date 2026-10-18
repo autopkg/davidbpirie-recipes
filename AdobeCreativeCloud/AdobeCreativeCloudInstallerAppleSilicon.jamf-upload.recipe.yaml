@@ -35,7 +35,7 @@ Process:
 
   - Processor: com.github.rtrouton.pkg.AdobeCreativeCloudInstallerUniversal/XMLReader
     Arguments:
-      xml_path: '%RECIPE_CACHE_DIR%/ApplicationInfo.xml'
+      xml_path: '%RECIPE_CACHE_DIR%/Apps.pimx'
       elements:
         - xpath: version
           text: version
