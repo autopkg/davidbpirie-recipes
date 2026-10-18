@@ -27,6 +27,19 @@ Input:
   JAMF_PKG_REPLACE_METADATA: 'False'
 
 Process:
+  - Processor: Copier
+    Arguments:
+      source_path: '%pathname%/packages/ACC/Apps/Apps.pimx'
+      destination_path: '%RECIPE_CACHE_DIR%/Apps.pimx'
+      overwrite: True
+
+  - Processor: com.github.rtrouton.pkg.AdobeCreativeCloudInstallerUniversal/XMLReader
+    Arguments:
+      xml_path: '%RECIPE_CACHE_DIR%/ApplicationInfo.xml'
+      elements:
+        - xpath: version
+          text: version
+
   - Processor: com.github.grahampugh.jamf-upload.processors/JamfPackageUploader
     Arguments:
       pkg_name: '%JAMF_PKG_NAME%-%version%.pkg'
