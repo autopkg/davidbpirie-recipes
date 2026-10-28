@@ -11,14 +11,11 @@ Input:
   SEARCH_URL: https://www.elclighting.com/download/dmxlan-software-osx/
 
 Process:
-  - Processor: URLTextSearcher
+  - Processor: ELCLightingURLProvider
     Arguments:
-      re_pattern: '%SEARCH_RE%'
-      url: '%SEARCH_URL%'
-      result_output_var_name: download_url
+      product_name: dmxlanv4
+      platform: macos
 
   - Processor: URLDownloader
-    Arguments:
-      url: '%download_url%'
 
   - Processor: EndOfCheckPhase
