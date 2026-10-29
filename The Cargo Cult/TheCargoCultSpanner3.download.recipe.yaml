@@ -7,7 +7,7 @@ MinimumVersion: 2.3.0
 Input:
   NAME: TheCargoCultSpanner3
   SEARCH_RE: href="([^"]*?\.zip)"[^>]*?>Spanner 3
-  SEARCH_URL: https://www.thecargocult.nz/downloads
+  SEARCH_URL: https://www.thecargocult.nz/products/spanner/
 
 Process:
   - Processor: URLTextSearcher
