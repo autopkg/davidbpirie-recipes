@@ -18,7 +18,7 @@ Process:
 
   - Processor: FileFinder
     Arguments:
-      pattern: '%RECIPE_CACHE_DIR%/unpack/*.pkg'
+      pattern: '%RECIPE_CACHE_DIR%/unpack/*AAX.pkg'
 
   - Processor: PkgPayloadUnpacker
     Arguments:
