@@ -12,7 +12,7 @@ MinimumVersion: 2.3.0
 Input:
   NAME: ThunderCoreAudioDriver
   SEARCH_URL_SUFFIX: download-thunder-core-audio-drivers/
-  SEARCH_RE: href="([^"]*)"[^>]*>[^<]*Thunder \\| Core Installer for macOS Ver
+  SEARCH_RE: href="(http[^"]*?)"[^>]*?>[^<]*?Thunder \| Core Installer for macOS Ver
 
 Process:
   - Processor: URLTextSearcher
