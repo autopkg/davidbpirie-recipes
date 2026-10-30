@@ -7,18 +7,30 @@ MinimumVersion: 2.3.0
 Input:
   NAME: YamahaRRemote
   BASE_URL: https://au.yamaha.com
-  SEARCH_RE: href="(\/files\/download\/software\/[^"]*_mac\.zip)"
+  SEARCH_RE_DOWNLOAD_ID: data-downloadid="(.*?)"
+  SEARCH_RE_FILENAME: '.*?>.*?<span.*?>(.*?)\s.*?</span>'
   SEARCH_URL_SUFFIX: /en/support/updates/r_remote_mac.html
+  DOWNLOAD_URL_SUFFIX: /en/download/files/
+
 
 Process:
   - Processor: URLTextSearcher
     Arguments:
-      re_pattern: '%SEARCH_RE%'
+      re_pattern: '%SEARCH_RE_DOWNLOAD_ID%'
       url: '%BASE_URL%%SEARCH_URL_SUFFIX%'
-      result_output_var_name: download_url_suffix
+      result_output_var_name: download_id
+
+  - Processor: URLTextSearcher
+    Arguments:
+      re_pattern: '"%download_id%"%SEARCH_RE_FILENAME%'
+      url: '%BASE_URL%%SEARCH_URL_SUFFIX%'
+      re_flags:
+        - DOTALL
+      result_output_var_name: filename
 
   - Processor: URLDownloader
     Arguments:
-      url: '%BASE_URL%%download_url_suffix%'
+      url: '%BASE_URL%%DOWNLOAD_URL_SUFFIX%%download_id%'
+      filename: '%filename%'
 
   - Processor: EndOfCheckPhase
