@@ -1,0 +1,42 @@
+Description: |
+  Downloads the latest version of Elgato Camera Hub as a package,
+  verifies the signature and extracts the version.
+
+Identifier: com.github.davidbpirie.pkg.ElgatoCameraHub
+MinimumVersion: 2.3.0
+ParentRecipe: com.github.dataJAR-recipes.download.Elgato Camera Hub
+
+Input:
+  NAME: ElgatoCameraHub
+
+Process:
+  - Processor: FlatPkgUnpacker
+    Arguments:
+      flat_pkg_path: '%pathname%'
+      destination_path: '%RECIPE_CACHE_DIR%/unpack'
+
+  - Processor: PkgPayloadUnpacker
+    Arguments:
+      pkg_payload_path: '%RECIPE_CACHE_DIR%/unpack/Camera_Hub.pkg/Payload'
+      destination_path: '%RECIPE_CACHE_DIR%/payload'
+      purge_destination: True
+
+  - Processor: PlistReader
+    Arguments:
+      info_path: '%RECIPE_CACHE_DIR%/payload/Applications/Camera Hub.app'
+
+  - Processor: PkgCopier
+    Arguments:
+      source_pkg: '%pathname%'
+      pkg_path: '%RECIPE_CACHE_DIR%/%NAME%-%version%.pkg'
+
+  - Processor: com.github.jessepeterson.munki.UniversalTypeClient5/ModeChanger
+    Arguments:
+      filename: '%RECIPE_CACHE_DIR%/payload/Library/Application Support/Elgato/Camera Hub/Licenses'
+      mode: a+w
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+      - '%RECIPE_CACHE_DIR%/unpack'
+      - '%RECIPE_CACHE_DIR%/payload'
