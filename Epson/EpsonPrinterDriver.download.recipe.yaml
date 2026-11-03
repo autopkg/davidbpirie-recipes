@@ -1,0 +1,36 @@
+Description: |
+  Downloads from the Epson download center.
+
+  Set the Input values for device_id, os_code, language_code,
+  region_code, category_name, and download_type_name in your override
+  to match your required download. See EpsonURLProvider.py for details.
+
+Identifier: com.github.davidbpirie.download.EpsonPrinterDriver
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: EpsonPrinterDriver
+  device_id: Put_device_id_into_AutoPkg_recipe_override
+  USER_AGENT: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36 Edg/156.0.0.0'
+  HEADER_ACCEPT_LANGUAGE: 'en-GB,en;q=0.9,en-US;q=0.8,en-AU;q=0.7'
+  HEADER_SEC_FETCH_SITE: 'same-origin'
+  COOKIE_GA: 'GA1.1.123456789.1234567890'
+
+Process:
+  - Processor: StopProcessingIf
+    Arguments:
+      predicate: device_id == 'Put_device_id_into_AutoPkg_recipe_override'
+
+  - Processor: EpsonURLProvider
+
+  - Processor: URLDownloader
+    Arguments:
+      request_headers:
+        user-agent: '%USER_AGENT%'
+        accept-language: '%HEADER_ACCEPT_LANGUAGE%'
+        sec-fetch-site: '%HEADER_SEC_FETCH_SITE%'
+      curl_opts:
+        - --cookie
+        - '_ga=%COOKIE_GA%'
+
+  - Processor: EndOfCheckPhase
