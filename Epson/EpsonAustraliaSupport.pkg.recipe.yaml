@@ -19,6 +19,10 @@ Input:
   PAYLOAD_VERSION_PKG: ET-4810_Series.W.USBClassDriver.pkg
 
 Process:
+  - Processor: DeprecationWarning
+    Arguments:
+      warning_message: Consider switching to my EpsonPrinterDriver recipes, or utilising the EpsonURLProvider.py processor. This recipe is deprecated and will be removed in the future.
+
   - Processor: CodeSignatureVerifier
     Arguments:
       input_path: '%pathname%/*.pkg'

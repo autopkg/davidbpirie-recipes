@@ -20,6 +20,10 @@ Input:
   USER_AGENT: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Safari/605.1.15
 
 Process:
+  - Processor: DeprecationWarning
+    Arguments:
+      warning_message: Consider switching to my EpsonPrinterDriver recipes, or utilising the EpsonURLProvider.py processor. This recipe is deprecated and will be removed in the future.
+
   - Processor: URLTextSearcher
     Arguments:
       re_pattern: '%RE_PATTERN_1%'

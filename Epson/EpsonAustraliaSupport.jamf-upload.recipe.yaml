@@ -35,6 +35,10 @@ Input:
   JAMF_PKG_REPLACE_METADATA: 'False'
 
 Process:
+  - Processor: DeprecationWarning
+    Arguments:
+      warning_message: Consider switching to my EpsonPrinterDriver recipes, or utilising the EpsonURLProvider.py processor. This recipe is deprecated and will be removed in the future.
+
   - Processor: com.github.grahampugh.jamf-upload.processors/JamfPackageUploader
     Arguments:
       pkg_name: '%JAMF_PKG_NAME%-%version%.pkg'
